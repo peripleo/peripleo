@@ -29,6 +29,5 @@ window.onload = function() {
       <App />
     </React.StrictMode>
   )
-  
     
 }
