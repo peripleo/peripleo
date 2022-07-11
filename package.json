@@ -28,7 +28,13 @@
     "vite": "^2.9.14"
   },
   "dependencies": {
+    "@turf/bbox": "^6.5.0",
+    "@turf/centroid": "^6.5.0",
+    "fuse.js": "^6.6.2",
     "maplibre-gl": "^2.1.9",
+    "ngraph.graph": "^20.0.0",
+    "rbush": "^3.0.1",
+    "rbush-knn": "^3.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-map-gl": "^7.0.17"

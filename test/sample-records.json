@@ -1,0 +1,34 @@
+{ 
+  "nodes": [{
+    "id": "http://sws.geonames.org/2772635",
+    "type": "Feature",
+    "title": "Leonding",
+    "properties": {},
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        14.2533,
+        48.27965 
+      ]
+    }
+  }, {
+    "id": "http://sws.geonames.org/2771706",
+    "type": "Feature",
+    "title": "Meidling",
+    "properties": {},
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        16.33333,
+        48.16667
+      ]
+    } 
+  }, {
+    "id": "https://de.wikipedia.org/wiki/Bezirksmuseum_Meidling",
+    "title": "Bezirksmuseum Meidling"  
+  }],
+  "edges": [{
+    "source": "http://sws.geonames.org/2771706",
+    "target": "https://de.wikipedia.org/wiki/Bezirksmuseum_Meidling"
+  }]
+}

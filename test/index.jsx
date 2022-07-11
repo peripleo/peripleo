@@ -1,13 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
-import { Map } from '../src';
+import FIXTURES from './sample-records.json';
+
+import Peripleo, { Map } from '../packages/peripleo';
 
 const App = () => {
 
+  const { nodes, edges } = FIXTURES;
+
   return (
-    <Map 
-      mapStyle="https://api.maptiler.com/maps/outdoor/style.json?key=cqqmcLw28krG9Fl7V3kg" /> 
+    <Peripleo
+      nodes={nodes}
+      edges={edges}>
+
+      <Map.MapLibreGL
+        mapStyle="https://api.maptiler.com/maps/outdoor/style.json?key=cqqmcLw28krG9Fl7V3kg" /> 
+
+    </Peripleo>
   )
 
 }

@@ -1,12 +1,16 @@
 import React, { useRef } from 'react';
 import ReactMapGL from 'react-map-gl';
 
+import { useStore } from '../store';
+
 import './Map.css';
 
-export const Map = React.forwardRef((props, ref) => {
+export const MapLibreGL = React.forwardRef((props, ref) => {
 
   const mapRef = useRef();
   
+  const store = useStore();
+
   return (
     <div 
       ref={ref}
