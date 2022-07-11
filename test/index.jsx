@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
+import { Map } from '../src';
+
 const App = () => {
 
   return (
-    <div>Hello World</div> 
+    <Map 
+      mapStyle="https://api.maptiler.com/maps/outdoor/style.json?key=cqqmcLw28krG9Fl7V3kg" /> 
   )
 
 }

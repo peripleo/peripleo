@@ -28,7 +28,9 @@
     "vite": "^2.9.14"
   },
   "dependencies": {
+    "maplibre-gl": "^2.1.9",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-map-gl": "^7.0.17"
   }
 }
