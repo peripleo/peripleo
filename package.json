@@ -1,7 +1,7 @@
 {
   "name": "@peripleo/peripleo",
   "version": "0.1.0",
-  "description": "UI components for map-based search interfaces",
+  "description": "Composable UI components for map-based search interfaces",
   "main": "src/index.js",
   "scripts": {
     "start": "vite",

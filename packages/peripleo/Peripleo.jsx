@@ -1,28 +1,13 @@
 import React from 'react';
 
-import { StoreContextProvider, useStore } from './store';
-
-const App = props => {
-
-  const store = useStore();
-
-  if (props.nodes) {
-    const edges = props.edges || [];
-    store.init(props.nodes, edges);
-  }
-
-  return props.children;
-
-}
-
 const Peripleo = props => {
 
+  // TODO for future use!
+
   return (
-    <StoreContextProvider>
-      <App {...props}>
-        {props.children}
-      </App>
-    </StoreContextProvider>
+    <>
+      {props.children}
+    </>
   )
 
 }

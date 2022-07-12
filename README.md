@@ -1,3 +1,3 @@
 # Peripleo
 
-UI components for map-based search interfaces.
+Composable UI components for map-based search interfaces.

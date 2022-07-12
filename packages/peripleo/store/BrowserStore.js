@@ -5,7 +5,7 @@ import centroid from '@turf/centroid';
 
 import { normalizeURI, getBounds } from './Utils';
 
-export class Store {
+export class BrowserStore {
 
   constructor() {
     this.graph = createGraph();

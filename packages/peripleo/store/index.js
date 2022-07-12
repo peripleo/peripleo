@@ -1,2 +1,2 @@
-export * from './Store';
-export * from './StoreContext';
+export * from './BrowserStore';
+export * from './StoreProvider';
