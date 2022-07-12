@@ -1,6 +1,6 @@
 import bbox from '@turf/bbox';
 
-export default class SearchResult {
+export class SearchResult {
 
   constructor(items, facetDistribution, total) {
 

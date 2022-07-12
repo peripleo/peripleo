@@ -1,15 +1,11 @@
-export const SearchStatus = {
-  OK: 'OK',
-  ERROR: 'ERROR',
-  LOADING: 'LOADING'
-}
+import { SearchArgs } from "./SearchArgs";
 
-export default class Search {
+export class Search {
 
   constructor(args, result, status) {
-    this.args = args;
+    this.args = args || new SearchArgs();
     this.result = result;
-    this.status = status;
+    this.status = status || Search.PENDING;
   }
 
   hasAnyFilters = () =>
@@ -19,3 +15,9 @@ export default class Search {
     this.args.filters.find(f => f.equals(filter));
 
 }
+
+Search.all = () => new Search();
+
+Search.OK = 'OK';
+Search.ERROR = 'ERROR';
+Search.PENDING = 'PENDING';

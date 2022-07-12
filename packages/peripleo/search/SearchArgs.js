@@ -1,4 +1,4 @@
-export default class SearchArgs {
+export class SearchArgs {
 
   constructor(query, filters, currentFacet, fitMap) {
     this.query = query;
