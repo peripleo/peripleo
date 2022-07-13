@@ -13,11 +13,11 @@ export const MapLibreGL = React.forwardRef((props, ref) => {
   
   const { search } = useSearch();
 
-  const data = search?.status === 'OK' ? {
+  const data = search?.status === 'OK' && search.result.items.length > 0 ? {
     type: 'FeatureCollection',
     features: search.result.items 
-  } : [];
-
+  } : null  ;
+  
   return (
     <div 
       ref={ref}

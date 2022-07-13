@@ -3,7 +3,7 @@ import { SearchArgs } from "./SearchArgs";
 export class Search {
 
   constructor(args, result, status) {
-    this.args = args || new SearchArgs();
+    this.args = args || new SearchArgs({});
     this.result = result;
     this.status = status || Search.PENDING;
   }

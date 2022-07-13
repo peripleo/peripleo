@@ -1,6 +1,6 @@
 export class SearchArgs {
 
-  constructor(query, filters, currentFacet, fitMap) {
+  constructor({ query, filters, currentFacet, fitMap}) {
     this.query = query;
 
     this.filters = filters || [];
@@ -9,8 +9,5 @@ export class SearchArgs {
 
     this.fitMap = !!fitMap;
   }
-
-  clone = () =>
-    new SearchArgs(this.query, this.filters, this.currentFacet, this.fitMap);
 
 }

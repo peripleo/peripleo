@@ -5,6 +5,8 @@ import FIXTURES from './sample-records.json';
 
 import Peripleo, { BrowserStoreProvider, Map } from '../packages/peripleo';
 
+import { HUD, SearchInput } from '../packages/peripleo/hud';
+
 const App = () => {
 
   const { nodes, edges } = FIXTURES;
@@ -14,11 +16,14 @@ const App = () => {
       nodes={nodes}
       edges={edges}>
       
-      <Peripleo>
-      
+      <Peripleo>      
         <Map.MapLibreGL
           mapStyle="https://api.maptiler.com/maps/outdoor/style.json?key=cqqmcLw28krG9Fl7V3kg" /> 
           
+        <HUD>
+          <SearchInput />
+        </HUD>
+
       </Peripleo>
 
     </BrowserStoreProvider>

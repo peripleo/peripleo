@@ -38,6 +38,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-map-gl": "^7.0.17",
-    "recoil": "^0.7.4"
+    "recoil": "^0.7.4",
+    "use-debounce": "^8.0.1"
   }
 }

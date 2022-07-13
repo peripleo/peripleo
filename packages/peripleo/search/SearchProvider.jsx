@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 import { Search } from './Search';
+import { SearchArgs } from './SearchArgs';
 import { SearchResult } from './SearchResult';
 import { useStore } from '../store';
 
@@ -10,12 +11,9 @@ export const SearchProvider = props => {
 
   const store = useStore();
   
-  const [search, setSearch] = useState(props.search);
+  const [search, setSearch] = useState(props.initialSearch);
 
   useEffect(() => {
-    if (!search) 
-      return;
-
     const { query } = search.args;
 
     const all = query ? 
@@ -32,9 +30,17 @@ export const SearchProvider = props => {
       Search.OK));
   }, [ search?.args ]);
 
+  const updateQuery = query => {
+    setSearch(new Search(
+      new SearchArgs({...search.args, query }),
+      null,
+      Search.PENDING));
+  }
+
   const value = { 
     search, 
-    setSearch 
+    setSearch,
+    updateQuery
   }
 
   return <SearchContext.Provider value={value}>{props.children}</SearchContext.Provider>

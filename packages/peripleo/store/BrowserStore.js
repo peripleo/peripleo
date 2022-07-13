@@ -1,18 +1,23 @@
-import createGraph from 'ngraph.graph';
-import RBush from 'rbush';
-import knn from 'rbush-knn';
 import centroid from '@turf/centroid';
+import createGraph from 'ngraph.graph';
+import Fuse from 'fuse.js';
+import knn from 'rbush-knn';
+import RBush from 'rbush';
 
-import { normalizeURI, getBounds } from './Utils';
+import { nodeToDocument, normalizeURI, getBounds } from './Utils';
 
 export class BrowserStore {
 
   constructor() {
     this.graph = createGraph();
+
     this.spatialIndex = new RBush();
 
-    // TODO Fuse.JS search index
-
+    this.fulltextIndex = new Fuse([], {
+      includeScore: true,
+      threshold: 0.2,
+      keys: [ 'title', 'description', 'names' ]
+    });
   }
 
   init = (nodes, edges) => {
@@ -29,6 +34,8 @@ export class BrowserStore {
     const bounds = getBounds(node);
     if (bounds)
       this.spatialIndex.insert({ ...bounds, node });
+
+    this.fulltextIndex.add(nodeToDocument(node));
   }
 
   addEdge = edge => {
@@ -159,41 +166,14 @@ export class BrowserStore {
     }
   }
 
-  suggest = query => {
-    const response = this.searchIndex.search(query, { limit: 5 });
-    
-    // Collapse FlexSearch results
-    const results = response.reduce((ids, r) =>
-      [...ids, ...r.result], []);
-
-    const hits = new Set(results.map(id => this.getNode(id)));
-    return getSuggestedTerms(query, Array.from(hits));
-  }
-
   searchMappable = query => {
-    // FlexSearch result format is horrible and creates duplicates!
-    const response = this.searchIndex.search(query, { limit: 100000 });
+    const response = this.fulltextIndex.search(query, { limit: 100000 });
 
-    const results = Array.from(
-      // Remove duplicates
-      response.reduce((ids, r) =>
-        new Set([...ids, ...r.result]), new Set())
-      
-      // Resolve IDs
-    ).map(id => this.getNode(id));
+    const items = response.map(r => this.getNode(r.item.id));
     
-    const withInferredGeometry = results
-      .map(node => {
-        if (node.geometry?.type) {
-          return node;
-        } else {
-          // Unlocated node - try to fetch location from the graph
-          return { ...node, geometry: this.fetchGeometryRecursive(node, 2) };
-        }
-      })
-    .filter(n => n.geometry?.type);
-
-    return withInferredGeometry;
+    return items.map(node => node.geometry?.type ?
+      node : { ...node, geometry: this.fetchGeometryRecursive(node, 2) }
+    ).filter(n => n.geometry?.type);
   }
 
 }
