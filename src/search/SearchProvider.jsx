@@ -20,9 +20,10 @@ export const SearchProvider = props => {
       store.searchMappable(query) :
       store.getAllLocatedNodes();
 
-    // TODO
+    const total = all.reduce((total, node) =>
+      total + node.properties.weight, 0);
 
-    const result = new SearchResult(all);
+    const result = new SearchResult(total, all);
 
     setSearch(new Search(
       search.args,

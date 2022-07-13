@@ -2,7 +2,7 @@ import bbox from '@turf/bbox';
 
 export class SearchResult {
 
-  constructor(items, facetDistribution, total) {
+  constructor(total, items, facetDistribution) {
 
     this.total = total || items.length;
 

@@ -19,7 +19,7 @@ export const SearchInput = props => {
   const [debouncedQuery] = useDebounce(query, 250);
   useEffect(() => updateQuery(debouncedQuery), [ debouncedQuery ]);
 
-  const results = search?.result?.items.length || 0;
+  const results = search?.result?.total || 0;
 
   return (
     <div className='p6o-search-input-container'>

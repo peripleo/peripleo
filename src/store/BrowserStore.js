@@ -139,8 +139,24 @@ export class BrowserStore {
       .map(result => result.node);
   }
 
-  getAllLocatedNodes = () =>
-    this.getNodesInBounds([-180,-90,180,90]);
+  getAllLocatedNodes = () => {
+    const allLocated = this.getNodesInBounds([-180,-90,180,90]);
+
+    const withUnlocatedNeighbourhood = allLocated.map(node => {
+      const neighbours = this.fetchLinkedRecursive(node);
+
+      return {
+        ...node,
+        properties: {
+          ...node.properties,
+          weight: neighbours.length + 1,
+          colocated_records: neighbours.length
+        }
+      }
+    });
+
+    return withUnlocatedNeighbourhood;
+  }
     
   fetchGeometryRecursive = (node, maxHops, spentHops = 0) => {
     if (spentHops >= maxHops)
@@ -160,15 +176,36 @@ export class BrowserStore {
       return locatedNeighbour.geometry;
     } else if (neighbors.length > 0) {
       const nextHops = neighbors.map(node => 
-        this.fetchUpstreamGeometry(node, maxHops, spentHops + 1));
+        this.fetchGeometryRecursive(node, maxHops, spentHops + 1));
 
       return nextHops.find(geom => geom);
     }
   }
 
+  fetchLinkedRecursive = (node, maxHops = Number.MAX_VALUE, spentHops = 0, aggregated = []) => {
+    if (spentHops >= maxHops)
+      return;
+
+    // All direct neighbors to this node without geometry
+    const directUnlocatedNeighbors = this.getConnectedNodes(node.id)
+      .filter(node => !node.geometry)
+      .filter(node => !aggregated.includes(node));
+
+    // Add all direct neighbors to the neighbourhood
+    const unlocatedNeighbourhood = [ ...aggregated, ...directUnlocatedNeighbors];
+
+    // Traverse further for each direct unlocated neighbour
+    if (directUnlocatedNeighbors.length > 0) {
+      return directUnlocatedNeighbors.reduce((agg, node) =>
+        this.fetchLinkedRecursive(node, maxHops, spentHops + 1, agg), unlocatedNeighbourhood);
+    } else {
+      // Done
+      return unlocatedNeighbourhood;
+    }
+  }
+
   searchMappable = query => {
     const response = this.fulltextIndex.search(query, { limit: 100000 });
-
     const items = response.map(r => this.getNode(r.item.id));
     
     return items.map(node => node.geometry?.type ?
