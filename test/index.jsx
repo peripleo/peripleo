@@ -17,12 +17,14 @@ const App = () => {
       edges={edges}>
       
       <Peripleo>      
+
         <Map.MapLibreGL
           mapStyle="https://api.maptiler.com/maps/outdoor/style.json?key=cqqmcLw28krG9Fl7V3kg" /> 
           
         <HUD>
           <SearchInput placeholder="Search..." />
         </HUD>
+        
       </Peripleo>
 
     </BrowserStoreProvider>

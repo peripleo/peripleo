@@ -2,13 +2,29 @@
   background-color: #fff;
   border-radius: 5px;
   border: 1px solid #cbccce;
-  box-shadow:0 0 18px rgba(0, 0, 0, 0.15);
+  box-shadow:0 0 24px rgba(0, 0, 0, 0.1);
+}
+
+.p6o-search-input-container svg {
+  margin-left: 10px;
+  font-size: 22px;
+  vertical-align: text-top;
+  fill: #5d98aa;
 }
 
 .p6o-search-input-container input {
   border-radius: 5px;
-  padding: 12px;
+  padding: 12px 12px 12px 8px;
   outline: none;
   border: none;
   width: 300px;
+}
+
+.p6o-search-input-container .p6o-search-result-status {
+  background-color: #f7f8fa;
+  color: #727375;
+  border-radius: 0 0 5px 5px;
+  border-top: 1px solid #e2e3e5;
+  padding: 8px 12px;
+  font-size: 14px;
 }
