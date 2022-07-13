@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import ReactMapGL from 'react-map-gl';
 
 import { useSearch } from '../search';
@@ -17,6 +17,10 @@ export const MapLibreGL = React.forwardRef((props, ref) => {
     type: 'FeatureCollection',
     features: search.result.items 
   } : null  ;
+
+  const initialViewState = props.defaultBounds ? {
+    bounds: props.defaultBounds
+  } : null;
   
   return (
     <div 
@@ -25,7 +29,8 @@ export const MapLibreGL = React.forwardRef((props, ref) => {
 
       <ReactMapGL
         ref={mapRef}
-        mapStyle={props.mapStyle}>
+        mapStyle={props.mapStyle}
+        initialViewState={initialViewState}>
 
         <PointLayer data={data} />
 

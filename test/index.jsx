@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom/client';
 
 import FIXTURES from './sample-records.json';
 
-import Peripleo, { BrowserStoreProvider, Map } from '../packages/peripleo';
+import Peripleo, { BrowserStoreProvider, Map } from '../src';
 
-import { HUD, SearchInput } from '../packages/peripleo/hud';
+import { HUD, SearchInput } from '../src/hud';
 
 const App = () => {
 
@@ -19,7 +19,8 @@ const App = () => {
       <Peripleo>      
 
         <Map.MapLibreGL
-          mapStyle="https://api.maptiler.com/maps/outdoor/style.json?key=cqqmcLw28krG9Fl7V3kg" /> 
+          mapStyle="https://api.maptiler.com/maps/outdoor/style.json?key=cqqmcLw28krG9Fl7V3kg" 
+          defaultBounds={[-15.764914, 33.847608, 35.240991, 58.156214]} /> 
           
         <HUD>
           <SearchInput placeholder="Search..." />
