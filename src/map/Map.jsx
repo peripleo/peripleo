@@ -6,6 +6,7 @@ import { useSearch } from '../search';
 import PointLayer from './layer/PointLayer';
 
 import './Map.css';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
 export const MapLibreGL = React.forwardRef((props, ref) => {
 
