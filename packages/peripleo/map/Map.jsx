@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import ReactMapGL from 'react-map-gl';
 
-import { useStore } from '../store';
+import { useSearch } from '../search';
 
 import PointLayer from './layer/PointLayer';
 
@@ -11,12 +11,12 @@ export const MapLibreGL = React.forwardRef((props, ref) => {
 
   const mapRef = useRef();
   
-  const store = useStore();
+  const { search } = useSearch();
 
-  const data = {
+  const data = search?.status === 'OK' ? {
     type: 'FeatureCollection',
-    features: store.getAllLocatedNodes()
-  }
+    features: search.result.items 
+  } : [];
 
   return (
     <div 

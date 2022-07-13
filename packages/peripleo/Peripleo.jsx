@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { RecoilRoot } from 'recoil';
 
-import { Search, useSearch } from './search';
+import { Search, SearchProvider, useSearch } from './search';
 
 const App = props => {
 
@@ -10,6 +10,7 @@ const App = props => {
   useEffect(() => {
     // Run a Search.all() query on initial load
     // TODO make this configurable later?
+    console.log('running initial search');
     setSearch(Search.all());
   }, []);
 
@@ -21,7 +22,9 @@ const Peripleo = props => {
 
   return (
     <RecoilRoot>
-      <App>{props.children}</App>
+      <SearchProvider>
+        <App>{props.children}</App>
+      </SearchProvider>
     </RecoilRoot>
   )
 

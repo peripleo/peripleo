@@ -18,6 +18,7 @@ const App = () => {
       
         <Map.MapLibreGL
           mapStyle="https://api.maptiler.com/maps/outdoor/style.json?key=cqqmcLw28krG9Fl7V3kg" /> 
+          
       </Peripleo>
 
     </BrowserStoreProvider>
