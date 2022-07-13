@@ -21,9 +21,8 @@ const App = () => {
           mapStyle="https://api.maptiler.com/maps/outdoor/style.json?key=cqqmcLw28krG9Fl7V3kg" /> 
           
         <HUD>
-          <SearchInput />
+          <SearchInput placeholder="Search..." />
         </HUD>
-
       </Peripleo>
 
     </BrowserStoreProvider>

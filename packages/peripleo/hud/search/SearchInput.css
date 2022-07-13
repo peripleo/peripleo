@@ -1,3 +1,14 @@
 .p6o-search-input-container {
-  
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid #cbccce;
+  box-shadow:0 0 18px rgba(0, 0, 0, 0.15);
+}
+
+.p6o-search-input-container input {
+  border-radius: 5px;
+  padding: 12px;
+  outline: none;
+  border: none;
+  width: 300px;
 }

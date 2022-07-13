@@ -21,6 +21,8 @@ export const SearchInput = props => {
   return (
     <div className='p6o-search-input-container'>
       <input 
+        autoFocus
+        spellCheck={false}
         tabIndex={1}
         placeholder={props.placeholder}
         aria-label={props.placeholder}

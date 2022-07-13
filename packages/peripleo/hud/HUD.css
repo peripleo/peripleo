@@ -2,4 +2,11 @@
   position: absolute;
   top: 0;
   left: 0;
+  padding: 20px;
+}
+
+.p6o-hud-container * {
+  color: #373737;
+  font-size: 16px;
+  font-family: Lato, sans-serif;
 }
