@@ -16,8 +16,6 @@ export const SearchProvider = props => {
     if (!search) 
       return;
 
-    console.log('querying the store', search);
-
     const { query } = search.args;
 
     const all = query ? 

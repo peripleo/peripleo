@@ -10,7 +10,6 @@ const App = props => {
   useEffect(() => {
     // Run a Search.all() query on initial load
     // TODO make this configurable later?
-    console.log('running initial search');
     setSearch(Search.all());
   }, []);
 
