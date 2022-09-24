@@ -17,12 +17,8 @@ export const getBounds = node => {
       const [x, y] = node.geometry.coordinates;
       return {minX: x, minY: y, maxX: x, maxY: y};
     } else {
-      try {
-        const [minX, minY, maxX, maxY] = bbox(node);
-        return {minX, minY, maxX, maxY};
-      } catch {
-        console.error('Error parsing geometry for node', node);
-      }
+      const [minX, minY, maxX, maxY] = bbox(node);
+      return {minX, minY, maxX, maxY};
     }
   }
 }

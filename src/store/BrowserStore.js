@@ -29,13 +29,17 @@ export class BrowserStore {
   }
 
   addNode = node => {
-    this.graph.addNode(normalizeURI(node.id), node);
+    try {
+      this.graph.addNode(normalizeURI(node.id), node);
 
-    const bounds = getBounds(node);
-    if (bounds)
-      this.spatialIndex.insert({ ...bounds, node });
+      const bounds = getBounds(node);
+      if (bounds)
+        this.spatialIndex.insert({ ...bounds, node });
 
-    this.fulltextIndex.add(nodeToDocument(node));
+      this.fulltextIndex.add(nodeToDocument(node));
+    } catch (error) {
+      console.error('Error adding node to store', node);
+    } 
   }
 
   addEdge = edge => {
