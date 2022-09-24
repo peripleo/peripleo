@@ -1,0 +1,8 @@
+{
+  "name": "@peripleo/loaders",
+  "version": "0.1.0",
+  "description": "Loader utilities for various import formats to Peripleo",
+  "main": "index.js",
+  "author": "Rainer Simon",
+  "license": "BSD-3-Clause"
+}
