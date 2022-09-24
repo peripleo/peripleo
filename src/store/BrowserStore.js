@@ -13,8 +13,6 @@ export class BrowserStore {
 
     this.spatialIndex = new RBush();
 
-    console.log(index);
-
     this.fulltextIndex = new Fuse([], {
       includeScore: true,
       threshold: 0.2,

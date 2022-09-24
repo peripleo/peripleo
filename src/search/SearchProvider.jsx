@@ -1,9 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-
+import { useStore } from '../store';
 import { Search } from './Search';
 import { SearchArgs } from './SearchArgs';
 import { SearchResult } from './SearchResult';
-import { useStore } from '../store';
 
 const SearchContext = createContext();
 

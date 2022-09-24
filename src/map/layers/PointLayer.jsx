@@ -27,7 +27,7 @@ export const PointLayer = props => {
 
   return (
     <Source type="geojson" data={props.data}>
-      <Layer {...style} />
+      <Layer id={props.id} {...style} />
     </Source>
   )
 

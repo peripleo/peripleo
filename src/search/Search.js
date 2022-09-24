@@ -1,4 +1,4 @@
-import { SearchArgs } from "./SearchArgs";
+import { SearchArgs } from './SearchArgs';
 
 export class Search {
 
