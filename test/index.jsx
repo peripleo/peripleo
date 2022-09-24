@@ -7,6 +7,22 @@ import Peripleo, { BrowserStoreProvider, Map } from '../src';
 
 import { HUD, SearchInput } from '../src/hud';
 
+/** 
+ * Converts a search result to mappable features, 
+ * with `weight`, `color`, `opacity` and `symbol`
+ * properties.
+ */
+const presenter = search => {
+
+} 
+
+const mergeStrategy = {
+  type: 'precision',
+  precision: 5,
+  weight: 'add',
+  color: ''
+}
+
 const App = () => {
 
   const { nodes, edges } = FIXTURES;
@@ -16,7 +32,9 @@ const App = () => {
       nodes={nodes}
       edges={edges}>
       
-      <Peripleo>      
+      <Peripleo
+        presenter={presenter}
+        mergeStrategy={mergeStrategy}>      
 
         <Map.MapLibreGL
           mapStyle="https://api.maptiler.com/maps/outdoor/style.json?key=cqqmcLw28krG9Fl7V3kg" 
