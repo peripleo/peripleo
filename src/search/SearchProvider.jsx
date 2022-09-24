@@ -14,6 +14,14 @@ export const SearchProvider = props => {
   const [search, setSearch] = useState(props.initialSearch);
 
   useEffect(() => {
+    // Re-run the search if the store was reset
+    setSearch(new Search(
+      new SearchArgs({...search.args }),
+      null,
+      Search.PENDING));
+  }, [store]);
+
+  useEffect(() => {
     const { query } = search.args;
 
     const all = query ? 
