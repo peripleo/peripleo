@@ -4,19 +4,21 @@ import Fuse from 'fuse.js';
 import knn from 'rbush-knn';
 import RBush from 'rbush';
 
-import { nodeToDocument, normalizeURI, getBounds } from './Utils';
+import { normalizeURI, getBounds } from './Utils';
 
 export class BrowserStore {
 
-  constructor() {
+  constructor(index) {
     this.graph = createGraph();
 
     this.spatialIndex = new RBush();
 
+    console.log(index);
+
     this.fulltextIndex = new Fuse([], {
       includeScore: true,
       threshold: 0.2,
-      keys: [ 'title', 'description', 'names' ]
+      keys: index || ['properties.title']
     });
   }
 
@@ -36,7 +38,7 @@ export class BrowserStore {
       if (bounds)
         this.spatialIndex.insert({ ...bounds, node });
 
-      this.fulltextIndex.add(nodeToDocument(node));
+      this.fulltextIndex.add(node);
     } catch (error) {
       console.error('Error adding node to store', node);
     } 

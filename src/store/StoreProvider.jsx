@@ -5,7 +5,7 @@ import { BrowserStore } from './BrowserStore';
 const StoreContext = createContext();
 
 export const BrowserStoreProvider = props => {
-  const store = new BrowserStore();
+  const store = new BrowserStore(props.index);
 
   if (props.nodes) {
     const edges = props.edges || [];

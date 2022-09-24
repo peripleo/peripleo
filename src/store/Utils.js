@@ -22,8 +22,3 @@ export const getBounds = node => {
     }
   }
 }
-
-export const nodeToDocument = node => ({
-  id: node.id,
-  title: node.title
-});
