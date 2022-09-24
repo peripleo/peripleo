@@ -1,5 +1,4 @@
 import React, { createContext, useContext } from 'react';
-
 import { BrowserStore } from './BrowserStore';
 
 const StoreContext = createContext();
