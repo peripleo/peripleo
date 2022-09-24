@@ -1,27 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-
+import Peripleo, { BrowserStoreProvider, Map, HUD, SearchInput } from '../src';
 import FIXTURES from './sample-records.json';
-
-import Peripleo, { BrowserStoreProvider, Map } from '../src';
-
-import { HUD, SearchInput } from '../src/hud';
-
-/** 
- * Converts a search result to mappable features, 
- * with `weight`, `color`, `opacity` and `symbol`
- * properties.
- */
-const presenter = search => {
-
-} 
-
-const mergeStrategy = {
-  type: 'precision',
-  precision: 5,
-  weight: 'add',
-  color: ''
-}
 
 const App = () => {
 
@@ -32,10 +12,7 @@ const App = () => {
       nodes={nodes}
       edges={edges}>
       
-      <Peripleo
-        presenter={presenter}
-        mergeStrategy={mergeStrategy}>      
-
+      <Peripleo>      
         <Map.MapLibreGL
           mapStyle="https://api.maptiler.com/maps/outdoor/style.json?key=cqqmcLw28krG9Fl7V3kg" 
           defaultBounds={[-15.764914, 33.847608, 35.240991, 58.156214]} /> 
@@ -43,9 +20,7 @@ const App = () => {
         <HUD>
           <SearchInput placeholder="Search..." />
         </HUD>
-        
       </Peripleo>
-
     </BrowserStoreProvider>
   )
 

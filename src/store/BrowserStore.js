@@ -149,12 +149,15 @@ export class BrowserStore {
     const withUnlocatedNeighbourhood = allLocated.map(node => {
       const neighbours = this.fetchLinkedRecursive(node);
 
+      const weight = (node.properties.weight || 1) +
+        neighbours.reduce((total, n) => total + (n.properties.weight || 1), 0);
+
       return {
         ...node,
         properties: {
           ...node.properties,
-          weight: neighbours.length + 1,
-          colocated_records: neighbours.length
+          weight,
+          merged_records: neighbours.length
         }
       }
     });

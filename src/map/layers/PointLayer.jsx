@@ -2,10 +2,6 @@ import React from 'react';
 import { Source, Layer } from 'react-map-gl';
 import chroma from 'chroma-js';
 
-// TODO just for testing
-const FILL = '#9d00d1';
-const STROKE =  chroma(FILL).darken().hex();
-
 const pointStyle = ({ fill, stroke, strokeWidth, ramp }) => ({
   'type': 'circle',
   'paint': {
@@ -21,15 +17,12 @@ const pointStyle = ({ fill, stroke, strokeWidth, ramp }) => ({
   }
 });
 
-const PointLayer = props => {
+export const PointLayer = props => {
 
   const style = pointStyle({
-    fill: FILL,
-    stroke: STROKE,
-    ramp: [
-      0, 5,
-      30, 24
-    ]
+    fill: props.color,
+    stroke: chroma(props.color).darken().hex(),
+    ramp: props.sizes
   });
 
   return (
@@ -39,5 +32,3 @@ const PointLayer = props => {
   )
 
 }
-
-export default PointLayer;

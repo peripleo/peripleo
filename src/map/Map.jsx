@@ -1,9 +1,6 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useRef } from 'react';
 import ReactMapGL from 'react-map-gl';
-
 import { useSearch } from '../search';
-
-import PointLayer from './layer/PointLayer';
 
 import './Map.css';
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -33,7 +30,7 @@ export const MapLibreGL = React.forwardRef((props, ref) => {
         mapStyle={props.mapStyle}
         initialViewState={initialViewState}>
 
-        <PointLayer data={data} />
+        {React.Children.map(props.children, c => React.cloneElement(c, { data }))}
 
       </ReactMapGL>
     </div>
