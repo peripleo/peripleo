@@ -155,14 +155,16 @@ export class BrowserStore {
     const withUnlocatedNeighbourhood = allLocated.map(node => {
       const neighbours = this.fetchLinkedRecursive(node);
 
-      const weight = (node.properties.weight || 1) +
-        neighbours.reduce((total, n) => total + (n.properties.weight || 1), 0);
+      // To support hybrid scenarios: each node may have a 'count' prop that
+      // defines how many search results it represents
+      const count = (node.properties.count || 1) +
+        neighbours.reduce((total, n) => total + (n.properties.count || 1), 0);
 
       return {
         ...node,
         properties: {
           ...node.properties,
-          weight,
+          count,
           merged_records: neighbours.length
         }
       }

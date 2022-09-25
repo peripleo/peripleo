@@ -8,7 +8,7 @@ const pointStyle = ({ fill, stroke, strokeWidth, ramp }) => ({
     'circle-radius': [
       'interpolate', 
       ['linear'],
-      ['number', ['get','weight'], 0 ],
+      ['number', ['get','count'], 0 ],
       ...ramp
     ],
     'circle-color': fill || '#fff',

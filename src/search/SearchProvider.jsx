@@ -28,7 +28,7 @@ export const SearchProvider = props => {
       store.getAllLocatedNodes();
 
     const total = all.reduce((total, node) =>
-      total + node.properties.weight, 0);
+      total + node.properties.count, 0);
 
     const result = new SearchResult(total, all);
 
