@@ -30,25 +30,36 @@ export const MapLibreGL = props => {
   } : null, [search]);
 
   const onMouseMove = useCallback(evt => {
+    const { point } = evt;
+
     const features = mapRef.current
       .queryRenderedFeatures(evt.point)
       .filter(l => layerIds.has(l.layer.id));
 
-    if (features.length === 0) {
-      setHover(null);
+    if (features.length > 0) {
+      const { id } = features[0].properties;
 
-      ref.current.classList.remove('hover');
-      
-      props.onMouseOut && props.onMouseOut();
-    
-    } else if (features[0].properties.id !== hover?.id) {
-      const node = store.getNode(features[0].properties.id);
-    
-      setHover(node);
-    
+      const updated = id === hover?.id ? {
+        // Same feature, just update mouse position
+        ...hover, ...point
+      } : {
+        // Change feature
+        node: store.getNode(id),
+        feature: features[0],
+        ...point
+      };
+  
       ref.current.classList.add('hover');
       
+      setHover(updated);
+
       props.onMouseOver && props.onMouseOver(node, evt.originalEvent);
+    } else {
+      ref.current.classList.remove('hover');
+
+      setHover(null);
+
+      props.onMouseOut && props.onMouseOut();
     }
   }, [props.children]);
   
@@ -66,6 +77,8 @@ export const MapLibreGL = props => {
         {React.Children.map(props.children, c => React.cloneElement(c, { data }))}
 
       </ReactMapGL>
+
+      {hover && props.tooltip && props.tooltip(hover)}
     </div>
   )
 
