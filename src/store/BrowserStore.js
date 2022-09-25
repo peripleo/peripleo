@@ -28,9 +28,12 @@ export class BrowserStore {
     edges.forEach(this.addEdge);
   }
 
-  addNode = node => {
+  addNode = n => {
     try {
-      this.graph.addNode(normalizeURI(node.id), node);
+      const id = normalizeURI(n.id);
+      const node = { ...n, id };
+
+      this.graph.addNode(id, node);
 
       const bounds = getBounds(node);
       if (bounds)
@@ -38,12 +41,15 @@ export class BrowserStore {
 
       this.fulltextIndex.add(node);
     } catch (error) {
-      console.error('Error adding node to store', node);
+      console.error('Error adding node to store', n);
     } 
   }
 
-  addEdge = edge => {
-    this.graph.addLink(normalizeURI(edge.source), normalizeURI(edge.target), edge);
+  addEdge = e => {
+    const source = normalizeURI(e.source);
+    const target = normalizeURI(e.target)
+    const edge = { ...e, source, target };
+    this.graph.addLink(source, target, edge);
   }
 
   countNodes = () => {
