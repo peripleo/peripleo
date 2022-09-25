@@ -1,10 +1,12 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import ReactMapGL from 'react-map-gl';
-import { useSearch } from '../search';
-import { useStore } from '../store';
+import TooltipContainer from './TooltipContainer';
+import {useSearch} from '../search';
+import {useStore} from '../store';
+
+import 'maplibre-gl/dist/maplibre-gl.css';
 
 import './Map.css';
-import 'maplibre-gl/dist/maplibre-gl.css';
 
 export const MapLibreGL = props => {
 
@@ -75,10 +77,10 @@ export const MapLibreGL = props => {
         onMouseMove={onMouseMove}>
 
         {React.Children.map(props.children, c => React.cloneElement(c, { data }))}
-
       </ReactMapGL>
 
-      {hover && props.tooltip && props.tooltip(hover)}
+      {props.tooltip && hover && 
+        <TooltipContainer {...hover} tooltip={props.tooltip} />}
     </div>
   )
 

@@ -6,3 +6,7 @@
 .p6o-map-container.hover * {
   cursor:pointer;
 }
+
+.p6o-map-tooltip-container {
+  position: absolute;
+}
