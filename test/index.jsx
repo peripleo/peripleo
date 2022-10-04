@@ -22,7 +22,7 @@ const App = () => {
       <Peripleo>      
         <Map.MapLibreGL
           mapStyle="https://api.maptiler.com/maps/outdoor/style.json?key=cqqmcLw28krG9Fl7V3kg" 
-          defaultBounds={[-15.764914, 33.847608, 35.240991, 58.156214]}> 
+          defaultBounds={[[-15.764914, 33.847608], [35.240991, 58.156214]]}> 
         
           <HeatmapLayer
             id="kima-layer-places" />

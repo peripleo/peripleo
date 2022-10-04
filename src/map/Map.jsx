@@ -1,5 +1,6 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import ReactMapGL from 'react-map-gl';
+import { WebMercatorViewport } from '@deck.gl/core';
 import { useRecoilState } from 'recoil';
 import TooltipContainer from './TooltipContainer';
 import PopupContainer from './PopupContainer';
@@ -25,6 +26,20 @@ export const MapLibreGL = props => {
   const store = useStore();
 
   const [hover, setHover] = useState(null);
+
+  useEffect(() => {
+    if(mapRef.current && props.defaultBounds) {
+      const {offsetWidth, offsetHeight} = mapRef.current.getContainer();
+
+      const viewport = new WebMercatorViewport({
+        width: offsetWidth,
+        height: offsetHeight,
+        ...viewState
+      });
+
+      setViewState(viewport.fitBounds(props.defaultBounds));
+    }
+  }, [mapRef.current]);
 
   const layerIds = useMemo(() => React.Children.map(props.children, c => c.props.id));
 
