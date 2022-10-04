@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
 import TooltipContainer from './TooltipContainer';
 import {useSearch} from '../search';
 import {useStore} from '../store';
-import { mapViewState } from '../state';
+import { mapViewState, selectedState } from '../state';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
 
@@ -17,6 +17,8 @@ export const MapLibreGL = props => {
   const mapRef = useRef();
 
   const [viewState, setViewState] = useRecoilState(mapViewState);
+
+  const [selectedId, setSelectedId] = useRecoilState(selectedState);
   
   const {search} = useSearch();
 
@@ -25,12 +27,6 @@ export const MapLibreGL = props => {
   const [hover, setHover] = useState(null);
 
   const layerIds = useMemo(() => React.Children.map(props.children, c => c.props.id));
-
-  /*
-  const initialViewState = props.defaultBounds ? {
-    bounds: props.defaultBounds
-  } : null;
-  */
 
   const data = useMemo(() => search?.status === 'OK' && search.result.items.length > 0 ? {
     type: 'FeatureCollection',
@@ -70,6 +66,15 @@ export const MapLibreGL = props => {
       props.onMouseOut && props.onMouseOut();
     }
   }, [props.children]);
+
+  const onClick = () => {
+    if (hover) {
+      const { node } = hover;
+      setSelectedId(node.id);
+    } else {
+      setSelectedId(null);
+    }
+  }
   
   return (
     <div 
@@ -80,6 +85,7 @@ export const MapLibreGL = props => {
         ref={mapRef}
         {...viewState}
         mapStyle={props.mapStyle}
+        onClick={onClick}
         onMouseMove={onMouseMove}
         onMove={evt => setViewState(evt.viewState)}>
 

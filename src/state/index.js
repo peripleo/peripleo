@@ -6,12 +6,7 @@ export const mapViewState = atom({
   default: initialView
 });
 
-export const mapHoverState = atom({
-  key: 'mapHover',
-  default: null
-});
-
-export const selectionState = atom({
-  key: 'selection',
+export const selectedState = atom({
+  key: 'selected',
   default: null
 });

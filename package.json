@@ -28,6 +28,7 @@
     "vite": "^3.1.3"
   },
   "dependencies": {
+    "@deck.gl/core": "^8.8.11",
     "@turf/bbox": "^6.5.0",
     "@turf/centroid": "^6.5.0",
     "chroma-js": "^2.4.2",
