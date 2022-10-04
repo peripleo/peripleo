@@ -158,7 +158,7 @@ export class BrowserStore {
       // To support hybrid scenarios: each node may have a 'count' prop that
       // defines how many search results it represents
       const count = (node.properties.count || 1) +
-        neighbours.reduce((total, n) => total + (n.properties.count || 1), 0);
+        neighbours.reduce((total, n) => total + (n.properties?.count || 1), 0);
 
       return {
         ...node,

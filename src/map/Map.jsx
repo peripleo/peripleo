@@ -1,8 +1,10 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import ReactMapGL from 'react-map-gl';
+import { useRecoilState } from 'recoil';
 import TooltipContainer from './TooltipContainer';
 import {useSearch} from '../search';
 import {useStore} from '../store';
+import { mapViewState } from '../state';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
 
@@ -13,6 +15,8 @@ export const MapLibreGL = props => {
   const ref = useRef();
 
   const mapRef = useRef();
+
+  const [viewState, setViewState] = useRecoilState(mapViewState);
   
   const {search} = useSearch();
 
@@ -22,9 +26,11 @@ export const MapLibreGL = props => {
 
   const layerIds = useMemo(() => new Set(React.Children.map(props.children, c => c.props.id)));
 
+  /*
   const initialViewState = props.defaultBounds ? {
     bounds: props.defaultBounds
   } : null;
+  */
 
   const data = useMemo(() => search?.status === 'OK' && search.result.items.length > 0 ? {
     type: 'FeatureCollection',
@@ -72,9 +78,10 @@ export const MapLibreGL = props => {
 
       <ReactMapGL
         ref={mapRef}
-        initialViewState={initialViewState}
+        {...viewState}
         mapStyle={props.mapStyle}
-        onMouseMove={onMouseMove}>
+        onMouseMove={onMouseMove}
+        onMove={evt => setViewState(evt.viewState)}>
 
         {React.Children.map(props.children, c => React.cloneElement(c, { data }))}
       </ReactMapGL>
