@@ -24,7 +24,7 @@ export const MapLibreGL = props => {
 
   const [hover, setHover] = useState(null);
 
-  const layerIds = useMemo(() => new Set(React.Children.map(props.children, c => c.props.id)));
+  const layerIds = useMemo(() => React.Children.map(props.children, c => c.props.id));
 
   /*
   const initialViewState = props.defaultBounds ? {
@@ -42,7 +42,7 @@ export const MapLibreGL = props => {
 
     const features = mapRef.current
       .queryRenderedFeatures(evt.point)
-      .filter(l => layerIds.has(l.layer.id));
+      .filter(l => layerIds.find(id => l.layer.id.startsWith(id)));
 
     if (features.length > 0) {
       const { id } = features[0].properties;
