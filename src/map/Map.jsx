@@ -36,6 +36,9 @@ export const MapLibreGL = props => {
   const onMouseMove = useCallback(evt => {
     const { point } = evt;
 
+    if (!mapRef.current)
+      return;
+
     const features = mapRef.current
       .queryRenderedFeatures(evt.point)
       .filter(l => layerIds.find(id => l.layer.id.startsWith(id)));
@@ -69,8 +72,17 @@ export const MapLibreGL = props => {
 
   const onClick = () => {
     if (hover) {
-      const { node } = hover;
-      setSelectedId(node.id);
+      setSelectedId({
+        ...hover,
+        feature: {
+          ...hover.feature,
+          geometry: { 
+            // This is a dynamic getter which won't survive
+            // changes to the mapRef! Therefore: clone now!
+            ...hover.feature.geometry
+          }
+        }
+      });
     } else {
       setSelectedId(null);
     }

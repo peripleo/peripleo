@@ -21,7 +21,7 @@ export const SearchBox = props => {
   const results = search?.result?.total || 0;
 
   return (
-    <div className='p6o-searchbox-container'>
+    <div className="p6o-searchbox-container">
       <BiSearch />
 
       <input 
