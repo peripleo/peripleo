@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import Peripleo, { BrowserStoreProvider, Map, HUD, SearchInput, HeatmapLayer } from '../src';
+import Peripleo, { BrowserStoreProvider, Map, Controls, SearchBox, HeatmapLayer } from '../src';
 import FIXTURES from './sample-records.json';
 
 const App = () => {
@@ -22,9 +22,9 @@ const App = () => {
             id="kima-layer-places" />
         </Map.MapLibreGL>
 
-        <HUD>
-          <SearchInput placeholder="Search..." />
-        </HUD>
+        <Controls>
+          <SearchBox placeholder="Search..." />
+        </Controls>
       </Peripleo>
     </BrowserStoreProvider>
   )

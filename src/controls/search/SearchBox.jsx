@@ -3,9 +3,9 @@ import { useDebounce } from 'use-debounce';
 import { BiSearch } from 'react-icons/bi';
 import { useSearch } from '../../search';
 
-import './SearchInput.css';
+import './SearchBox.css';
 
-export const SearchInput = props => {
+export const SearchBox = props => {
 
   const { search, updateQuery } = useSearch();
 
@@ -21,7 +21,7 @@ export const SearchInput = props => {
   const results = search?.result?.total || 0;
 
   return (
-    <div className='p6o-search-input-container'>
+    <div className='p6o-searchbox-container'>
       <BiSearch />
 
       <input 

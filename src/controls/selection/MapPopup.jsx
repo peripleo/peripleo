@@ -9,12 +9,10 @@ export const MapPopup = props => {
 
   const [selected, setSelected] = useRecoilState(selectedState);
 
-  console.log(selected);
-
-  return selected ? (
+  return selected && (
     <div className='p6o-map-popup-container'>
       Hello World
     </div>
-  ) : null;
+  );
 
 }

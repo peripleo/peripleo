@@ -1,18 +1,18 @@
-.p6o-search-input-container {
+.p6o-searchbox-container {
   background-color: #fff;
   border-radius: 5px;
   border: 1px solid #cbccce;
   box-shadow:0 0 24px rgba(0, 0, 0, 0.1);
 }
 
-.p6o-search-input-container svg {
+.p6o-searchbox-container svg {
   margin-left: 10px;
   font-size: 22px;
   vertical-align: text-top;
   fill: #5d98aa;
 }
 
-.p6o-search-input-container input {
+.p6o-searchbox-container input {
   border-radius: 5px;
   padding: 12px 12px 12px 8px;
   outline: none;
@@ -20,7 +20,7 @@
   width: 300px;
 }
 
-.p6o-search-input-container .p6o-search-result-status {
+.p6o-searchbox-container .p6o-search-result-status {
   background-color: #f7f8fa;
   color: #727375;
   border-radius: 0 0 5px 5px;
