@@ -2,12 +2,12 @@ import React, { useCallback, useMemo, useRef, useState } from 'react';
 import ReactMapGL from 'react-map-gl';
 import { useRecoilState } from 'recoil';
 import TooltipContainer from './TooltipContainer';
+import PopupContainer from './PopupContainer';
 import {useSearch} from '../search';
 import {useStore} from '../store';
 import { mapViewState, selectedState } from '../state';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
-
 import './Map.css';
 
 export const MapLibreGL = props => {
@@ -18,7 +18,7 @@ export const MapLibreGL = props => {
 
   const [viewState, setViewState] = useRecoilState(mapViewState);
 
-  const [selectedId, setSelectedId] = useRecoilState(selectedState);
+  const [selected, setSelected] = useRecoilState(selectedState);
   
   const {search} = useSearch();
 
@@ -34,10 +34,10 @@ export const MapLibreGL = props => {
   } : null, [search]);
 
   const onMouseMove = useCallback(evt => {
-    const { point } = evt;
-
     if (!mapRef.current)
       return;
+
+    const { point } = evt;
 
     const features = mapRef.current
       .queryRenderedFeatures(evt.point)
@@ -57,34 +57,20 @@ export const MapLibreGL = props => {
       };
   
       ref.current.classList.add('hover');
-      
       setHover(updated);
-
-      props.onMouseOver && props.onMouseOver(node, evt.originalEvent);
     } else {
       ref.current.classList.remove('hover');
-
       setHover(null);
-
-      props.onMouseOut && props.onMouseOut();
     }
   }, [props.children]);
 
   const onClick = () => {
     if (hover) {
-      setSelectedId({
-        ...hover,
-        feature: {
-          ...hover.feature,
-          geometry: { 
-            // This is a dynamic getter which won't survive
-            // changes to the mapRef! Therefore: clone now!
-            ...hover.feature.geometry
-          }
-        }
-      });
+      const clone = JSON.parse(JSON.stringify(hover));
+      setHover(null);
+      setSelected(clone);
     } else {
-      setSelectedId(null);
+      setSelected(null);
     }
   }
   
@@ -102,10 +88,20 @@ export const MapLibreGL = props => {
         onMove={evt => setViewState(evt.viewState)}>
 
         {React.Children.map(props.children, c => React.cloneElement(c, { data }))}
+
       </ReactMapGL>
 
       {props.tooltip && hover && 
-        <TooltipContainer {...hover} tooltip={props.tooltip} />}
+        <TooltipContainer 
+          {...hover} 
+          tooltip={props.tooltip} />}
+
+      {props.popup && selected && 
+        <PopupContainer 
+          selected={selected} 
+          viewState={viewState} 
+          map={mapRef.current} 
+          popup={props.popup} /> }
     </div>
   )
 

@@ -1,16 +1,12 @@
 import React from 'react';
-import { useRecoilState } from 'recoil';
-import { mapViewState } from '../../state';
+import { useMap } from '../../Peripleo';
 
 export const ZoomControl = props => {
 
-  const [viewState, setViewState] = useRecoilState(mapViewState);
+  const map = useMap();
 
   const onZoom = inc => () =>
-    setViewState({
-      ...viewState, 
-      zoom: viewState.zoom + inc
-    });
+    map.easeTo({ zoom:  map.getZoom() + inc });
   
   return (
     <div>
