@@ -23,19 +23,21 @@ export const SearchProvider = props => {
   useEffect(() => {
     const { query } = search.args;
 
-    const all = query ? 
+    const req = query ? 
       store.searchMappable(query) :
       store.getAllLocatedNodes();
 
-    const total = all.reduce((total, node) =>
-      total + node.properties.count, 0);
+    req.then(all => {
+      const total = all.reduce((total, node) =>
+        total + node.properties.count, 0);
 
-    const result = new SearchResult(total, all);
+      const result = new SearchResult(total, all);
 
-    setSearch(new Search(
-      search.args,
-      result, 
-      Search.OK));
+      setSearch(new Search(
+        search.args,
+        result, 
+        Search.OK));
+    });
   }, [ search?.args ]);
 
   const updateQuery = query => {

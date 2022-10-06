@@ -149,7 +149,7 @@ export class BrowserStore {
       .map(result => result.node);
   }
 
-  getAllLocatedNodes = () => {
+  getAllLocatedNodes = () => new Promise(resolve => {
     const allLocated = this.getNodesInBounds([-180,-90,180,90]);
 
     const withUnlocatedNeighbourhood = allLocated.map(node => {
@@ -170,8 +170,8 @@ export class BrowserStore {
       }
     });
 
-    return withUnlocatedNeighbourhood;
-  }
+    resolve(withUnlocatedNeighbourhood);
+  });
     
   fetchGeometryRecursive = (node, maxHops, spentHops = 0) => {
     if (spentHops >= maxHops)
@@ -219,13 +219,15 @@ export class BrowserStore {
     }
   }
 
-  searchMappable = query => {
+  searchMappable = query => new Promise(resolve => {
     const response = this.fulltextIndex.search(query, { limit: 100000 });
     const items = response.map(r => this.getNode(r.item.id));
     
-    return items.map(node => node.geometry?.type ?
+    const mappable = items.map(node => node.geometry?.type ?
       node : { ...node, geometry: this.fetchGeometryRecursive(node, 2) }
     ).filter(n => n.geometry?.type);
-  }
+
+    resolve(mappable);
+  });
 
 }
