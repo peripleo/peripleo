@@ -1,6 +1,8 @@
 
 import React from 'react';
-import { GraphContext, Node, Edge, BrowserGraph } from './graph';
+import { BrowserGraph } from './browserGraph';
+import { GraphContext } from '../../hooks';
+import { Node, Edge } from '../../types';
 
 type BrowserGraphProviderProps = {
 

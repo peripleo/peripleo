@@ -6,6 +6,7 @@ export interface Graph {
 
 }
 
+
 export interface Node {
 
   id: string 
@@ -13,6 +14,16 @@ export interface Node {
   [key: string]: any;
 
 }
+
+
+export interface Edge {
+
+  source: string
+
+  target: string
+
+}
+
 
 export interface Feature extends Node {
 
@@ -32,6 +43,7 @@ export interface Feature extends Node {
 
 }
 
+
 export interface Bounds {
   
   minX: number
@@ -41,13 +53,5 @@ export interface Bounds {
   maxX: number
   
   maxY: number
-
-}
-
-export interface Edge {
-
-  source: string
-
-  target: string
 
 }

@@ -1,6 +1,6 @@
 import { useRecoilState } from 'recoil';
-import { Filter, SearchArgs, SearchStatus  } from './SearchTypes';
-import { searchState } from './searchState';
+import { Filter, SearchArgs, SearchStatus  } from '../types';
+import { searchState } from '../state';
 
 export const useSearch = () => {
 

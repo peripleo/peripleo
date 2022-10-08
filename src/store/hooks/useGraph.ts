@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import { Graph } from './GraphTypes';
+import { Graph } from '../types';
 
 export const GraphContext = createContext<Graph>({} as Graph);
 

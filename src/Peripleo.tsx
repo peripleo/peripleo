@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { RecoilRoot } from 'recoil';
 import { MapProvider, useMap as useOneOfManyMaps } from 'react-map-gl';
-import { useSearch } from './store';
 
 // react-map-gl has a utility hook that supports
 // multiple child maps, and one parent map. We want
@@ -18,14 +17,12 @@ type PeripleoProps = {
 
 }
 
-/**
- * Peripleo acts as a context provider. Every component
- * inside Peripleo:
- * 
- * - has access to the map
- * - can access central Recoil state
- * - can use all Peripleo-specific hooks (which might depend on map or state)
- */
+// Peripleo acts as a context provider. Every component
+// inside Peripleo:
+// 
+// - has access to the map
+// - can access central Recoil state
+// - can use all Peripleo-specific hooks (which might depend on map or state)
 const Peripleo = (props: PeripleoProps) => {
 
   return (

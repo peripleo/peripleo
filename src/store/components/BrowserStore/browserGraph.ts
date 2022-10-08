@@ -1,7 +1,7 @@
 import createGraph, { Graph } from 'ngraph.graph';
 import Fuse from 'fuse.js';
 import RBush from 'rbush';
-import { Graph as IGraph, Node, Edge, Bounds, Feature } from './GraphTypes'; 
+import { Graph as IGraph, Node, Edge, Bounds, Feature } from '../../types'; 
 import { normalizeURI, getBounds } from './utils';
 
 type IndexedNode = Bounds & { node: Node }

@@ -8,6 +8,7 @@ export interface SearchState {
   
 }
 
+
 export interface SearchArgs {
 
   query?: string
@@ -20,6 +21,7 @@ export interface SearchArgs {
 
 }
 
+
 export interface Filter {
 
   name: string
@@ -27,6 +29,7 @@ export interface Filter {
   [key: string]: any;
 
 }
+
 
 export enum SearchStatus {
 
@@ -38,6 +41,7 @@ export enum SearchStatus {
 
 }
 
+
 export interface SearchResult {
 
   total: number,
@@ -46,10 +50,11 @@ export interface SearchResult {
 
 }
 
+
 export interface ResultItem {
 
-    id: string;
+  id: string;
 
-    [key: string]: any;
+  [key: string]: any;
 
-  }
+}

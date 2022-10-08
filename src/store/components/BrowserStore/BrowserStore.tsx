@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserSearchHandler } from './BrowserSearchHandler';
-import { Node, Edge } from './graph';
+import { Node, Edge } from '../../types';
 import { BrowserGraphProvider } from './BrowserGraphProvider';
 
 type BrowserStoreProps = {

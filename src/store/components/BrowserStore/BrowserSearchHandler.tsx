@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { useGraph, BrowserGraph } from './graph';
-import { searchState, SearchStatus } from './search';
+import { BrowserGraph } from './browserGraph';
+import { useGraph } from '../../hooks';
+import { searchState } from '../../state';
+import { SearchStatus } from '../../types';
 
 export const BrowserSearchHandler = (props: { children: React.ReactElement }) => {
 

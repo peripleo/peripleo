@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { SearchState, SearchStatus } from './SearchTypes';
+import { SearchState, SearchStatus } from '../types';
 
 export const searchState = atom<SearchState>({
   key: 'search',
