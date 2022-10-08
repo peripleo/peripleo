@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { MapRef, LngLatLike } from 'react-map-gl';
 import centroid from '@turf/centroid';
 import { AllGeoJSON } from '@turf/helpers';
-import { MapSelection, ViewState } from './MapTypes';
+import { MapSelection, ViewState } from '../types';
 
 type PopupContainerProps = {
 
@@ -16,7 +16,7 @@ type PopupContainerProps = {
 
 }
 
-const PopupContainer = (props: PopupContainerProps) => {
+export const PopupContainer = (props: PopupContainerProps) => {
 
   const { selected, viewState, map, popup} = props;
 
@@ -41,5 +41,3 @@ const PopupContainer = (props: PopupContainerProps) => {
   );
 
 }
-
-export default PopupContainer;

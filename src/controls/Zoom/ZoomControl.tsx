@@ -1,5 +1,5 @@
 import React from 'react';
-import { useMap } from '../../Peripleo';
+import { useMap } from '../../map';
 
 export const ZoomControl = () => {
 

@@ -1,12 +1,10 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import ReactMapGL, { MapLayerMouseEvent, MapRef } from 'react-map-gl';
 import { useRecoilState } from 'recoil';
-import { mapViewState } from './mapViewState';
-import { MapHover } from './MapTypes';
+import { mapViewState, selectedState } from './state';
+import { MapHover } from './types';
 import { useGraph, useSearch } from '../store';
-import { selectedState } from './selectedState';
-import TooltipContainer from './TooltipContainer';
-import PopupContainer from './PopupContainer';
+import { PopupContainer, TooltipContainer } from './components';
 
 import './Map.css';
 import 'maplibre-gl/dist/maplibre-gl.css';

@@ -1,4 +1,3 @@
-import { Geometry, Feature, GeoJsonProperties, FeatureCollection } from 'geojson';
 import React from 'react';
 import { Source, Layer } from 'react-map-gl';
 
@@ -88,7 +87,7 @@ const pointStyle = () => ({
 
 type HeatmapLayerProps = {
 
-  data: FeatureCollection | undefined; 
+  data: any; 
   
   id: string;
 

@@ -16,7 +16,7 @@ type TooltipContainerProps = {
 
 }
 
-const TooltipContainer = (props: TooltipContainerProps) => {
+export const TooltipContainer = (props: TooltipContainerProps) => {
 
   const el = useRef<HTMLDivElement>(null);
 
@@ -57,5 +57,3 @@ const TooltipContainer = (props: TooltipContainerProps) => {
   );
 
 }
-
-export default TooltipContainer;

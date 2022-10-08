@@ -1,3 +1,3 @@
 export * from './Controls';
-export * from './search';
-export * from './zoom';
+export * from './Search';
+export * from './Zoom';
