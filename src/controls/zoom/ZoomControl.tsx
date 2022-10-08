@@ -1,12 +1,12 @@
 import React from 'react';
 import { useMap } from '../../Peripleo';
 
-export const ZoomControl = props => {
+export const ZoomControl = () => {
 
   const map = useMap();
 
-  const onZoom = inc => () =>
-    map.easeTo({ zoom:  map.getZoom() + inc });
+  const onZoom = (inc: number) => () =>
+    map?.easeTo({ zoom:  map.getZoom() + inc });
   
   return (
     <div>

@@ -1,24 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 import { BiSearch } from 'react-icons/bi';
-import { useSearch } from '../../search';
+import { useSearch } from '../../store';
 
 import './SearchBox.css';
 
-export const SearchBox = props => {
+type SearchBoxProps = {
 
-  const { search, updateQuery } = useSearch();
+  placeholder: string | undefined
 
-  const [query, setQuery] = useState(search?.query || '');
+}
+
+export const SearchBox = (props: SearchBoxProps) => {
+
+  const { search, changeSearchQuery } = useSearch();
+
+  const [ query, setQuery ] = useState(search.args.query || '');
 
   // State changes as user types
-  const onChange = evt => setQuery(evt.target.value);
+  const onChange = (evt: React.ChangeEvent<HTMLInputElement>) => 
+    setQuery(evt.target.value);
 
   // Global search query updates after debouncing the state
   const [debouncedQuery] = useDebounce(query, 250);
-  useEffect(() => updateQuery(debouncedQuery), [ debouncedQuery ]);
+  
+  useEffect(() => 
+    changeSearchQuery(debouncedQuery), [ debouncedQuery ]);
 
-  const results = search?.result?.total || 0;
+  const results = search.result?.total || 0;
 
   return (
     <div className="p6o-searchbox-container">

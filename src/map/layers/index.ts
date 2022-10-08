@@ -1,2 +1,2 @@
-export * from './PointLayer';
 export * from './HeatmapLayer';
+export * from './PointLayer';

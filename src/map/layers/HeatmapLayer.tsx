@@ -1,7 +1,8 @@
+import { Geometry, Feature, GeoJsonProperties, FeatureCollection } from 'geojson';
 import React from 'react';
 import { Source, Layer } from 'react-map-gl';
 
-const coverageStyle = (ramp) => ({
+const coverageStyle = (ramp: Array<number | string>) => ({
   'type': 'heatmap',
   'maxzoom': 9,
   'paint': {
@@ -50,7 +51,7 @@ const coverageStyle = (ramp) => ({
   }
 });
 
-const pointStyle = args => ({
+const pointStyle = () => ({
   'type': 'circle',
   'minzoom': 6,
   'paint': {
@@ -85,15 +86,32 @@ const pointStyle = args => ({
   }
 });
 
-export const HeatmapLayer = props => {
+type HeatmapLayerProps = {
 
-  const heatmap = coverageStyle([0,"rgba(0, 0, 255, 0)",0.1,"#ffffb2",0.3,"#feb24c",0.5,"#fd8d3c",0.7,"#fc4e2a",1,"#e31a1c"]);
+  data: FeatureCollection | undefined; 
+  
+  id: string;
+
+}
+
+export const HeatmapLayer = (props: HeatmapLayerProps) => {
+
+  const heatmap = coverageStyle([
+    0,   'rgba(0, 0, 255, 0)',
+    0.1, '#ffffb2',
+    0.3, '#feb24c',
+    0.5, '#fd8d3c',
+    0.7, '#fc4e2a',
+    1,   '#e31a1c'
+  ]);
 
   const point = pointStyle();
 
   return (
     <Source type="geojson" data={props.data}>
+      {/* @ts-ignore */}
       <Layer id={`${props.id}-ht`} {...heatmap} />
+      {/* @ts-ignore */}
       <Layer id={`${props.id}-pt`} {...point} />
     </Source>
   )
