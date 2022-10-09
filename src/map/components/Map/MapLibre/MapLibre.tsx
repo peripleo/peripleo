@@ -1,15 +1,14 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import ReactMapGL, { MapLayerMouseEvent, MapRef } from 'react-map-gl';
 import { useRecoilState } from 'recoil';
-import { mapViewState, selectedState } from './state';
-import { MapHover } from './types';
-import { useGraph, useSearch } from '../store';
-import { PopupContainer, TooltipContainer } from './components';
+import { mapViewState, selectedState } from '../../../state';
+import { MapHover } from '../../../types';
+import { useGraph, useSearch } from '../../../../store';
+import { PopupContainer, TooltipContainer } from '../..';
 
-import './Map.css';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
-type MapProps = {
+type MapLibreProps = {
 
   children: React.ReactElement
 
@@ -23,7 +22,7 @@ type MapProps = {
 
 }
 
-export const MapLibreGL = (props: MapProps) => {
+export const MapLibre = (props: MapLibreProps) => {
 
   const ref = useRef<HTMLDivElement>(null);
 

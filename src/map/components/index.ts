@@ -1,3 +1,3 @@
-export * from './layers';
+export * from './Map';
 export * from './PopupContainer';
 export * from './TooltipContainer';

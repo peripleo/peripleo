@@ -22,4 +22,8 @@ export interface ViewState {
 
   zoom: number
 
+  bearing: number
+
+  pitch: number
+
 }
