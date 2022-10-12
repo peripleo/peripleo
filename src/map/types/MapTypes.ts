@@ -1,4 +1,5 @@
 import { MapboxGeoJSONFeature } from 'react-map-gl';
+import { ResultItem } from '../../store';
 
 export interface MapHover {
 
@@ -27,3 +28,10 @@ export interface ViewState {
   pitch: number
 
 }
+
+export interface DeckGLLayer {
+
+  (items: ResultItem[]): Object | Object[]
+
+}
+

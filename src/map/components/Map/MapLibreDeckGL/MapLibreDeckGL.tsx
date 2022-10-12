@@ -1,10 +1,12 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import ReactMapGL from 'react-map-gl';
-import DeckGL from '@deck.gl/react/typed';
+// @ts-ignore
+import DeckGL from '@deck.gl/react'; // Note: /typed version is buggy!
 import { WebMercatorViewport } from '@deck.gl/core/typed';
 import { useRecoilState } from 'recoil';
+import { useSearch } from '../../../../store';
 import { mapViewState } from '../../../state';
-import { ViewState} from '../../../types';
+import { DeckGLLayer, ViewState} from '../../../types';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
 
@@ -15,6 +17,8 @@ type MapLibreDeckGLProps = {
   mapStyle: string,
 
   defaultBounds: [[number, number], [number, number]]
+
+  layers?: DeckGLLayer[]
 
   tooltip: Function
 
@@ -42,6 +46,8 @@ export const MapLibreDeckGL = (props: MapLibreDeckGLProps) => {
 
   const ref = useRef<HTMLDivElement>(null);
 
+  const { search } = useSearch();
+
   const [ viewState, setViewState ] = useRecoilState(mapViewState);
 
   useEffect(() => {
@@ -52,24 +58,32 @@ export const MapLibreDeckGL = (props: MapLibreDeckGLProps) => {
     }
   }, [ ref.current, viewState ]);
 
+  const data = search?.result && search.status === 'OK' && search.result.items.length > 0 ?
+    search.result.items : null;
+
+  const layers = props.layers && data ? props.layers.reduce((all, next) => {
+    const l = next(data);
+    return Array.isArray(l) ?
+      [...all, ...l] : [...all, l];
+  }, [] as Object[]) : [];
+
   return (
     <div 
       ref={ref}
       className='p6o-map-container'>
 
       {isValidViewState(viewState) &&
-         <DeckGL
-         viewState={viewState}
-         onViewStateChange={evt => setViewState(evt.viewState as ViewState)}
-         controller={{ scrollZoom: { speed: 0.25, smooth: true }}}>
+        <DeckGL
+          initialViewState={viewState}
+          controller={{ scrollZoom: { speed: 0.25, smooth: true }}}
+          layers={layers}>
 
-         <ReactMapGL
-           mapStyle={props.mapStyle}>
+          <ReactMapGL
+            mapStyle={props.mapStyle}>
 
-         </ReactMapGL>
-       </DeckGL>
+          </ReactMapGL>
+        </DeckGL>
       }
-
     </div>
   )
 
