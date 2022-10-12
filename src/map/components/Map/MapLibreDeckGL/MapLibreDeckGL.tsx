@@ -1,11 +1,10 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
-import ReactMapGL, { MapLayerMouseEvent, MapRef } from 'react-map-gl';
+import React, { useEffect, useMemo, useRef } from 'react';
+import ReactMapGL from 'react-map-gl';
 import DeckGL from '@deck.gl/react/typed';
+import { WebMercatorViewport } from '@deck.gl/core/typed';
 import { useRecoilState } from 'recoil';
-import { mapViewState, selectedState } from '../../../state';
-import { MapHover, ViewState} from '../../../types';
-import { useGraph, useSearch } from '../../../../store';
-import { PopupContainer, TooltipContainer } from '../..';
+import { mapViewState } from '../../../state';
+import { ViewState} from '../../../types';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
 
@@ -23,100 +22,54 @@ type MapLibreDeckGLProps = {
 
 }
 
+const isValidViewState = (viewState: ViewState) => {
+  const { longitude, latitude, zoom } = viewState;
+  return longitude && latitude && zoom;
+}
+
+const getDefaultViewState = (initialBounds: [[number, number], [number, number]], el: HTMLDivElement) => {
+  const { offsetWidth, offsetHeight } = el;
+
+  const viewport = new WebMercatorViewport({
+    width: offsetWidth,
+    height: offsetHeight
+  });
+
+  return viewport.fitBounds(initialBounds, {});
+}
+
 export const MapLibreDeckGL = (props: MapLibreDeckGLProps) => {
 
   const ref = useRef<HTMLDivElement>(null);
 
-  const mapRef = useRef<MapRef>(null);
-
   const [ viewState, setViewState ] = useRecoilState(mapViewState);
 
-  const [ selected, setSelected ] = useRecoilState(selectedState);
-
-  const { search } = useSearch();
-
-  const graph = useGraph();
-
-  const [ hover, setHover ] = useState<MapHover | null>();
-
-  const data = useMemo(() => search?.status === 'OK' && search.result?.items.length ? {
-    type: 'FeatureCollection',
-    features: search.result.items.map(f => ({ ...f, properties: { id: f.id, ...f.properties }}))
-  } : null, [ search ]);
-
-  const layerIds = useMemo(() => React.Children.map(props.children, c => c.props.id) || [], [ props.children ]);
-
-  const onMouseMove = useCallback((evt: MapLayerMouseEvent) => {
-    if (!mapRef.current)
-      return;
-
-    const { point } = evt;
-
-    const features = mapRef.current
-      .queryRenderedFeatures(evt.point)
-      .filter(l => layerIds.find(id => l.layer.id.startsWith(id)));
-
-    if (features.length > 0) {
-      const id = features[0]?.properties?.id;
-
-      const updated: MapHover = hover && (id === hover?.node.id) ? {
-        ...hover, ...point // just update mouse position
-      } : {
-        node: graph.getNodeById(id),
-        feature: features[0],
-        ...point
-      };
-
-      ref.current?.classList.add('hover');
-      setHover(updated);
-    } else {
-      ref.current?.classList.remove('hover');
-      setHover(undefined);
+  useEffect(() => {
+    // ViewState might be pre-initialized from URL. Use default otherwise
+    if (!isValidViewState(viewState) && ref.current) {
+      const defaultState = getDefaultViewState(props.defaultBounds, ref.current);
+      setViewState(defaultState);
     }
-  }, [ props.children, search, hover ]);
-
-  const onClick = () => {
-    if (hover) {
-      const clone = JSON.parse(JSON.stringify(hover));
-      setHover(null);
-      setSelected(clone);
-    } else {
-      setSelected(null);
-    }
-  }
+  }, [ ref.current, viewState ]);
 
   return (
     <div 
       ref={ref}
       className='p6o-map-container'>
 
-      <DeckGL
-        viewState={viewState}
-        controller={{ scrollZoom: { speed: 0.25, smooth: true }}}
-        onViewStateChange={evt => setViewState(evt.viewState as ViewState)}>
+      {isValidViewState(viewState) &&
+         <DeckGL
+         viewState={viewState}
+         onViewStateChange={evt => setViewState(evt.viewState as ViewState)}
+         controller={{ scrollZoom: { speed: 0.25, smooth: true }}}>
 
-        <ReactMapGL
-          ref={mapRef}
-          mapStyle={props.mapStyle}
-          onClick={onClick}
-          onMouseMove={onMouseMove}>
+         <ReactMapGL
+           mapStyle={props.mapStyle}>
 
-          {React.Children.map(props.children, c => React.cloneElement(c, { data }))}
+         </ReactMapGL>
+       </DeckGL>
+      }
 
-        </ReactMapGL>
-      </DeckGL>
-
-      {props.tooltip && hover && 
-        <TooltipContainer 
-          {...hover} 
-          tooltip={props.tooltip} />}
-
-      {props.popup && mapRef.current && selected && 
-        <PopupContainer 
-          selected={selected} 
-          viewState={viewState} 
-          map={mapRef.current} 
-          popup={props.popup} /> }
     </div>
   )
 
