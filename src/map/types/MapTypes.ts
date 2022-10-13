@@ -25,7 +25,9 @@ export interface ViewState {
 
   bearing: number
 
-  pitch: number
+  pitch: number,
+
+  transitionDuration?: number
 
 }
 

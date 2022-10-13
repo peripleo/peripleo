@@ -1,12 +1,23 @@
 import React from 'react';
-import { useMap } from '../../map';
+import { useRecoilState } from 'recoil';
+import { mapViewState } from '../../map';
+// import { useMap } from '../../map';
 
 export const ZoomControl = () => {
 
-  const map = useMap();
+  // const map = useMap();
 
-  const onZoom = (inc: number) => () =>
-    map?.easeTo({ zoom:  map.getZoom() + inc });
+  const [ viewState, setViewState ] = useRecoilState(mapViewState);
+
+  const onZoom = (inc: number) => () => {
+    setViewState({
+      ...viewState, 
+      zoom: viewState.zoom + inc,
+      transitionDuration: 200
+    });
+    
+    // map?.easeTo({ zoom:  map.getZoom() + inc });
+  }
   
   return (
     <div>

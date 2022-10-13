@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useRef } from 'react';
-import ReactMapGL from 'react-map-gl';
+import React, { useEffect, useRef } from 'react';
+import ReactMapGL, { NavigationControl } from 'react-map-gl';
 // @ts-ignore
 import DeckGL from '@deck.gl/react'; // Note: /typed version is buggy!
 import { WebMercatorViewport } from '@deck.gl/core/typed';
@@ -74,12 +74,15 @@ export const MapLibreDeckGL = (props: MapLibreDeckGLProps) => {
 
       {isValidViewState(viewState) &&
         <DeckGL
-          initialViewState={viewState}
+          viewState={viewState}
+          onViewStateChange={(e: { viewState: ViewState }) => setViewState(e.viewState)}
           controller={{ scrollZoom: { speed: 0.25, smooth: true }}}
           layers={layers}>
 
           <ReactMapGL
             mapStyle={props.mapStyle}>
+              
+              <NavigationControl />
 
           </ReactMapGL>
         </DeckGL>
