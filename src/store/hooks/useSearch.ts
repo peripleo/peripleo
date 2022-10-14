@@ -27,11 +27,24 @@ export const useSearch = () => {
     runSearch({ ...search.args, filters: updatedFilters });
   }
 
+  // Note that switching the facet does not require 
+  // a new search run!
+  const setActiveAggregation = (name: string) => 
+    setSearchState({ 
+      args: {
+        ...search.args,
+        activeAggregation: name
+      }, 
+      status: search.status,
+      result: search.result 
+    });
+
   return {
     changeSearchQuery,
     clearSearchQuery,
     refreshSearch,
     search,
+    setActiveAggregation,
     setFilter
   };
 

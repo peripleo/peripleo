@@ -15,7 +15,7 @@ export interface SearchArgs {
 
   filters?: Filter[]
 
-  selectedFacet?: string
+  activeAggregation?: string
 
   fitMap?: boolean
 
@@ -46,7 +46,23 @@ export interface SearchResult {
 
   total: number,
 
-  items: ResultItem[]
+  items: ResultItem[],
+
+  aggregations?: {
+
+    [key: string]: {
+
+      buckets: {
+
+        label: string,
+        
+        count: number
+        
+      }[]
+
+    }
+
+  }
 
 }
 
