@@ -1,5 +1,5 @@
 import { MapboxGeoJSONFeature } from 'react-map-gl';
-import { ResultItem } from '../../store';
+import { Graph, ResultItem } from '../../store';
 
 export interface MapHover {
 
@@ -33,7 +33,7 @@ export interface ViewState {
 
 export interface DeckGLLayer {
 
-  (items: ResultItem[]): Object | Object[]
+  (items: ResultItem[], graph: Graph): Object | Object[]
 
 }
 

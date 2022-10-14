@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react';
-import ReactMapGL, { NavigationControl } from 'react-map-gl';
+import ReactMapGL from 'react-map-gl';
 // @ts-ignore
 import DeckGL from '@deck.gl/react'; // Note: /typed version is buggy!
 import { WebMercatorViewport } from '@deck.gl/core/typed';
 import { useRecoilState } from 'recoil';
-import { useSearch } from '../../../../store';
+import { useSearch, useGraph } from '../../../../store';
 import { mapViewState } from '../../../state';
 import { DeckGLLayer, ViewState} from '../../../types';
 
@@ -48,6 +48,8 @@ export const MapLibreDeckGL = (props: MapLibreDeckGLProps) => {
 
   const { search } = useSearch();
 
+  const graph = useGraph();
+
   const [ viewState, setViewState ] = useRecoilState(mapViewState);
 
   useEffect(() => {
@@ -62,7 +64,7 @@ export const MapLibreDeckGL = (props: MapLibreDeckGLProps) => {
     search.result.items : null;
 
   const layers = props.layers && data ? props.layers.reduce((all, next) => {
-    const l = next(data);
+    const l = next(data, graph);
     return Array.isArray(l) ?
       [...all, ...l] : [...all, l];
   }, [] as Object[]) : [];
@@ -75,16 +77,14 @@ export const MapLibreDeckGL = (props: MapLibreDeckGLProps) => {
       {isValidViewState(viewState) &&
         <DeckGL
           viewState={viewState}
-          onViewStateChange={(e: { viewState: ViewState }) => setViewState(e.viewState)}
+          onViewStateChange={(e: { viewState: ViewState }) => {
+            setViewState({ ...e.viewState, zoom: Math.max(e.viewState.zoom, 1.6)} );
+          }}
           controller={{ scrollZoom: { speed: 0.25, smooth: true }}}
           layers={layers}>
 
           <ReactMapGL
-            mapStyle={props.mapStyle}>
-              
-              <NavigationControl />
-
-          </ReactMapGL>
+            mapStyle={props.mapStyle} />
         </DeckGL>
       }
     </div>
