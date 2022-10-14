@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import ReactMapGL from 'react-map-gl';
 // @ts-ignore
-import DeckGL from '@deck.gl/react'; // Note: /typed version is buggy!
+import DeckGL from '@deck.gl/react';
 import { WebMercatorViewport } from '@deck.gl/core/typed';
 import { useRecoilState } from 'recoil';
 import { useSearch, useGraph } from '../../../../store';
