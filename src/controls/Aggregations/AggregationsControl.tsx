@@ -5,6 +5,8 @@ import {
 } from 'react-icons/hi';
 import { useSearch } from '../../store';
 
+import './AggregationsControls.css';
+
 const formatNumber = (num: number) => {
   if (num > 1000)
     return (num / 1000).toFixed(1) + 'k';
@@ -32,8 +34,8 @@ export const AggregationsControl = () => {
   }
 
   return (
-    <div className="p6o-facets">
-      <div className="p6o-facets-carousel">
+    <div className="p6o-aggs">
+      <div className="p6o-aggs-carousel">
         <button 
           tabIndex={4}
           aria-label="Previous filter category"
@@ -55,13 +57,13 @@ export const AggregationsControl = () => {
         </button>
       </div>
 
-      <div className="p6o-facets-container">
+      <div className="p6o-aggs-container">
         <ul>
           {search.result.aggregations[search.args.activeAggregation].buckets.map(({ label, count}) => (
               <li key={label}>
-                <div className="p6o-facet-value-wrapper">
-                  <span className="p6o-facet-value-count">{formatNumber(count)}</span>
-                  <span className="p6o-facet-value-label">{label}</span>
+                <div className="p6o-agg-value-wrapper">
+                  <span className="p6o-agg-value-count">{formatNumber(count)}</span>
+                  <span className="p6o-agg-value-label">{label}</span>
                 </div>
               </li>
             ))
