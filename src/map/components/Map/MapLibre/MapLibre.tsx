@@ -57,17 +57,23 @@ export const MapLibre = (props: MapLibreProps) => {
 
     if (features.length > 0) {
       const id = features[0]?.properties?.id;
+      const node = graph.getNodeById(id);
 
-      const updated: MapHover = hover && (id === hover?.node.id) ? {
-        ...hover, ...point // just update mouse position
-      } : {
-        node: graph.getNodeById(id),
-        feature: features[0],
-        ...point
-      };
+      if (node) {
+        const updated: MapHover = hover && (id === hover?.node.id) ? {
+          ...hover, ...point // just update mouse position
+        } : {
+          node,
+          feature: features[0],
+          ...point
+        };
 
-      ref.current?.classList.add('hover');
-      setHover(updated);
+        ref.current?.classList.add('hover');
+        setHover(updated);
+      } else {
+        ref.current?.classList.remove('hover');
+        setHover(undefined);  
+      }
     } else {
       ref.current?.classList.remove('hover');
       setHover(undefined);
