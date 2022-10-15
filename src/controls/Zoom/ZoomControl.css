@@ -12,7 +12,7 @@
   align-items: center;
   justify-content: center;
   font-size: 30px;
-  border-radius: var(--p6o-controls-border-radius);
+  border-radius: 50%;
   border: var(--p6o-controls-border);
   cursor: pointer;
   background-color: var(--p6o-controls-bg-color);

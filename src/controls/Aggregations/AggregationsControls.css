@@ -10,10 +10,10 @@
   justify-content: space-between;
   background-color: var(--p6o-controls-bg-color-hi);
   padding: 6px;
-  margin: 0;
+  margin: 0 0 10px 0;
   pointer-events: all;
   border: var(--p6o-controls-border);
-  border-radius: var(--p6o-controls-border-radius);
+  border-radius: 50vh;
   box-shadow: var(--p6o-controls-box-shadow);
 }
 
@@ -27,7 +27,24 @@
 .p6o-aggs-carousel button {
   font-size:22px;
   display:flex;
+  justify-content: center;
+  align-items: center;
   color:#5c5c5c;
+  background-color: transparent;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.p6o-aggs-carousel button:hover {
+  background-color: var(--p6o-signature-color);
+}
+
+.p6o-aggs-carousel button:hover svg {
+  stroke: #fff;
 }
 
 .p6o-aggs-container ul {
@@ -45,10 +62,12 @@
 
 .p6o-aggs-container .p6o-agg-value-wrapper {
   display: inline-block;
+  position: relative;
   white-space: nowrap;
   overflow: hidden;
   pointer-events: all;
-  border-radius: var(--p6o-controls-border-radius);
+  border-radius: 50vh; 
+  background-color: #fff;
   box-shadow: var(--p6o-controls-box-shadow);
 }
 
@@ -62,9 +81,19 @@
   text-align:center;
   color:#fff;
   font-weight:bold;
+  border-radius: 50vh; 
+  border: 1px solid var(--p6o-signature-color);
+  background-color: var(--p6o-signature-color);
+  z-index: 1;
 }
 
 .p6o-aggs-container .p6o-agg-value-wrapper span.p6o-agg-value-label {
   text-transform:capitalize;
   background-color:#fff;
+  text-transform: lowercase;
+  padding-right: 16px;
+}
+
+.p6o-aggs-container .p6o-agg-value-wrapper span.p6o-agg-value-label::first-letter {
+  text-transform: uppercase;
 }
