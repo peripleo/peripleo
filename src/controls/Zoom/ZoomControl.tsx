@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import { mapViewState } from '../../map';
-// import { useMap } from '../../map';
+import { useMap } from '../../map';
 import { 
   AiOutlinePlus, 
   AiOutlineMinus 
@@ -11,18 +11,20 @@ import './ZoomControl.css';
 
 export const ZoomControl = () => {
 
-  // const map = useMap();
+  const map = useMap();
 
   const [ viewState, setViewState ] = useRecoilState(mapViewState);
 
   const onZoom = (inc: number) => () => {
-    setViewState({
-      ...viewState, 
-      zoom: viewState.zoom + inc,
-      transitionDuration: 200
-    });
+    if (map)
+      setViewState({
+        ...viewState, 
+        zoom: viewState.zoom + inc,
+        transitionDuration: 200,
+        ignore: false
+      });
     
-    // map?.easeTo({ zoom:  map.getZoom() + inc });
+    map?.easeTo({ zoom:  map.getZoom() + inc });
   }
   
   return (
