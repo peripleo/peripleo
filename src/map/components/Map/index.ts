@@ -1,6 +1,6 @@
 import { MapLibre } from './MapLibre/MapLibre';
-import { MapLibreDeckGL } from './MapLibreDeckGL/MapLibreDeckGL';
+import { DeckGLContainer } from './MapLibreDeckGL/DeckGLContainer';
 
-export const Map = { MapLibre, MapLibreDeckGL };
+export const Map = { MapLibre, MapLibreDeckGL: DeckGLContainer };
 
 export * from './MapLibre/layers';

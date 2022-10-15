@@ -1,16 +1,13 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React from 'react';
 import ReactMapGL from 'react-map-gl';
 // @ts-ignore
 import DeckGL from '@deck.gl/react';
-import { WebMercatorViewport } from '@deck.gl/core/typed';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useSearch, useGraph } from '../../../../store';
-import { mapViewState } from '../../../state';
 import { DeckGLLayer, ViewState} from '../../../types';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
 
-type ImplProps = {
+type DeckGLMapProps = {
 
   mapStyle: string,
 
@@ -26,9 +23,7 @@ type ImplProps = {
 
 }
 
-export const Impl = (props: ImplProps) => {
-
-  const ref = useRef<HTMLDivElement>(null);
+export const DeckGLMap = (props: DeckGLMapProps) => {
 
   const { search } = useSearch();
 
@@ -44,16 +39,15 @@ export const Impl = (props: ImplProps) => {
   }, [] as Object[]) : [];
 
   return (
-        <DeckGL
-          initialViewState={props.initialViewState}
-          controller={true} 
-          onViewStateChange={props.onViewStateChange}
-          layers={layers}>
+    <DeckGL
+      initialViewState={props.initialViewState}
+      controller={true} 
+      onViewStateChange={props.onViewStateChange}
+      layers={layers}>
 
-          <ReactMapGL
-            mapStyle={props.mapStyle} />
-        </DeckGL>
-    
+      <ReactMapGL
+        mapStyle={props.mapStyle} />
+    </DeckGL>    
   )
 
 }
