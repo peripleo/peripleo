@@ -1,14 +1,10 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import ReactMapGL from 'react-map-gl';
-// @ts-ignore
-import DeckGL from '@deck.gl/react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDebounce } from 'use-debounce';
-import { WebMercatorViewport } from '@deck.gl/core/typed';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { useSearch, useGraph } from '../../../../store';
+import { useRecoilState } from 'recoil';
 import { mapViewState } from '../../../state';
 import { DeckGLLayer, ViewState} from '../../../types';
 import { DeckGLMap } from './DeckGLMap';
+import { getDefaultViewState, isValidViewState } from '../initialState';
 
 type DeckGLContainerProps = {
 
@@ -22,22 +18,6 @@ type DeckGLContainerProps = {
 
   popup: Function
 
-}
-
-const getDefaultViewState = (initialBounds: [[number, number], [number, number]], el: HTMLDivElement) => {
-  const { offsetWidth, offsetHeight } = el;
-
-  const viewport = new WebMercatorViewport({
-    width: offsetWidth,
-    height: offsetHeight
-  });
-
-  return viewport.fitBounds(initialBounds, {});
-}
-
-const isValidViewState = (viewState: ViewState) => {
-  const { longitude, latitude, zoom } = viewState;
-  return longitude && latitude && zoom;
 }
 
 export const DeckGLContainer = (props: DeckGLContainerProps) => {
@@ -64,8 +44,6 @@ export const DeckGLContainer = (props: DeckGLContainerProps) => {
   
   // Set initial view state on first render
   useEffect(() => {
-    console.log('first render', globalViewState);
-
     if (ref.current && !initialViewState) {
       const defaultState = getDefaultViewState(props.defaultBounds, ref.current);
       setInitialViewState(defaultState);

@@ -1,10 +1,11 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import ReactMapGL, { MapLayerMouseEvent, MapRef } from 'react-map-gl';
 import { useRecoilState } from 'recoil';
 import { mapViewState, selectedState } from '../../../state';
-import { MapHover } from '../../../types';
+import { MapHover, ViewState } from '../../../types';
 import { useGraph, useSearch } from '../../../../store';
 import { PopupContainer, TooltipContainer } from '../..';
+import { getDefaultViewState, isValidViewState } from '../initialState';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
 
@@ -37,6 +38,14 @@ export const MapLibre = (props: MapLibreProps) => {
   const graph = useGraph();
 
   const [ hover, setHover ] = useState<MapHover | null>();
+
+  // Set initial view state on first render
+  useEffect(() => {
+    if (ref.current && !isValidViewState(viewState) ) {
+      const defaultState = getDefaultViewState(props.defaultBounds, ref.current);
+      setViewState(defaultState);
+    }
+  }, [ ref.current ]);
 
   const data = useMemo(() => search?.status === 'OK' && search.result?.items.length ? {
     type: 'FeatureCollection',
@@ -95,17 +104,19 @@ export const MapLibre = (props: MapLibreProps) => {
       ref={ref}
       className='p6o-map-container'>
 
-      <ReactMapGL
-        ref={mapRef}
-        {...viewState}
-        mapStyle={props.mapStyle}
-        onClick={onClick}
-        onMouseMove={onMouseMove}
-        onMove={evt => setViewState(evt.viewState)}>
+      {isValidViewState(viewState) &&
+        <ReactMapGL
+          ref={mapRef}
+          initialViewState={viewState}
+          mapStyle={props.mapStyle}
+          onClick={onClick}
+          onMouseMove={onMouseMove}
+          onMove={evt => setViewState(evt.viewState)}>
 
-        {React.Children.map(props.children, c => React.cloneElement(c, { data }))}
+          {React.Children.map(props.children, c => React.cloneElement(c, { data }))}
 
-      </ReactMapGL>
+        </ReactMapGL>
+      }
 
       {props.tooltip && hover && 
         <TooltipContainer 
