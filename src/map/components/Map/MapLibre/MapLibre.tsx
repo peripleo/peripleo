@@ -87,7 +87,7 @@ export const MapLibre = (props: MapLibreProps) => {
       ref.current?.classList.remove('hover');
       setHover(undefined);
     }
-  }, [ props.children, search, hover ]);
+  }, [ props.children, graph, hover ]);
 
   const onClick = () => {
     if (hover) {
