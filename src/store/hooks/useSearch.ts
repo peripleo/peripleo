@@ -45,7 +45,8 @@ export const useSearch = () => {
     refreshSearch,
     search,
     setActiveAggregation,
-    setFilter
+    setFilter,
+    setSearchState
   };
 
 }
