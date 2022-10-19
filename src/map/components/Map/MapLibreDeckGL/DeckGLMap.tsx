@@ -36,7 +36,7 @@ export const DeckGLMap = (props: DeckGLMapProps) => {
     const l = next(data, graph);
     return Array.isArray(l) ?
       [...all, ...l] : [...all, l];
-  }, [] as Object[]) : [], [ data ]);
+  }, [] as Object[]) : [], [ data, props.layers ]);
 
   return (
     <DeckGL
