@@ -11,12 +11,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 30px;
   border-radius: 50%;
   border: var(--p6o-controls-border);
   cursor: pointer;
   background-color: var(--p6o-controls-bg-color);
   box-shadow: var(--p6o-controls-box-shadow);
+}
+
+.p6o-controls-btn.p6o-zoom svg {
+  font-size: 22px;
 }
 
 .p6o-controls-btn:hover {
