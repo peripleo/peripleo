@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import ReactMapGL from 'react-map-gl';
 // @ts-ignore
 import DeckGL from '@deck.gl/react';
@@ -29,14 +29,14 @@ export const DeckGLMap = (props: DeckGLMapProps) => {
 
   const graph = useGraph();
 
-  const data = search?.result && search.status === 'OK' && search.result.items.length > 0 ?
-    search.result.items : null;
+  const data = useMemo(() => search?.result && search.status === 'OK' && search.result.items.length > 0 ?
+    search.result.items : null, [ search ]);
 
-  const layers = props.layers && data ? props.layers.reduce((all, next) => {
+  const layers = useMemo(() => props.layers && data ? props.layers.reduce((all, next) => {
     const l = next(data, graph);
     return Array.isArray(l) ?
       [...all, ...l] : [...all, l];
-  }, [] as Object[]) : [];
+  }, [] as Object[]) : [], [ data ]);
 
   return (
     <DeckGL
