@@ -1,5 +1,6 @@
-.p6o-aggs {
+.p6o-controls-container .p6o-aggs {
   width: 340px;
+  pointer-events: none;
 }
 
 .p6o-aggs-carousel {
@@ -47,13 +48,18 @@
   stroke: #fff;
 }
 
-.p6o-aggs-container ul {
+.p6o-controls-container .p6o-aggs-container {
+  pointer-events: none;
+}
+
+.p6o-controls-container .p6o-aggs-container ul {
   list-style-type: none;
   margin: 5px 0 0 0;
   padding: 0;
+  pointer-events: none;
 }
 
-.p6o-aggs-container li {
+.p6o-controls-container .p6o-aggs-container li {
   margin-bottom: 2px;
   display: block;
   pointer-events: none;
@@ -65,10 +71,16 @@
   position: relative;
   white-space: nowrap;
   overflow: hidden;
-  pointer-events: all;
+  pointer-events: auto;
+  cursor: pointer;
   border-radius: 50vh; 
   background-color: #fff;
   box-shadow: var(--p6o-controls-box-shadow);
+  transition:transform 0.15s;
+}
+
+.p6o-aggs-container .p6o-agg-value-wrapper:hover {
+  transform:scale(1.05);
 }
 
 .p6o-aggs-container .p6o-agg-value-wrapper span {
