@@ -7,7 +7,7 @@ export const useSearch = () => {
   const [ search, setSearchState ] = useRecoilState(searchState);
 
   const runSearch = (args: SearchArgs = {}) =>
-    setSearchState({ args, status: SearchStatus.PENDING });
+    setSearchState({ args, status: SearchStatus.PENDING, result: search.result });
 
   const refreshSearch = () =>
     runSearch({ ...search.args });
