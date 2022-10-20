@@ -18,7 +18,7 @@ const formatNumber = (num: number) => {
 
 export const AggregationsControl = () => {
 
-  const { search, setActiveAggregation } = useSearch();
+  const { search, setFilter, setActiveAggregation } = useSearch();
 
   if (!search.result?.aggregations)
     return null;
@@ -28,11 +28,21 @@ export const AggregationsControl = () => {
 
   const activeAggregation = search.args.activeAggregation || aggregations[0];
 
+  const filterValues: string[] = search.args.filters?.find(f => f.name === activeAggregation)?.values || [];
+
   const onChangeFacet = (inc: number) => () => {
     const { length } = aggregations;
     const currentIdx = aggregations.indexOf(activeAggregation);
     const updatedIdx = (currentIdx + inc + length) % length;
     setActiveAggregation(aggregations[updatedIdx]);
+  }
+
+  const onToggleValue = (value: string) => () => {
+    const updated = filterValues.includes(value) ?
+      { name: activeAggregation, values: filterValues.filter(str => str !== value) } :
+      { name: activeAggregation, values: [...filterValues, value ]};
+    
+    setFilter(updated);
   }
 
   return (
@@ -61,8 +71,8 @@ export const AggregationsControl = () => {
 
       <div className="p6o-aggs-container">
         <ul>
-          {search.result.aggregations[activeAggregation].buckets.map(({ label, count}) => (
-              <li key={label}>
+          {search.result.aggregations[activeAggregation].buckets.map(({ label, count }) => (
+              <li key={label} onClick={onToggleValue(label)}>
                 <div className="p6o-agg-value-wrapper">
                   <span className="p6o-agg-value-count">{formatNumber(count)}</span>
                   <span className="p6o-agg-value-label">{label}</span>
