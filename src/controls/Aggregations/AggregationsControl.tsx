@@ -20,15 +20,17 @@ export const AggregationsControl = () => {
 
   const { search, setActiveAggregation } = useSearch();
 
-  if (!search.result?.aggregations || !search.args.activeAggregation)
+  if (!search.result?.aggregations)
     return null;
   
   const aggregations =
     Object.keys(search.result.aggregations);
-  
+
+  const activeAggregation = search.args.activeAggregation || aggregations[0];
+
   const onChangeFacet = (inc: number) => () => {
     const { length } = aggregations;
-    const currentIdx = aggregations.indexOf(search.args.activeAggregation as string);
+    const currentIdx = aggregations.indexOf(activeAggregation);
     const updatedIdx = (currentIdx + inc + length) % length;
     setActiveAggregation(aggregations[updatedIdx]);
   }
@@ -46,7 +48,7 @@ export const AggregationsControl = () => {
         <h3 
           aria-live="polite"
           aria-atomic={true}>
-          {search.args.activeAggregation}
+          {activeAggregation}
         </h3>
         
         <button
@@ -59,7 +61,7 @@ export const AggregationsControl = () => {
 
       <div className="p6o-aggs-container">
         <ul>
-          {search.result.aggregations[search.args.activeAggregation].buckets.map(({ label, count}) => (
+          {search.result.aggregations[activeAggregation].buckets.map(({ label, count}) => (
               <li key={label}>
                 <div className="p6o-agg-value-wrapper">
                   <span className="p6o-agg-value-count">{formatNumber(count)}</span>
