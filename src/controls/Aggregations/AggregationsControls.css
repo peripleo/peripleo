@@ -109,3 +109,7 @@
 .p6o-aggs-container .p6o-agg-value-wrapper span.p6o-agg-value-label::first-letter {
   text-transform: uppercase;
 }
+
+.p6o-aggs-container .p6o-value-unselected {
+  opacity: 0.2;
+}

@@ -72,7 +72,10 @@ export const AggregationsControl = () => {
       <div className="p6o-aggs-container">
         <ul>
           {search.result.aggregations[activeAggregation].buckets.map(({ label, count }) => (
-              <li key={label} onClick={onToggleValue(label)}>
+              <li 
+                key={label} 
+                className={filterValues.length > 0 && !filterValues.includes(label) ? 'p6o-value-unselected' : ''}
+                onClick={onToggleValue(label)}>
                 <div className="p6o-agg-value-wrapper">
                   <span className="p6o-agg-value-count">{formatNumber(count)}</span>
                   <span className="p6o-agg-value-label">{label}</span>
