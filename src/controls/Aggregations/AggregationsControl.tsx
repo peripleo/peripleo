@@ -19,14 +19,11 @@ const formatNumber = (num: number) => {
 export const AggregationsControl = () => {
 
   const { search, setFilter, setActiveAggregation } = useSearch();
-
-  if (!search.result?.aggregations)
-    return null;
   
-  const aggregations =
-    Object.keys(search.result.aggregations);
+  const aggregations: string[] = search.result?.aggregations ?
+    Object.keys(search.result.aggregations) : [];
 
-  const activeAggregation = search.args.activeAggregation || aggregations[0];
+  const activeAggregation = search.args.activeAggregation || aggregations[0] || '';
 
   const filterValues: string[] = search.args.filters?.find(f => f.name === activeAggregation)?.values || [];
 
@@ -69,22 +66,24 @@ export const AggregationsControl = () => {
         </button>
       </div>
 
-      <div className="p6o-aggs-container">
-        <ul>
-          {search.result.aggregations[activeAggregation].buckets.map(({ label, count }) => (
-              <li 
-                key={label} 
-                className={filterValues.length > 0 && !filterValues.includes(label) ? 'p6o-value-unselected' : ''}
-                onClick={onToggleValue(label)}>
-                <div className="p6o-agg-value-wrapper">
-                  <span className="p6o-agg-value-count">{formatNumber(count)}</span>
-                  <span className="p6o-agg-value-label">{label}</span>
-                </div>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
+      {search.result?.aggregations &&
+        <div className="p6o-aggs-container">
+          <ul>
+            {search.result.aggregations[activeAggregation].buckets.map(({ label, count }) => (
+                <li 
+                  key={label} 
+                  className={filterValues.length > 0 && !filterValues.includes(label) ? 'p6o-value-unselected' : ''}
+                  onClick={onToggleValue(label)}>
+                  <div className="p6o-agg-value-wrapper">
+                    <span className="p6o-agg-value-count">{formatNumber(count)}</span>
+                    <span className="p6o-agg-value-label">{label}</span>
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      }
     </div>
   )
 
