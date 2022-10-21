@@ -33,7 +33,7 @@ export const PopupContainer = (props: PopupContainerProps) => {
   return selected && (
     <div 
       className="p6o-map-popup-container"
-      style={{ position: 'absolute', ...offset }}>
+      style={{ zIndex: 0, position: 'absolute', ...offset }}>
 
       {popup(props)}
 

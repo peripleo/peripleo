@@ -50,7 +50,7 @@ export const TooltipContainer = (props: TooltipContainerProps) => {
     <div 
       ref={el}
       className="p6o-map-tooltip-container"
-      style={{left, top}}>
+      style={{left, top, zIndex: 1 }}>
 
       {tooltip({node, feature})}
     </div>
