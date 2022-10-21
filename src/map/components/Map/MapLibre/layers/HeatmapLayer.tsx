@@ -1,19 +1,41 @@
 import React from 'react';
 import { Source, Layer } from 'react-map-gl';
+import chroma from 'chroma-js';
 
-const coverageStyle = (ramp: Array<number | string>) => ({
+// https://gist.github.com/danieliser/b4b24c9f772066bcf0a6
+const hexToRGBA = (hexCode: string, opacity = 1) => {  
+  let hex = hexCode.replace('#', '');
+  
+  if (hex.length === 3)
+    hex = `${hex[0]}${hex[0]}${hex[1]}${hex[1]}${hex[2]}${hex[2]}`;
+  
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+  
+  return `rgba(${r},${g},${b},${opacity})`;
+};
+
+const colorScale = (color: string) => ([
+  0,
+  hexToRGBA(color, 0), 
+  0.2,
+  hexToRGBA(color, 0.1),
+  0.4,
+  hexToRGBA(color, 0.2),
+  0.6,
+  hexToRGBA(color, 0.4),
+  0.8,
+  hexToRGBA(color, 0.6),
+  1,
+  hexToRGBA(color, 0.7)
+]);
+
+const coverageStyle = (color: string) => ({
   'type': 'heatmap',
-  'maxzoom': 9,
+  'maxzoom': 15,
   'paint': {
-    'heatmap-weight': [
-      'interpolate',
-      ['linear'],
-      ['get', 'count'],
-      1,
-      1,
-      200,
-      3
-    ],
+    'heatmap-weight': 1,
     'heatmap-intensity': [
       'interpolate',
       ['linear'],
@@ -21,13 +43,13 @@ const coverageStyle = (ramp: Array<number | string>) => ({
       0,
       1,
       9,
-      5
+      4
     ],
     'heatmap-color': [
       'interpolate',
       ['linear'],
       ['heatmap-density'],
-      ...ramp
+      ...colorScale(color)
     ],
     'heatmap-radius': [
       'interpolate',
@@ -35,8 +57,8 @@ const coverageStyle = (ramp: Array<number | string>) => ({
       ['zoom'],
       0,
       3,
-      9,
-      20
+      14,
+      34
     ],
     'heatmap-opacity': [
       'interpolate',
@@ -50,19 +72,19 @@ const coverageStyle = (ramp: Array<number | string>) => ({
   }
 });
 
-const pointStyle = () => ({
+const pointStyle = (color: string) => ({
   'type': 'circle',
-  'minzoom': 6,
+  'minzoom': 7,
   'paint': {
     'circle-radius': [
       'interpolate', 
       ['linear'],
-      ['number', ['get','colocated_records'], 0 ],
+      ['number', ['get','count'], 0 ],
       0, 5,
-      30, 24
+      4000, 20
     ],
-    'circle-color': 'red',
-    'circle-stroke-color': 'white',
+    'circle-color': color,
+    'circle-stroke-color': chroma(color).darken().hex(),
     'circle-stroke-width': 1,
     'circle-opacity': [
       'interpolate',
@@ -87,24 +109,19 @@ const pointStyle = () => ({
 
 type HeatmapLayerProps = {
 
-  data: any; 
+  data: any
   
-  id: string;
+  id: string
+
+  color: string
 
 }
 
 export const HeatmapLayer = (props: HeatmapLayerProps) => {
 
-  const heatmap = coverageStyle([
-    0,   'rgba(0, 0, 255, 0)',
-    0.1, '#ffffb2',
-    0.3, '#feb24c',
-    0.5, '#fd8d3c',
-    0.7, '#fc4e2a',
-    1,   '#e31a1c'
-  ]);
+  const heatmap = coverageStyle(props.color);
 
-  const point = pointStyle();
+  const point = pointStyle(props.color);
 
   return (
     <Source type="geojson" data={props.data}>
