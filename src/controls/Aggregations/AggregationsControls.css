@@ -93,9 +93,8 @@
   text-align:center;
   color:#fff;
   font-weight:bold;
-  border-radius: 50vh; 
-  border: 1px solid var(--p6o-signature-color);
-  background-color: var(--p6o-signature-color);
+  border-radius: 50vh;
+  border: 1px solid transparent;
   z-index: 1;
 }
 

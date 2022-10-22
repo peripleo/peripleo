@@ -1,4 +1,5 @@
 import React from 'react';
+import chroma from 'chroma-js';
 import { 
   HiOutlineChevronLeft, 
   HiOutlineChevronRight 
@@ -16,7 +17,13 @@ const formatNumber = (num: number) => {
     return num;
 }
 
-export const AggregationsControl = () => {
+type AggregationsControlProps = {
+
+  colors : { [ key: string ]: string }
+
+}
+
+export const AggregationsControl = (props: AggregationsControlProps) => {
 
   const { search, setFilter, setActiveAggregation } = useSearch();
   
@@ -75,7 +82,16 @@ export const AggregationsControl = () => {
                   className={filterValues.length > 0 && !filterValues.includes(label) ? 'p6o-value-unselected' : ''}
                   onClick={onToggleValue(label)}>
                   <div className="p6o-agg-value-wrapper">
-                    <span className="p6o-agg-value-count">{formatNumber(count)}</span>
+                    <span 
+                      className="p6o-agg-value-count"
+                      style={{ 
+                        backgroundColor: props.colors[label],
+                        borderColor: chroma(props.colors[label]).alpha(0.8).hex()
+                      }}>
+
+                      {formatNumber(count)}
+                    </span>
+
                     <span className="p6o-agg-value-label">{label}</span>
                   </div>
                 </li>
