@@ -2,6 +2,31 @@ import React from 'react';
 import { Source, Layer } from 'react-map-gl';
 import chroma from 'chroma-js';
 
+const DEFAULT_SCALE = [
+  0,
+  'rgba(49, 54, 149, 0)', 
+  0.1,
+  '#313695',
+  0.2,
+  '#4575b4',
+  0.3,
+  '#74add1',
+  0.4,
+  '#abd9e9',
+  0.5,
+  '#e0f3f8',
+  0.6,
+  '#fee090',
+  0.7,
+  '#fdae61',
+  0.8,
+  '#f46d43',
+  0.9,
+  '#d73027',
+  1,
+  '#a50026'
+];
+
 // https://gist.github.com/danieliser/b4b24c9f772066bcf0a6
 const hexToRGBA = (hexCode: string, opacity = 1) => {  
   let hex = hexCode.replace('#', '');
@@ -31,7 +56,7 @@ const colorScale = (color: string) => ([
   hexToRGBA(color, 0.7)
 ]);
 
-const coverageStyle = (color: string) => ({
+const coverageStyle = (scale: Array<number | string>) => ({
   'type': 'heatmap',
   'maxzoom': 15,
   'paint': {
@@ -41,24 +66,24 @@ const coverageStyle = (color: string) => ({
       ['linear'],
       ['zoom'],
       0,
-      1,
+      0.2,
       9,
-      4
+      2.5
     ],
     'heatmap-color': [
       'interpolate',
       ['linear'],
       ['heatmap-density'],
-      ...colorScale(color)
+      ...scale
     ],
     'heatmap-radius': [
       'interpolate',
       ['linear'],
       ['zoom'],
       0,
-      3,
-      14,
-      34
+      1,
+      12,
+      28
     ],
     'heatmap-opacity': [
       'interpolate',
@@ -119,7 +144,7 @@ type HeatmapLayerProps = {
 
 export const HeatmapLayer = (props: HeatmapLayerProps) => {
 
-  const heatmap = coverageStyle(props.color);
+  const heatmap = coverageStyle(DEFAULT_SCALE);
 
   const point = pointStyle(props.color);
 
