@@ -89,9 +89,9 @@ const coverageStyle = (scale: Array<number | string>) => ({
       'interpolate',
       ['linear'],
       ['zoom'],
-      7,
+      5,
       1,
-      9,
+      7,
       0
     ]
   }
@@ -99,7 +99,7 @@ const coverageStyle = (scale: Array<number | string>) => ({
 
 const pointStyle = (color: string) => ({
   'type': 'circle',
-  'minzoom': 7,
+  'minzoom': 5,
   'paint': {
     'circle-radius': [
       'interpolate', 
@@ -115,7 +115,7 @@ const pointStyle = (color: string) => ({
       'interpolate',
       ['linear'],
       ['zoom'],
-      7,
+      5,
       0,
       8,
       1
@@ -124,7 +124,7 @@ const pointStyle = (color: string) => ({
       'interpolate',
       ['linear'],
       ['zoom'],
-      7,
+      5,
       0,
       8,
       1
