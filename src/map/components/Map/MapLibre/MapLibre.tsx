@@ -128,7 +128,8 @@ export const MapLibre = (props: MapLibreProps) => {
           selected={selected} 
           viewState={viewState} 
           map={mapRef.current} 
-          popup={props.popup} /> }
+          popup={props.popup} 
+          onClose={() => setSelected(null)} /> }
     </div>
   )
 

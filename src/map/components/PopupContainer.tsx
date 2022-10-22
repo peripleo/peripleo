@@ -14,6 +14,8 @@ type PopupContainerProps = {
   
   popup: Function;
 
+  onClose: Function;
+
 }
 
 export const PopupContainer = (props: PopupContainerProps) => {
@@ -35,7 +37,7 @@ export const PopupContainer = (props: PopupContainerProps) => {
       className="p6o-map-popup-container"
       style={{ zIndex: 0, position: 'absolute', ...offset }}>
 
-      {popup(props)}
+      {popup({...props, onClose: props.onClose })}
 
     </div>
   );
