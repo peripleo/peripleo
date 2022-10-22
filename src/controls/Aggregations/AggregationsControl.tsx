@@ -19,7 +19,9 @@ const formatNumber = (num: number) => {
 
 type AggregationsControlProps = {
 
-  colors : { [ key: string ]: string }
+  colors: { [ key: string ]: string }
+
+  displayFacets?: string[]
 
 }
 
@@ -30,15 +32,17 @@ export const AggregationsControl = (props: AggregationsControlProps) => {
   const aggregations: string[] = search.result?.aggregations ?
     Object.keys(search.result.aggregations) : [];
 
-  const activeAggregation = search.args.activeAggregation || aggregations[0] || '';
+  const displayed = props.displayFacets || aggregations;
+
+  const activeAggregation = search.args.activeAggregation || displayed[0] || '';
 
   const filterValues: string[] = search.args.filters?.find(f => f.name === activeAggregation)?.values || [];
 
   const onChangeFacet = (inc: number) => () => {
-    const { length } = aggregations;
-    const currentIdx = aggregations.indexOf(activeAggregation);
+    const { length } = displayed;
+    const currentIdx = displayed.indexOf(activeAggregation);
     const updatedIdx = (currentIdx + inc + length) % length;
-    setActiveAggregation(aggregations[updatedIdx]);
+    setActiveAggregation(displayed[updatedIdx]);
   }
 
   const onToggleValue = (value: string) => () => {
@@ -85,8 +89,8 @@ export const AggregationsControl = (props: AggregationsControlProps) => {
                     <span 
                       className="p6o-agg-value-count"
                       style={{ 
-                        backgroundColor: props.colors[label],
-                        borderColor: chroma(props.colors[label]).alpha(0.8).hex()
+                        backgroundColor: props.colors && props.colors[label],
+                        borderColor: props.colors && props.colors[label ] && chroma(props.colors[label]).alpha(0.8).hex()
                       }}>
 
                       {formatNumber(count)}
