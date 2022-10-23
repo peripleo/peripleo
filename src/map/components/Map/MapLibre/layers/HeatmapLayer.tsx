@@ -58,7 +58,6 @@ const colorScale = (color: string) => ([
 
 const coverageStyle = (scale: Array<number | string>) => ({
   'type': 'heatmap',
-  'maxzoom': 15,
   'paint': {
     'heatmap-weight': 1,
     'heatmap-intensity': [
@@ -89,9 +88,9 @@ const coverageStyle = (scale: Array<number | string>) => ({
       'interpolate',
       ['linear'],
       ['zoom'],
-      5,
+      8,
       1,
-      7,
+      10,
       0
     ]
   }
@@ -99,7 +98,7 @@ const coverageStyle = (scale: Array<number | string>) => ({
 
 const pointStyle = (color: string) => ({
   'type': 'circle',
-  'minzoom': 5,
+  'minzoom': 7,
   'paint': {
     'circle-radius': [
       'interpolate', 
@@ -115,18 +114,18 @@ const pointStyle = (color: string) => ({
       'interpolate',
       ['linear'],
       ['zoom'],
-      5,
+      7,
       0,
-      8,
+      10,
       1
     ],
     'circle-stroke-opacity': [
       'interpolate',
       ['linear'],
       ['zoom'],
-      5,
+      7,
       0,
-      8,
+      10,
       1
     ]
   }
