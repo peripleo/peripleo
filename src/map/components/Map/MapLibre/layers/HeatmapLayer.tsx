@@ -98,7 +98,6 @@ const coverageStyle = (scale: Array<number | string>) => ({
 
 const pointStyle = (color: string) => ({
   'type': 'circle',
-  'minzoom': 7,
   'paint': {
     'circle-radius': [
       'interpolate', 
