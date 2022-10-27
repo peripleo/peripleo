@@ -116,7 +116,7 @@ const pointStyle = (color: string) => ({
       7,
       0,
       10,
-      1
+      ['case', ['==', ['get', 'is_centroid'], true], 0.5, 1]
     ],
     'circle-stroke-opacity': [
       'interpolate',
@@ -125,7 +125,7 @@ const pointStyle = (color: string) => ({
       7,
       0,
       10,
-      1
+      ['case', ['==', ['get', 'is_centroid'], true], 0.5, 1]
     ]
   }
 });
