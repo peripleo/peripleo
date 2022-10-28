@@ -27,35 +27,6 @@ const DEFAULT_SCALE = [
   '#a50026'
 ];
 
-// https://gist.github.com/danieliser/b4b24c9f772066bcf0a6
-const hexToRGBA = (hexCode: string, opacity = 1) => {  
-  let hex = hexCode.replace('#', '');
-  
-  if (hex.length === 3)
-    hex = `${hex[0]}${hex[0]}${hex[1]}${hex[1]}${hex[2]}${hex[2]}`;
-  
-  const r = parseInt(hex.substring(0, 2), 16);
-  const g = parseInt(hex.substring(2, 4), 16);
-  const b = parseInt(hex.substring(4, 6), 16);
-  
-  return `rgba(${r},${g},${b},${opacity})`;
-};
-
-const colorScale = (color: string) => ([
-  0,
-  hexToRGBA(color, 0), 
-  0.2,
-  hexToRGBA(color, 0.1),
-  0.4,
-  hexToRGBA(color, 0.2),
-  0.6,
-  hexToRGBA(color, 0.4),
-  0.8,
-  hexToRGBA(color, 0.6),
-  1,
-  hexToRGBA(color, 0.7)
-]);
-
 const coverageStyle = (scale: Array<number | string>) => ({
   'type': 'heatmap',
   'paint': {
@@ -106,8 +77,18 @@ const pointStyle = (color: string) => ({
       0, 5,
       4000, 20
     ],
-    'circle-color': color,
-    'circle-stroke-color': chroma(color).darken().hex(),
+    'circle-color': [
+      'case', 
+      ['==', ['get', 'is_centroid'], true], 
+      '#808080', 
+      color
+    ],
+    'circle-stroke-color': [
+      'case', 
+      ['==', ['get', 'is_centroid'], true], 
+      chroma('#808080').darken().hex(), 
+      chroma(color).darken().hex()
+    ], 
     'circle-stroke-width': 1,
     'circle-opacity': [
       'interpolate',
