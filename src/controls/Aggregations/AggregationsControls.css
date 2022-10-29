@@ -113,3 +113,7 @@
 .p6o-aggs-container .p6o-value-unselected {
   opacity: 0.2;
 }
+
+.p6o-aggs-container .p6o-value-unselected:hover {
+  opacity: 1;
+}
