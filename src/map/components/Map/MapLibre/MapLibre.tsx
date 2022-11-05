@@ -2,7 +2,8 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import ReactMapGL, { MapLayerMouseEvent, MapRef } from 'react-map-gl';
 import { useRecoilState } from 'recoil';
 import { mapViewState, selectedState } from '../../../state';
-import { MapHover, ViewState } from '../../../types';
+import { MapHover } from '../../../types';
+import { Device, useDeviceState } from '../../../../device';
 import { useGraph, useSearch } from '../../../../store';
 import { PopupContainer, TooltipContainer } from '../..';
 import { getDefaultViewState, isValidViewState } from '../initialState';
@@ -28,6 +29,8 @@ export const MapLibre = (props: MapLibreProps) => {
   const ref = useRef<HTMLDivElement>(null);
 
   const mapRef = useRef<MapRef>(null);
+
+  const device = useDeviceState();
 
   const [ viewState, setViewState ] = useRecoilState(mapViewState);
 
@@ -106,6 +109,7 @@ export const MapLibre = (props: MapLibreProps) => {
 
       {isValidViewState(viewState) &&
         <ReactMapGL
+          clickTolerance={device === Device.MOBILE ? 20 : 3}
           ref={mapRef}
           initialViewState={viewState}
           mapStyle={props.mapStyle}
