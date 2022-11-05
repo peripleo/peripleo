@@ -18,11 +18,3 @@ html, body, #app, .p6o-map-container {
   overflow: hidden;
   font-family: 'DM Sans', Arial, Helvetica, sans-serif;
 }
-
-.p6o-map-container.hover * {
-  cursor:pointer;
-}
-
-.p6o-map-tooltip-container {
-  position: absolute;
-}

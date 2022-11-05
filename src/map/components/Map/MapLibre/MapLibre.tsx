@@ -9,6 +9,7 @@ import { useGraph, useSearch } from '../../../../store';
 import { PopupContainer, TooltipContainer } from '../..';
 import { getDefaultViewState, isValidViewState } from '../initialState';
 
+import '../Map.css';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 type MapLibreProps = {

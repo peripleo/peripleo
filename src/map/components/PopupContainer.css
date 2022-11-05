@@ -1,0 +1,7 @@
+.p6o-map-popup-container-mobile {
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.8);
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+}

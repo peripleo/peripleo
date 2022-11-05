@@ -3,6 +3,9 @@ import { MapRef, LngLatLike } from 'react-map-gl';
 import centroid from '@turf/centroid';
 import { AllGeoJSON } from '@turf/helpers';
 import { MapSelection, ViewState } from '../types';
+import { Size, useDeviceState } from '../../device';
+
+import './PopupContainer.css';
 
 type PopupContainerProps = {
 
@@ -20,22 +23,26 @@ type PopupContainerProps = {
 
 export const PopupContainer = (props: PopupContainerProps) => {
 
+  const device = useDeviceState();
+
   const { selected, viewState, map, popup} = props;
 
-  const [ offset, setOffset ] = useState<{ left: number, top: number }>();
+  const [ offset, setOffset ] = useState<{ left: number, top: number }>({ left: 0, top: 0 });
   
   useEffect(() => {
-    if (selected) {
+    if (selected && device.size === Size.DESKTOP) {
       const lonlat = centroid(selected.feature as AllGeoJSON)?.geometry.coordinates as LngLatLike;
       const { x, y } = map.project(lonlat);
       setOffset({ left: x, top: y });
+    } else if (selected) {
+      setOffset({ left: 0, top: 0 });
     }
-  }, [selected, viewState]);
+  }, [selected, viewState, device.size]);
 
   return selected && (
     <div 
-      className="p6o-map-popup-container"
-      style={{ zIndex: 0, position: 'absolute', ...offset }}>
+      className={device.size === Size.DESKTOP ? "p6o-map-popup-container" : "p6o-map-popup-container-mobile"}
+      style={{ zIndex: 9, position: 'absolute', ...offset }}>
 
       {popup({...props, onClose: props.onClose })}
 

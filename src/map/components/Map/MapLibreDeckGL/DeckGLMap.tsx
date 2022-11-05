@@ -5,6 +5,7 @@ import DeckGL from '@deck.gl/react';
 import { useSearch, useGraph } from '../../../../store';
 import { DeckGLLayer, ViewState} from '../../../types';
 
+import '../Map.css';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 type DeckGLMapProps = {
