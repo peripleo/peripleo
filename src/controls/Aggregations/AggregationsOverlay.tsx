@@ -1,18 +1,11 @@
 import React from 'react';
 import { useSearch } from '../../store';
+import { AggregationsProps } from './AggregationsProps';
 import { AggregationsCarousel, AggregationValueList } from './components';
 
 import './AggregationsOverlay.css';
 
-type AggregationsOverlayProps = {
-
-  colors: { [ key: string ]: string }
-
-  displayFacets?: string[]
-
-}
-
-export const AggregationsOverlay = (props: AggregationsOverlayProps) => {
+export const AggregationsOverlay = (props: AggregationsProps) => {
 
   const { search, setFilter, setActiveAggregation } = useSearch();
   
@@ -34,7 +27,7 @@ export const AggregationsOverlay = (props: AggregationsOverlayProps) => {
   }
 
   return (
-    <div className="p6o-aggs">
+    <div className="p6o-aggs p6o-aggs-overlay">
       <AggregationsCarousel 
         aggregations={displayed} 
         activeAggregation={activeAggregation}

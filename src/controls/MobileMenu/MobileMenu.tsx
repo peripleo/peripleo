@@ -38,8 +38,13 @@ export const MobileMenu = (props: MobileMenuProps) => {
             onClick={() => setOpen(false)}>
 
             <IoCloseOutline />
-
           </button>
+
+          <main>
+            {props.items.length === 1  ? (
+              props.items[0]
+            ) : null}
+          </main>
         </div>
 
       </CSSTransition>
