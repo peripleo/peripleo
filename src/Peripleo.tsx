@@ -1,6 +1,7 @@
 import React from 'react';
 import { RecoilRoot } from 'recoil';
 import { MapProvider } from 'react-map-gl';
+import { DeviceStateContextProvider } from './device';
 
 type PeripleoProps = {
 
@@ -18,9 +19,11 @@ const Peripleo = (props: PeripleoProps) => {
 
   return (
     <RecoilRoot>
-      <MapProvider>
-        {props.children}
-      </MapProvider>
+      <DeviceStateContextProvider breakPoint={540}>
+        <MapProvider>
+          {props.children}
+        </MapProvider>
+      </DeviceStateContextProvider>
     </RecoilRoot>
   )
 
