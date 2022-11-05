@@ -6,7 +6,7 @@ import {
 } from 'react-icons/hi';
 import { useSearch } from '../../store';
 
-import './AggregationsControls.css';
+import './AggregationsOverlay.css';
 
 const formatNumber = (num: number) => {
   if (num > 1000)
@@ -17,7 +17,7 @@ const formatNumber = (num: number) => {
     return num;
 }
 
-type AggregationsControlProps = {
+type AggregationsOverlayProps = {
 
   colors: { [ key: string ]: string }
 
@@ -25,7 +25,7 @@ type AggregationsControlProps = {
 
 }
 
-export const AggregationsControl = (props: AggregationsControlProps) => {
+export const AggregationsOverlay = (props: AggregationsOverlayProps) => {
 
   const { search, setFilter, setActiveAggregation } = useSearch();
   

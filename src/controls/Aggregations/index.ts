@@ -1,1 +1,2 @@
-export * from './AggregationsControl';
+export * from './AggregationsFullscreen';
+export * from './AggregationsOverlay';
