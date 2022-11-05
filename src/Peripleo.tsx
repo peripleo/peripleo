@@ -21,7 +21,7 @@ const Peripleo = (props: PeripleoProps) => {
 
   return (
     <RecoilRoot>
-      <DeviceStateContextProvider breakPoint={props.breakPoint}>
+      <DeviceStateContextProvider breakPoint={props.breakPoint || 540}>
         <MapProvider>
           {props.children}
         </MapProvider>

@@ -7,23 +7,21 @@ type DeviceStateContextProviderProps = {
 
   children: React.ReactElement
 
-  breakPoint?: number
+  breakPoint: number
 
 }
 
 export const DeviceStateContextProvider = (props: DeviceStateContextProviderProps) => {
 
-  const breakPoint = props.breakPoint || 540;
-
-  const [device, setDevice] = useState<Device>(window.innerWidth > breakPoint ? Device.DESKTOP : Device.MOBILE);
+  const [device, setDevice] = useState<Device>(window.innerWidth > props.breakPoint ? Device.DESKTOP : Device.MOBILE);
 
   useLayoutEffect(() => {
     const onWindowResize = (evt: UIEvent) => {
       const w = window.innerWidth;
 
-      if (w > breakPoint  && device === Device.MOBILE) {
+      if (w > props.breakPoint  && device === Device.MOBILE) {
         setDevice(Device.DESKTOP);
-      } else if (w < breakPoint && device === Device.DESKTOP) {
+      } else if (w < props.breakPoint && device === Device.DESKTOP) {
         setDevice(Device.MOBILE);
       }
     }
@@ -31,7 +29,7 @@ export const DeviceStateContextProvider = (props: DeviceStateContextProviderProp
     window.addEventListener('resize', onWindowResize);
 
     return () => window.removeEventListener('resize', onWindowResize);
-  }, [ device ]);
+  }, [ props.breakPoint, device ]);
 
   return (
     <DeviceStateContext.Provider value={device}>
