@@ -1,3 +1,38 @@
-.p6o-controls-btn.p6o-mobile-menu svg {
+.p6o-controls-btn.p6o-mobile-menu-btn svg {
   font-size: 18px;
+}
+
+.p6o-mobile-menu {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0,0,0,0.85);
+  z-index: 9999;
+  transition: left 200ms;
+}
+
+.p6o-mobile-menu-enter {
+  left: -100%;
+}
+
+.p6o-mobile-menu-enter-done {
+  left: 0;
+}
+
+.p6o-mobile-menu .p6o-mobile-menu-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  color: #fff;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.p6o-mobile-menu .p6o-mobile-menu-close svg {
+  font-size: 35px;
+  stroke: #fff;
 }
