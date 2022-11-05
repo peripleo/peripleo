@@ -13,7 +13,13 @@ export interface MapHover {
 
 }
 
-export interface MapSelection extends MapHover { }
+export interface MapSelection {
+
+  node: any
+
+  feature: MapboxGeoJSONFeature
+
+}
 
 export interface ViewState {
 

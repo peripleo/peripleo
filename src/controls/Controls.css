@@ -12,5 +12,4 @@
 .p6o-controls-container * {
   color: #373737;
   font-size: var(--p6o-font-size);
-  pointer-events: auto;
 }

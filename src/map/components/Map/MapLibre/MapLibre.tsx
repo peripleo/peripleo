@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Point } from 'mapbox-gl';
 import ReactMapGL, { MapLayerMouseEvent, MapRef } from 'react-map-gl';
 import { useRecoilState } from 'recoil';
 import { mapViewState, selectedState } from '../../../state';
@@ -57,44 +58,50 @@ export const MapLibre = (props: MapLibreProps) => {
 
   const layerIds = useMemo(() => React.Children.map(props.children, c => c.props.id) || [], [ props.children ]);
 
-  const onMouseMove = useCallback((evt: MapLayerMouseEvent) => {
+  const getNodeAt = useCallback((point: Point) => {
     if (!mapRef.current)
       return;
 
-    const { point } = evt;
-
     const features = mapRef.current
-      .queryRenderedFeatures(evt.point)
+      .queryRenderedFeatures(point)
       .filter(l => layerIds.find(id => l.layer.id.startsWith(id)));
-
+  
     if (features.length > 0) {
-      const id = features[0]?.properties?.id;
-      const node = graph.getNodeById(id);
+      const feature = features[0];
+      const node = graph.getNodeById(feature.properties?.id);
 
-      if (node) {
-        const updated: MapHover = hover && (id === hover?.node.id) ? {
-          ...hover, ...point // just update mouse position
-        } : {
-          node,
-          feature: features[0],
-          ...point
-        };
+      return { node, feature };
+    }
+  }, [props.children, graph, mapRef.current, layerIds])
 
-        ref.current?.classList.add('hover');
-        setHover(updated);
-      } else {
-        ref.current?.classList.remove('hover');
-        setHover(undefined);  
-      }
+  const onMouseMove = useCallback((evt: MapLayerMouseEvent) => {
+    const { point } = evt;
+    const n = getNodeAt(point);
+
+    if (n) {
+      const { node, feature } = n;
+
+      const updated: MapHover = hover && (node?.id === hover?.node.id) ? {
+        ...hover, ...point // just update mouse position
+      } : {
+        node,
+        feature,
+        ...point
+      };
+
+      ref.current?.classList.add('hover');
+      setHover(updated);
     } else {
       ref.current?.classList.remove('hover');
       setHover(undefined);
     }
-  }, [ props.children, graph, hover ]);
+  }, [ getNodeAt, hover ]);
 
-  const onClick = () => {
-    if (hover) {
-      const clone = JSON.parse(JSON.stringify(hover));
+  const onClick = (evt: MapLayerMouseEvent) => {
+    const n = getNodeAt(evt.point);
+
+    if (n) {
+      const clone = JSON.parse(JSON.stringify(n));
       setHover(null);
       setSelected(clone);
     } else {
