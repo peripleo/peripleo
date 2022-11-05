@@ -116,7 +116,7 @@ export const MapLibre = (props: MapLibreProps) => {
 
       {isValidViewState(viewState) &&
         <ReactMapGL
-          clickTolerance={device.isTouchDevice ? 20 : 3}
+          clickTolerance={device.isTouchDevice ? 10 : 3}
           ref={mapRef}
           initialViewState={viewState}
           mapStyle={props.mapStyle}

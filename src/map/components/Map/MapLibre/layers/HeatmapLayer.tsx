@@ -1,6 +1,7 @@
 import React from 'react';
 import { Source, Layer } from 'react-map-gl';
 import chroma from 'chroma-js';
+import { useDeviceState } from '../../../../../device';
 
 const DEFAULT_SCALE = [
   0,
@@ -111,6 +112,18 @@ const pointStyle = (color: string) => ({
   }
 });
 
+const clickbufferStyle = (radius: number) => ({
+  'type': 'circle',
+  'paint': {
+    'circle-radius': radius,
+    'circle-color': 'transparent',
+    'circle-stroke-width': 0,
+    'circle-opacity': 0.5,
+    'circle-stroke-opacity': 0
+  }
+});
+
+
 type HeatmapLayerProps = {
 
   data: any
@@ -123,14 +136,22 @@ type HeatmapLayerProps = {
 
 export const HeatmapLayer = (props: HeatmapLayerProps) => {
 
+  const device = useDeviceState();
+
   const heatmap = coverageStyle(DEFAULT_SCALE);
 
   const point = pointStyle(props.color);
 
+  const clickbuffer = device.isTouchDevice ? clickbufferStyle(15) : null;
+
   return (
     <Source type="geojson" data={props.data}>
       {/* @ts-ignore */}
+      {clickbuffer && <Layer id={`${props.id}-clickbuffer`} {...clickbuffer} /> }
+
+      {/* @ts-ignore */}
       <Layer id={`${props.id}-ht`} {...heatmap} />
+
       {/* @ts-ignore */}
       <Layer id={`${props.id}-pt`} {...point} />
     </Source>
