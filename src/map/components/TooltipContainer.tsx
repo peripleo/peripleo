@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 const OFFSET = [15, 15];
 
@@ -25,15 +25,18 @@ export const TooltipContainer = (props: TooltipContainerProps) => {
   const [ left, setLeft ] = useState(x + OFFSET[0]);
   const [ top, setTop ] = useState(y + OFFSET[1]);
 
+  const renderedTooltip = useMemo(() => 
+    node ? tooltip({ node, feature }) : null, [ node, feature ]);
+
   useEffect(() => {
     if (el.current) {
       const elemBounds = 
-        (el.current.firstChild as Element).getBoundingClientRect();
+        (el.current.firstChild as Element)?.getBoundingClientRect();
         
       const mapBounds =
         el.current.closest('.p6o-map-container')?.getBoundingClientRect();
 
-      if (mapBounds) {
+      if (elemBounds && mapBounds) {
         const exceedsRight = elemBounds.right > mapBounds.right;
         const exceedsBottom = elemBounds.bottom > mapBounds.bottom;
 
@@ -46,13 +49,12 @@ export const TooltipContainer = (props: TooltipContainerProps) => {
     }
   }, [el.current?.getBoundingClientRect()]);
 
-  return (
+  return renderedTooltip && (
     <div 
       ref={el}
       className="p6o-map-tooltip-container"
       style={{left, top, zIndex: 1 }}>
-
-      {tooltip({node, feature})}
+      {renderedTooltip}
     </div>
   );
 
