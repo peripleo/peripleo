@@ -7,6 +7,8 @@ type PeripleoProps = {
 
   children: React.ReactElement 
 
+  breakPoint?: number
+
 }
 
 // Peripleo acts as a context provider. Every component
@@ -19,7 +21,7 @@ const Peripleo = (props: PeripleoProps) => {
 
   return (
     <RecoilRoot>
-      <DeviceStateContextProvider breakPoint={540}>
+      <DeviceStateContextProvider breakPoint={props.breakPoint}>
         <MapProvider>
           {props.children}
         </MapProvider>
