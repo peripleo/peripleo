@@ -8,11 +8,12 @@
   left: -100%;
   height: 100%;
   width: 100%;
-  padding: 0 50px 0 20px;
+  padding: 0 60px 0 10px;
   box-sizing: border-box;
   background-color: rgba(0, 0, 0, 0.95);
   z-index: 9999;
   transition: left 200ms;
+  overflow-y: scroll;
 }
 
 .p6o-mobile-menu-enter {
@@ -24,9 +25,9 @@
 }
 
 .p6o-mobile-menu .p6o-mobile-menu-close {
-  position: absolute;
+  position: fixed;
   top: 25px;
-  right: 15px;
+  right: 10px;
   color: #fff;
   background: none;
   border: none;
@@ -40,8 +41,5 @@
 }
 
 .p6o-mobile-menu main {
-  height: 100%;
-  box-sizing: border-box;
-  overflow-y: scroll;
   padding: 20px 0 20px 10px;
 }
