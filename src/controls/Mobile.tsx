@@ -1,10 +1,10 @@
 import React from 'react';
-import { Device, useDeviceState } from '../device';
+import { Size, useDeviceState } from '../device';
 
 export const Mobile = (props: { children: React.ReactElement }) => {
 
   const device = useDeviceState();
 
-  return device === Device.MOBILE ? props.children : null;
+  return device.size === Size.MOBILE ? props.children : null;
 
 }

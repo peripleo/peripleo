@@ -1,7 +1,12 @@
-import React, { createContext, useContext, useEffect, useLayoutEffect, useState } from 'react';
-import { Device } from './Device';
+import React, { createContext, useContext, useLayoutEffect, useState } from 'react';
+import { Device, Size } from './Device';
 
-const DeviceStateContext = createContext<Device>(Device.DESKTOP);
+const isTouchDevice = (('ontouchstart' in window) ||
+  (navigator.maxTouchPoints > 0) ||
+  // @ts-ignore
+  (navigator.msMaxTouchPoints > 0));
+
+const DeviceStateContext = createContext<Device>({ size: Size.DESKTOP, isTouchDevice });
 
 type DeviceStateContextProviderProps = {
 
@@ -13,16 +18,19 @@ type DeviceStateContextProviderProps = {
 
 export const DeviceStateContextProvider = (props: DeviceStateContextProviderProps) => {
 
-  const [device, setDevice] = useState<Device>(window.innerWidth > props.breakPoint ? Device.DESKTOP : Device.MOBILE);
+  const [device, setDevice] = useState<Device>({
+    size: window.innerWidth > props.breakPoint ? Size.DESKTOP : Size.MOBILE, 
+    isTouchDevice
+  });
 
   useLayoutEffect(() => {
     const onWindowResize = (evt: UIEvent) => {
       const w = window.innerWidth;
 
-      if (w > props.breakPoint  && device === Device.MOBILE) {
-        setDevice(Device.DESKTOP);
-      } else if (w < props.breakPoint && device === Device.DESKTOP) {
-        setDevice(Device.MOBILE);
+      if (w > props.breakPoint  && device.size === Size.MOBILE) {
+        setDevice({ ...device, size: Size.DESKTOP });
+      } else if (w < props.breakPoint && device.size === Size.DESKTOP) {
+        setDevice({ ...device, size: Size.MOBILE });
       }
     }
 
