@@ -8,7 +8,9 @@
   left: -100%;
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.9);
+  padding: 0 50px 0 20px;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.95);
   z-index: 9999;
   transition: left 200ms;
 }
@@ -23,7 +25,7 @@
 
 .p6o-mobile-menu .p6o-mobile-menu-close {
   position: absolute;
-  top: 15px;
+  top: 25px;
   right: 15px;
   color: #fff;
   background: none;
@@ -35,4 +37,11 @@
 .p6o-mobile-menu .p6o-mobile-menu-close svg {
   font-size: 35px;
   stroke: #fff;
+}
+
+.p6o-mobile-menu main {
+  height: 100%;
+  box-sizing: border-box;
+  overflow-y: scroll;
+  padding: 20px 0 20px 10px;
 }

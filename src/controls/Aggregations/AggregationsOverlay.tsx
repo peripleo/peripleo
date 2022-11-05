@@ -27,7 +27,7 @@ export const AggregationsOverlay = (props: AggregationsProps) => {
   }
 
   return (
-    <div className="p6o-aggs p6o-aggs-overlay">
+    <div className={props.fullscreen ? "p6o-aggs p6o-aggs-overlay fullscreen" : "p6o-aggs p6o-aggs-overlay"}>
       <AggregationsCarousel 
         aggregations={displayed} 
         activeAggregation={activeAggregation}

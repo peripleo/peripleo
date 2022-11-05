@@ -4,4 +4,6 @@ export type AggregationsProps = {
 
   displayFacets?: string[]
 
+  fullscreen?: boolean
+
 }
