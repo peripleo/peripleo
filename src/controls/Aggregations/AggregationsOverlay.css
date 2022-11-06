@@ -1,6 +1,6 @@
 .p6o-aggs {
   width: 340px;
-  pointer-events: none;
+  pointer-events: none !important;
 }
 
 .p6o-aggs.fullscreen {
@@ -60,7 +60,7 @@
 }
 
 .p6o-aggs-values {
-  pointer-events: none;
+  pointer-events: none !important;
 }
 
 .p6o-aggs-values ul {
