@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { MapRef, LngLatLike } from 'react-map-gl';
 import centroid from '@turf/centroid';
 import { AllGeoJSON } from '@turf/helpers';
+import { IoCloseOutline } from 'react-icons/io5';
 import { MapSelection, ViewState } from '../types';
 import { Size, useDeviceState } from '../../device';
 
@@ -44,8 +45,16 @@ export const PopupContainer = (props: PopupContainerProps) => {
       className={device.size === Size.DESKTOP ? "p6o-map-popup-container" : "p6o-map-popup-container-mobile"}
       style={{ zIndex: 9, position: 'absolute', ...offset }}>
 
-      {popup({...props, onClose: props.onClose })}
+      <button
+        className="p6o-map-popup-close"
+        /* @ts-ignore */
+        onClick={props.onClose}>
+        <IoCloseOutline />
+      </button>
 
+      <main>
+        {popup({...props, onClose: props.onClose })}
+      </main>
     </div>
   );
 
