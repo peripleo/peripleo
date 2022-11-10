@@ -50,6 +50,12 @@ export const DeckGLContainer = (props: DeckGLContainerProps) => {
     }
   }, [ ref.current ]);
 
+  useEffect(() => {
+    if (ref.current && debouncedViewState) {
+      setInitialViewState(getDefaultViewState(props.defaultBounds, ref.current));
+    }
+  }, [ props.layers ]);
+
   // When global viewState changes from the outside (e.g.
   // because the Zoom component modifies it), update
   // the initialViewState, so that DeckGL syncs the map.
