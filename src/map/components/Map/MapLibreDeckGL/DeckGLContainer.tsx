@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { WebMercatorViewport } from '@deck.gl/core/typed';
 import { useDebounce } from 'use-debounce';
 import { useRecoilState } from 'recoil';
 import { mapViewState } from '../../../state';
@@ -37,18 +38,37 @@ export const DeckGLContainer = (props: DeckGLContainerProps) => {
   const [ globalViewState, setGlobalState ] = useRecoilState(mapViewState);
 
   useEffect(() => {
-    if (ref.current) {
+    if (ref.current && debouncedViewState) {
       const { current } = ref;
 
+      // Workaround: forces a refresh on the base map if the container element resizes.
+      // Without this workaround, only the DeckGL layers update, while the basemap
+      // remains "stuck" underneath.
+      // See this discussion: https://github.com/performant-software/itsb/pull/29
       const resizeObserver = new ResizeObserver((entries: ResizeObserverEntry[]) => {
-        setInitialViewState(getDefaultViewState(props.defaultBounds, current));
+        const currentVP = new WebMercatorViewport(debouncedViewState);
+
+        const nw = currentVP.unproject([0, 0]) as [number, number];
+        const se = currentVP.unproject([currentVP.width, currentVP.height]) as [number, number];
+        
+        // Current container DOM element size after the resize
+        const { offsetWidth, offsetHeight } = current;
+
+        // Compute a new viewport, using actual container element size
+        const updatedVP = new WebMercatorViewport({
+          width: offsetWidth,
+          height: offsetHeight
+        });
+      
+        const updatedViewState = updatedVP.fitBounds([nw, se], {});
+        setInitialViewState(updatedViewState);
       });
 
       resizeObserver.observe(current);
 
       return () => resizeObserver.disconnect();
     }
-  }, []);
+  }, [ debouncedViewState ]);
 
   // Sync debounced state upwards, to global app state
   useEffect(() => {
