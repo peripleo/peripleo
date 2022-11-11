@@ -36,6 +36,20 @@ export const DeckGLContainer = (props: DeckGLContainerProps) => {
   // Application-wide Recoil viewState 
   const [ globalViewState, setGlobalState ] = useRecoilState(mapViewState);
 
+  useEffect(() => {
+    if (ref.current) {
+      const { current } = ref;
+
+      const resizeObserver = new ResizeObserver((entries: ResizeObserverEntry[]) => {
+        setInitialViewState(getDefaultViewState(props.defaultBounds, current));
+      });
+
+      resizeObserver.observe(current);
+
+      return () => resizeObserver.disconnect();
+    }
+  }, []);
+
   // Sync debounced state upwards, to global app state
   useEffect(() => {
     if (debouncedViewState)
@@ -49,12 +63,6 @@ export const DeckGLContainer = (props: DeckGLContainerProps) => {
       setInitialViewState(defaultState);
     }
   }, [ ref.current ]);
-
-  useEffect(() => {
-    if (ref.current && debouncedViewState) {
-      setInitialViewState(getDefaultViewState(props.defaultBounds, ref.current));
-    }
-  }, [ props.layers ]);
 
   // When global viewState changes from the outside (e.g.
   // because the Zoom component modifies it), update
