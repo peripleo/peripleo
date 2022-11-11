@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react';
+import React, { SyntheticEvent, useCallback, useMemo, useRef } from 'react';
 import ReactMapGL from 'react-map-gl';
 // @ts-ignore
-import DeckGL from '@deck.gl/react';
+import DeckGL, { Deck } from '@deck.gl/react';
 import { useSearch, useGraph } from '../../../../store';
 import { DeckGLLayer, ViewState} from '../../../types';
 
@@ -22,9 +22,13 @@ type DeckGLMapProps = {
 
   popup: Function
 
+  onClick: Function
+
 }
 
 export const DeckGLMap = (props: DeckGLMapProps) => {
+
+  const deckRef = useRef<Deck>(null);
 
   const { search } = useSearch();
 
@@ -39,17 +43,33 @@ export const DeckGLMap = (props: DeckGLMapProps) => {
       [...all, ...l] : [...all, l];
   }, [] as Object[]) : [], [ data, props.layers ]);
 
-  return (
-    <DeckGL
-      initialViewState={props.initialViewState}
-      controller={true} 
-      onViewStateChange={props.onViewStateChange}
-      layers={layers}
-      getTooltip={(feature: any) => props.tooltip({...feature, graph, search})}>
+  const onClick = useCallback((event: React.MouseEvent) => {
+    const { offsetX, offsetY } = event.nativeEvent;
 
-      <ReactMapGL
-        mapStyle={props.mapStyle} />
-    </DeckGL>    
+    const pickInfo = deckRef.current.pickObject({
+      x: offsetX,
+      y: offsetY,
+      radius: 3
+    });
+
+    if (pickInfo && props.onClick)
+      props.onClick(pickInfo);
+  }, [ props.onClick, deckRef ]);
+
+  return (
+    <div onClick={onClick}>
+      <DeckGL
+        ref={deckRef}
+        initialViewState={props.initialViewState}
+        controller={true} 
+        onViewStateChange={props.onViewStateChange}
+        layers={layers}
+        getTooltip={(feature: any) => props.tooltip({...feature, graph, search})}>
+
+        <ReactMapGL
+          mapStyle={props.mapStyle} />
+      </DeckGL>    
+    </div>
   )
 
 }

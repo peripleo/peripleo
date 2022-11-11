@@ -19,6 +19,8 @@ type DeckGLContainerProps = {
 
   popup: Function
 
+  onClick: Function
+
 }
 
 export const DeckGLContainer = (props: DeckGLContainerProps) => {
