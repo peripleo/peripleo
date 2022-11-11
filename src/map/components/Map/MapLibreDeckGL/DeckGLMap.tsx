@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import ReactMapGL from 'react-map-gl';
 // @ts-ignore
 import DeckGL, { Deck } from '@deck.gl/react';
