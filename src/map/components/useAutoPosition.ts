@@ -7,9 +7,13 @@ export const useAutoPosition = (
   offset: [number, number] = [15, 15]
 ) => {
 
-  const [ left, setLeft ] = useState(x + offset[0]);
+  const [ left, setLeft ] = useState(x); // + offset[0]);
 
-  const [ top, setTop ] = useState(y + offset[1]);
+  const [ top, setTop ] = useState(y); // + offset[1]);
+
+  useEffect(() => setLeft(x), [ x ]);
+
+  useEffect(() => setTop(y), [ y ]);
 
   useEffect(() => {
     if (ref.current) {
@@ -23,11 +27,13 @@ export const useAutoPosition = (
         const exceedsRight = elemBounds.right > mapBounds.right;
         const exceedsBottom = elemBounds.bottom > mapBounds.bottom;
 
-        if (exceedsRight) 
+        if (exceedsRight) {
           setLeft(mapBounds.right - elemBounds.width - offset[0]);
+        }
 
-        if (exceedsBottom)
+        if (exceedsBottom) {
           setTop(mapBounds.bottom - elemBounds.height - offset[1]);
+        }
       }
     }
   }, [ ref.current?.getBoundingClientRect() ]);
