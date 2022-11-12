@@ -4,12 +4,12 @@ export const useAutoPosition = (
   ref: React.RefObject<Element>, 
   x: number, 
   y: number, 
-  offset: [number, number] = [15, 15]
+  padding: [number, number, number, number] = [15, 0, 0, 15]
 ) => {
 
-  const [ left, setLeft ] = useState(x); // + offset[0]);
+  const [ left, setLeft ] = useState(x + padding[3]);
 
-  const [ top, setTop ] = useState(y); // + offset[1]);
+  const [ top, setTop ] = useState(y + padding[0]);
 
   useEffect(() => setLeft(x), [ x ]);
 
@@ -24,15 +24,15 @@ export const useAutoPosition = (
         ref.current.closest('.p6o-map-container')?.getBoundingClientRect();
 
       if (elemBounds && mapBounds) {
-        const exceedsRight = elemBounds.right > mapBounds.right;
-        const exceedsBottom = elemBounds.bottom > mapBounds.bottom;
+        const exceedsRight = elemBounds.right + padding[1] > mapBounds.right;
+        const exceedsBottom = elemBounds.bottom + padding[2] > mapBounds.bottom;
 
         if (exceedsRight) {
-          setLeft(mapBounds.right - elemBounds.width - offset[0]);
+          setLeft(mapBounds.right - elemBounds.width - padding[1] - padding[3]);
         }
 
         if (exceedsBottom) {
-          setTop(mapBounds.bottom - elemBounds.height - offset[1]);
+          setTop(mapBounds.bottom - elemBounds.height - padding[0] - padding[2]);
         }
       }
     }
