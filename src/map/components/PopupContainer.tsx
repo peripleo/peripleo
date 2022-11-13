@@ -33,7 +33,8 @@ export const PopupContainer = (props: PopupContainerProps) => {
 
   const [ offset, setOffset ] = useState<{ left: number, top: number }>({ left: 0, top: 0 });
 
-  const { top, left } = useAutoPosition(el, offset.left, offset.top);
+  const { top, left } = device.size === Size.DESKTOP ?
+    useAutoPosition(el, offset.left, offset.top) : { top: 0, left: 0 };
 
   useEffect(() => {
     if (selected && device.size === Size.DESKTOP) {
@@ -48,7 +49,7 @@ export const PopupContainer = (props: PopupContainerProps) => {
   const renderedPopup = useMemo(() => 
     selected ? popup({ ...props, onClose: props.onClose }) : null, [ selected ]);
 
-  return renderedPopup && offset.left > 0 && offset.top > 0 && (
+  return renderedPopup && (
     <div 
       className={device.size === Size.DESKTOP ? "p6o-map-popup-container" : "p6o-map-popup-container-mobile"}
       style={{ zIndex: 9, position: 'absolute', top, left }}>
