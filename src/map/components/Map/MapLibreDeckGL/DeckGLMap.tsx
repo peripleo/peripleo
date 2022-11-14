@@ -1,11 +1,11 @@
 import React, { useCallback, useMemo, useRef } from 'react';
 import ReactMapGL from 'react-map-gl';
-// @ts-ignore
-import DeckGL, { Deck } from '@deck.gl/react';
+import DeckGL from '@deck.gl/react/typed';
 import { useSearch, useGraph } from '../../../../store';
 import { DeckGLLayer, ViewState} from '../../../types';
 
 import '../Map.css';
+
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 type DeckGLMapProps = {
@@ -28,7 +28,7 @@ type DeckGLMapProps = {
 
 export const DeckGLMap = (props: DeckGLMapProps) => {
 
-  const deckRef = useRef<Deck>(null);
+  const deckRef = useRef(null);
 
   const { search } = useSearch();
 
@@ -62,6 +62,7 @@ export const DeckGLMap = (props: DeckGLMapProps) => {
         ref={deckRef}
         initialViewState={props.initialViewState}
         controller={true} 
+        // @ts-ignore
         onViewStateChange={props.onViewStateChange}
         layers={layers}
         getTooltip={(feature: any) => props.tooltip({...feature, graph, search})}>

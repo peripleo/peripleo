@@ -1,6 +1,6 @@
 {
   "name": "@peripleo/peripleo",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Composable UI components for map-based search interfaces",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -45,9 +45,9 @@
     "react-dom": "^18.2.0"
   },
   "dependencies": {
-    "@deck.gl/core": "^8.8.19",
-    "@deck.gl/layers": "^8.8.19",
-    "@deck.gl/react": "^8.8.19",
+    "@deck.gl/core": "8.8.16",
+    "@deck.gl/layers": "8.8.16",
+    "@deck.gl/react": "8.8.16",
     "@turf/bbox": "^6.5.0",
     "@turf/centroid": "^6.5.0",
     "chroma-js": "^2.4.2",

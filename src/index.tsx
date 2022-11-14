@@ -8,6 +8,6 @@ export * from './map';
 export * from './store';
 
 // @ts-ignore
-export * from '@deck.gl/layers';
+export * from '@deck.gl/layers/typed';
 
 export default Peripleo;

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-// @ts-ignore
-import { WebMercatorViewport } from '@deck.gl/core';
+import { WebMercatorViewport } from '@deck.gl/core/typed';
 import { useDebounce } from 'use-debounce';
 import { useRecoilState } from 'recoil';
 import { mapViewState } from '../../../state';
