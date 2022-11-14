@@ -1,14 +1,25 @@
 
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
-    "lib": ["es2017", "es7", "es6", "dom"],
+    "baseUrl": ".",
+    "checkJs": false,
     "declaration": true,
-    "outDir": "dist",
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": false,
+    "isolatedModules": true,
     "jsx": "react",
+    "lib": ["es2017", "es7", "es6", "dom"],
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "outDir": "./dist",
+    "paths": { "@/*": ["src/*"] },
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
     "strict": true,
-    "esModuleInterop": true
+    "target": "ESNext"
   },
   "exclude": [
     "node_modules",

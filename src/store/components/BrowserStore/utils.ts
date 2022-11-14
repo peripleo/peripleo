@@ -1,5 +1,5 @@
 import bbox from '@turf/bbox';
-import { Bounds, Feature } from './GraphTypes';
+import { Bounds, Feature } from '../../types';
 
 /** 
  * Because this is frequently mixed up in user data: 
