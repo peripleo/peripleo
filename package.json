@@ -1,6 +1,6 @@
 {
   "name": "@peripleo/peripleo",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Composable UI components for map-based search interfaces",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
