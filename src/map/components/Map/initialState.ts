@@ -11,8 +11,3 @@ export const getDefaultViewState = (initialBounds: [[number, number], [number, n
 
   return viewport.fitBounds(initialBounds, {});
 }
-
-export const isValidViewState = (viewState: ViewState) => {
-  const { longitude, latitude, zoom } = viewState;
-  return longitude && latitude && zoom;
-}

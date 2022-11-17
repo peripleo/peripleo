@@ -2,12 +2,12 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Point } from 'mapbox-gl';
 import ReactMapGL, { MapLayerMouseEvent, MapRef } from 'react-map-gl';
 import { useRecoilState } from 'recoil';
-import { mapViewState, selectedState } from '../../../state';
+import { mapViewState, isValidViewState, selectedState } from '../../../state';
 import { MapHover } from '../../../types';
 import { useDeviceState } from '../../../../device';
 import { useGraph, useSearch } from '../../../../store';
 import { PopupContainer, TooltipContainer } from '../..';
-import { getDefaultViewState, isValidViewState } from '../initialState';
+import { getDefaultViewState } from '../initialState';
 
 import '../Map.css';
 import 'maplibre-gl/dist/maplibre-gl.css';
