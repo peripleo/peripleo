@@ -6,7 +6,7 @@ import './InfoControl.css';
 
 export type InfoProps = {
 
-  popup: React.ReactElement
+  children: React.ReactElement
 
 }
 
@@ -26,8 +26,9 @@ export const InfoControl = (props: InfoProps) => {
 
       {modalOpen && (
         <InfoModal
-          popup={props.popup} 
-          onClose={() => setModalOpen(false)} />
+          onClose={() => setModalOpen(false)}>
+          {props.children}
+        </InfoModal>
       )}
     </>
   )

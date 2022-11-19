@@ -4,7 +4,7 @@ import { IoCloseOutline } from 'react-icons/io5';
 
 export type InfoModalProps = {
 
-  popup: React.ReactElement
+  children: React.ReactElement
 
   onClose: EventHandler<any>;
   
@@ -24,7 +24,7 @@ export const InfoModal = (props: InfoModalProps) => {
   }, []);
 
   return ReactDOM.createPortal(
-    <div className="p6o-info-modal-bg">
+    <div className="p6o-info-modal-bg" onClick={props.onClose}>
       <button
         className="p6o-info-modal-close"
         onClick={props.onClose}>
@@ -33,7 +33,7 @@ export const InfoModal = (props: InfoModalProps) => {
 
       </button>
       
-      {props.popup}
+      {props.children}
     </div>,
 
     document.body
