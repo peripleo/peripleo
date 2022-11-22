@@ -45,5 +45,9 @@ Peripleo is __not an alternative to existing map and geo-visualization libraries
 
 [...]
 
+## Writing Custom Stores
+
+[...]
+
 
 
