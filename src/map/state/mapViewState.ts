@@ -8,5 +8,8 @@ export const mapViewState = atom<ViewState>({
 
 export const isValidViewState = (viewState: ViewState) => {
   const { longitude, latitude, zoom } = viewState;
-  return longitude && latitude && zoom;
+
+  const def = x => x !== undefined;
+
+  return def(longitude) && def(latitude) && def(zoom);
 }
