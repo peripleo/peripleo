@@ -65,7 +65,7 @@ export const DeckGLMap = (props: DeckGLMapProps) => {
         // @ts-ignore
         onViewStateChange={props.onViewStateChange}
         layers={layers}
-        getTooltip={(feature: any) => props.tooltip({...feature, graph, search})}>
+        getTooltip={props.tooltip ? (feature: any) => props.tooltip({...feature, graph, search}) : null}>
 
         <ReactMapGL
           mapStyle={props.mapStyle} />

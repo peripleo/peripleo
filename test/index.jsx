@@ -32,7 +32,7 @@ const App = () => {
         edges={edges}
         index={['properties.title']}>
 
-        <Map.MapLibre
+        <Map.MapLibreDeckGL
           mapStyle="https://api.maptiler.com/maps/voyager/style.json?key=cqqmcLw28krG9Fl7V3kg"
           defaultBounds={[[-15.764914, 33.847608], [35.240991, 58.156214]]}> 
 
@@ -44,7 +44,7 @@ const App = () => {
               4, 18
             ]} />
 
-        </Map.MapLibre>
+        </Map.MapLibreDeckGL>
 
         <Controls>
           <ZoomControl />
