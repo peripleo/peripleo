@@ -1,7 +1,5 @@
 # Peripleo
 
-React components for map-based search interfaces.
-
 Peripleo is a React utility library that aims to simplify the development of map-based search and data visualization interfaces. Peripleo provides:
 
 - an __architecture pattern__ and useful helpers to simplify application design
