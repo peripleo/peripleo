@@ -95,11 +95,13 @@ function App() {
 
 ### BrowserStore
 
-The __BrowserStore__ is a simple store implementation for a local dataset. You should view the BrowserStore mostly as a demo component. In practice, you will want to implement your own, custom store, which meets the needs of your application and models your domain more closely. However, it may be useful to adopt some of the BrowserStore's design principles and features:
+The __BrowserStore__ implementats a simple local data store with standard features.
 
 - Data is modeled as a __graph__. Nodes in the graph can be geographic features. In this case, they can be mapped directly. Or they don't have their own coordinates or geometry, but are linked to geographic feature through edges in the graph.
 - For faster geographic queries ("show me everything in this area"), the BrowserStore includes a __spatial index__.
 - The BrowserStore includes a local __fulltext index__ for text searches.
+
+> You should view the BrowserStore mostly as a demo component. In practice, you will want to implement your own, custom store, which meets the needs of your application and models your domain more closely. However, it may be useful to adopt some of the BrowserStore's design principles and features.
 
 ### Map
 
