@@ -30,7 +30,7 @@ Essentially, Peripleo provides a [Model-View-Presenter](https://en.wikipedia.org
 
 Below is a minimal Peripleo application which:
 
-- loads a list of two GeoJSON features into the `BrowserStore`
+- loads a list of two GeoJSON features into a `BrowserStore`
 - enables text search on features' `properties.title` field
 - instantiates a MapLibre map with default initial map bounds and a `PointLayer`
 - adds a text search box and zoom buttons
