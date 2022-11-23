@@ -9,9 +9,11 @@ Peripleo is a React utility library that aims to simplify the development of map
 
 ![An example screenshot of a Peripleo map](peripleo.jpg)
 
-## Why not MapBox, MapLibre, etc.?
+## Relation to Other JS Map Libraries
 
-Peripleo is __not an alternative to existing map and geo-visualization libraries__ like [MapBox GL JS](https://www.mapbox.com/mapbox-gljs), [MapLibre](https://maplibre.org/) or [DeckGL](https://deck.gl/)! On the contrary: it uses these libraries under the hood, and complements them with additional utilities and UI components. Think of Peripleo as an add-on toolbox that helps you keep your development [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) when you build your next map application.
+Peripleo is __not an alternative to existing map and geo-visualization libraries__ like [MapBox GL JS](https://www.mapbox.com/mapbox-gljs), [MapLibre](https://maplibre.org/) or [DeckGL](https://deck.gl/)! On the contrary: it uses these libraries under the hood, and complements them with additional utilities and UI components.
+
+Think of Peripleo as an add-on toolbox that helps you keep your development [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) when you build your next map application.
 
 ## Key Concepts
 
