@@ -13,10 +13,12 @@ export const BrowserSearchHandler = (props: { children: React.ReactElement }) =>
 
   useEffect(() => {
     if (search.status === SearchStatus.PENDING) {
-      const items = graph.getAllFeatures();
-  
+      const items = search.args.query ? 
+        graph.search(search.args.query) :
+        graph.getAllFeatures();
+        
       const total = items.reduce((total, feature) =>
-        total + feature.properties.count, 0);
+        total + (feature.properties?.count || 1), 0);
   
       setSearchState({
         args: search.args,

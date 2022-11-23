@@ -5,6 +5,7 @@ import Peripleo, {
   Controls, 
   Map, 
   PointLayer,
+  SearchBox,
   ZoomControl 
 } from '../src';
 
@@ -30,7 +31,7 @@ const App = () => {
       <BrowserStore 
         nodes={nodes}
         edges={edges}
-        index={['properties.title']}>
+        index={['title']}>
 
         <Map.MapLibre
           mapStyle="https://api.maptiler.com/maps/voyager/style.json?key=cqqmcLw28krG9Fl7V3kg"
@@ -47,6 +48,7 @@ const App = () => {
         </Map.MapLibre>
 
         <Controls>
+          <SearchBox />
           <ZoomControl />
         </Controls>
 

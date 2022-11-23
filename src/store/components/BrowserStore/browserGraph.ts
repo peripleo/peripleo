@@ -148,4 +148,7 @@ export class BrowserGraph implements IGraph {
     return withUnlocatedNeighbourhood;
   }
 
+  search = (query: string) =>
+    this.fulltextIndex.search(query).map((result) => result.item); 
+
 }
