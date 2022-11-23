@@ -93,9 +93,62 @@ function App() {
 
 ## Components
 
-#### BrowserStore
+### BrowserStore
+
+The __BrowserStore__ is a simple store implementation for a local dataset. You should view the BrowserStore mostly as a demo component. In practice, you will want to implement your own, custom store, which meets the needs of your application and models your domain more closely. However, it may be useful to adopt some of the BrowserStore's design principles and features:
+
+- Data is modeled as a __graph__. Nodes in the graph can be geographic features. In this case, they can be mapped directly. Or they don't have their own coordinates or geometry, but are linked to geographic feature through edges in the graph.
+- For faster geographic queries ("show me everything in this area"), the BrowserStore includes a __spatial index__.
+- The BrowserStore includes a local __fulltext index__ for text searches.
+
+### Map
+
+The __Map__ component provides utility wrappers around different map libraries. Peripleo currently supports the following libraries:
+
+- [MapLibre](https://maplibre.org/) (through [react-map-gl](https://visgl.github.io/react-map-gl/))
+- [DeckGL](https://deck.gl/) (through MapLibre and react-map-gl)
+
+### Controls
+
+Peripleo provides a collection of UI controls for map search applications.
+
+#### Aggregations
 
 [...]
+
+#### Info
+
+An Info button which opens a configurable 'About' modal, centered above the map (work in progress).
+
+#### Mobile Menu
+
+A mobile 'Hamburger'-type menu button that opens a slide-in menu (work in progress).
+
+#### MyLocation
+
+A 'My Location' button that uses the HTML5 location API to zoom and center the map on the users current location.
+
+#### SearchBox
+
+A simple text search box.
+
+#### Zoom
+
+Zoom buttons.
+
+## Responsive Design
+
+Peripleo provides two helpers to simplify the development of responsive applications that work on different devices and screen sizes.
+
+#### useDevice Hook
+
+The `useDevice` hook is available to every component inside the `<Peripleo>` root tag. It returns the current device state: an object with a `size` string property (either __DESKTOP__ or __MOBILE__), and an `isTouchDevice` boolean property.
+
+The size is determined by the screen width, and will update if the user resizes the screen. The default break point is 540 pixels, and can be changed through the `breakPoint` prop in the `<Peripleo>` component. 
+
+#### Desktop and Mobile Tags
+
+For convenience, Peripleo provides `<Desktop>` and `<Mobile>` tags. Components enclosed with a `<Desktop>` tag are only mounted if the device size is larger than the break point value. Vice versa, components inside `<Mobile>` are only mounted if the device size is lower than the break point value. 
 
 ## Writing Custom Stores
 
