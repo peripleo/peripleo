@@ -34,6 +34,15 @@ Below is a minimal Peripleo application which:
 - adds a text search box and zoom buttons
 
 ```jsx
+import Peripleo, { 
+  BrowserStore, 
+  Controls, 
+  Map, 
+  PointLayer,
+  SearchBox,
+  ZoomControl 
+} from '@peripleo/peripleo';
+
 const features = [{
   "id": "http://sws.geonames.org/2772635",
   "type": "Feature",
