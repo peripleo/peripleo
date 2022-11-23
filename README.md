@@ -4,6 +4,8 @@ Peripleo is a React utility library that aims to simplify the development of map
 
 > Peripleo is in an early stage & under active development. Some parts of it are incomplete (or maybe even broken) - but we are working on it ;-)
 
+![An example screenshot of a Peripleo map](peripleo.jpg)
+
 Peripleo provides:
 
 - an __architecture pattern__ and some useful helpers to simplify application design
