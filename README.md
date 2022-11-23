@@ -2,14 +2,12 @@
 
 > __Important:__ Peripleo is currently in alpha state. Many parts are still incomplete and under active development.
 
-Peripleo is a React utility library that aims to simplify the development of map-based search and data visualization interfaces. 
-
-![An example screenshot of a Peripleo map](peripleo.jpg)
-
-Peripleo provides:
+Peripleo is a React utility library that aims to simplify the development of map-based search and data visualization interfaces. Peripleo provides:
 
 - an __architecture pattern__ and some useful helpers to simplify map application development
 - a __library of React components__ useful when building map search interfaces
+
+![An example screenshot of a Peripleo map](peripleo.jpg)
 
 ## Why not MapBox, MapLibre, etc.?
 
