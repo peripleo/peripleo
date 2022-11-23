@@ -20,12 +20,11 @@ Think of Peripleo as an add-on toolbox that helps you keep your development [DRY
 Applications built with Peripleo follow a specific design blueprint: 
 
 - A __Store__ acts as the source of data. The store could be local, meaning that all data is loaded when the application starts. Or it could be an adapter to a remote database or API.
-- The application has a global __Search State__, a set of query arguments and filters, usually defined by the user. The Search State defines which subset of data from the Store is currently presented in the UI.
-- A __Search Adapter__ observes changes to the Search State, and retrieves new search results from the Store in response to the changes.
+- The application has a global __Search State__, a set of query arguments and filters, usually defined by the user. The Search State defines which subset of data from the Store is currently visible in the UI.
+- The __Search Adapter__ observes changes to the Search State, and retrieves new search results from the Store in response to the changes.
 - The __Map__ visualizes the search results via different __Layers__.
 
-Essentially, Peripleo is a [Model-View-Presenter](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter)
-architecture for map applications: the __Store__ represents the model; the __Search Adapter__ acts as the presenter that translates the current search state into a result formatted for display; and the __Map__ is the view that visualizes the result. Within this architecture, Peripleo manages the plumbing between components, and provides interfaces for plugging  your own domain model into the application.
+Essentially, Peripleo provides a [Model-View-Presenter](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter) architecture for your map application: the __Store__ represents the model; the __Search Adapter__ acts as the presenter that translates the current search state into a formatted result; and the __Map__ is the view that visualizes the result on the screen. Within this architecture, Peripleo takes care of the plumbing between components, and provides interfaces for plugging in your own domain model.
 
 ## Peripleo Hello World
 
