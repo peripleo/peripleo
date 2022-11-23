@@ -24,7 +24,7 @@ Applications built with Peripleo follow a specific design blueprint:
 
 Essentially, Peripleo provides a [Model-View-Presenter](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter) architecture for your map application: the __Store__ represents the model; the __Search Adapter__ acts as the presenter that translates the current search state into a formatted result; and the __Map__ is the view that visualizes the result on the screen. Within this architecture, Peripleo takes care of the plumbing between components, and provides interfaces for plugging in your own domain model.
 
-## Peripleo Hello World
+## Hello World
 
 Below is a minimal Peripleo application which:
 
@@ -89,6 +89,20 @@ function App() {
 }
 ```
 
+## Responsive Design
+
+Peripleo provides two helpers to simplify the development of responsive applications that work on different devices and screen sizes.
+
+#### useDevice Hook
+
+The `useDevice` hook is available to every component inside the `<Peripleo>` root tag. It returns the current device state: an object with a `size` string property (either __DESKTOP__ or __MOBILE__), and an `isTouchDevice` boolean property.
+
+The size is determined by the screen width, and will update if the user resizes the screen. The default break point is 540 pixels, and can be changed through the `breakPoint` prop in the `<Peripleo>` component. 
+
+#### Desktop and Mobile Tags
+
+For convenience, Peripleo provides `<Desktop>` and `<Mobile>` tags. Components enclosed with a `<Desktop>` tag are only mounted if the device size is larger than the break point value. Vice versa, components inside `<Mobile>` are only mounted if the device size is lower than the break point value. 
+
 ## Components
 
 ### BrowserStore
@@ -135,20 +149,6 @@ A simple text search box.
 #### Zoom
 
 Zoom buttons.
-
-## Responsive Design
-
-Peripleo provides two helpers to simplify the development of responsive applications that work on different devices and screen sizes.
-
-#### useDevice Hook
-
-The `useDevice` hook is available to every component inside the `<Peripleo>` root tag. It returns the current device state: an object with a `size` string property (either __DESKTOP__ or __MOBILE__), and an `isTouchDevice` boolean property.
-
-The size is determined by the screen width, and will update if the user resizes the screen. The default break point is 540 pixels, and can be changed through the `breakPoint` prop in the `<Peripleo>` component. 
-
-#### Desktop and Mobile Tags
-
-For convenience, Peripleo provides `<Desktop>` and `<Mobile>` tags. Components enclosed with a `<Desktop>` tag are only mounted if the device size is larger than the break point value. Vice versa, components inside `<Mobile>` are only mounted if the device size is lower than the break point value. 
 
 ## Writing Custom Stores
 
