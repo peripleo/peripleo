@@ -32,3 +32,12 @@
   outline: none;
   cursor: pointer;
 }
+
+.p6o-info-modal-main {
+  width: 90%;
+  max-width: 600px;
+  background: #fff;
+  padding: 30px;
+  box-sizing: border-box;
+  border-radius: 3px;
+}

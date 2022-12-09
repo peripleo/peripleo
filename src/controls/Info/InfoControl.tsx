@@ -8,6 +8,8 @@ export type InfoProps = {
 
   children: React.ReactElement
 
+  className?: string
+
 }
 
 export const InfoControl = (props: InfoProps) => {
@@ -26,6 +28,7 @@ export const InfoControl = (props: InfoProps) => {
 
       {modalOpen && (
         <InfoModal
+          className={props.className}
           onClose={() => setModalOpen(false)}>
           {props.children}
         </InfoModal>

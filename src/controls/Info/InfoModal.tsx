@@ -1,4 +1,4 @@
-import React, { useEffect, EventHandler } from 'react';
+import React, { useEffect, useRef, EventHandler } from 'react';
 import ReactDOM from 'react-dom';
 import { IoCloseOutline } from 'react-icons/io5';
 
@@ -6,11 +6,15 @@ export type InfoModalProps = {
 
   children: React.ReactElement
 
-  onClose: EventHandler<any>;
+  className?: string
+
+  onClose: EventHandler<any>
   
 }
 
 export const InfoModal = (props: InfoModalProps) => {
+
+  const el = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onKeyDown = (evt: KeyboardEvent) => {
@@ -23,8 +27,16 @@ export const InfoModal = (props: InfoModalProps) => {
     return () => document.removeEventListener('keydown', onKeyDown);
   }, []);
 
+  const onClick = (evt: React.MouseEvent) => {
+    if (evt.target === el.current)
+      props.onClose(evt);
+  }
+
   return ReactDOM.createPortal(
-    <div className="p6o-info-modal-bg" onClick={props.onClose}>
+    <div 
+      ref={el}
+      className={props.className ? `p6o-info-modal-bg ${props.className}` : 'p6o-info-modal-bg'} 
+      onClick={onClick}>
       <button
         className="p6o-info-modal-close"
         onClick={props.onClose}>
@@ -33,7 +45,9 @@ export const InfoModal = (props: InfoModalProps) => {
 
       </button>
       
-      {props.children}
+      <main className="p6o-info-modal-main">
+        {props.children}
+      </main>
     </div>,
 
     document.body
