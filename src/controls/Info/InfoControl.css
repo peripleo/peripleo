@@ -35,9 +35,11 @@
 
 .p6o-info-modal-main {
   width: 90%;
+  max-height: calc(100% - 140px);
   max-width: 600px;
   background: #fff;
   padding: 30px;
   box-sizing: border-box;
   border-radius: 3px;
+  overflow-y: auto;
 }
