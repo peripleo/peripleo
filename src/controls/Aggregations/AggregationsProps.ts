@@ -4,6 +4,8 @@ export type AggregationsProps = {
 
   displayFacets?: string[]
 
+  facetLabels?: string[]
+
   fullscreen?: boolean
 
 }

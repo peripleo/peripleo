@@ -30,6 +30,7 @@ export const AggregationsOverlay = (props: AggregationsProps) => {
     <div className={props.fullscreen ? "p6o-aggs p6o-aggs-overlay fullscreen" : "p6o-aggs p6o-aggs-overlay"}>
       <AggregationsCarousel 
         aggregations={displayed} 
+        labels={props.facetLabels}
         activeAggregation={activeAggregation}
         onChangeAggregation={setActiveAggregation} />
 

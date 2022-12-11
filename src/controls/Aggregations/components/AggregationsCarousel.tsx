@@ -8,6 +8,8 @@ type AggregationsCarouselProps = {
 
   aggregations: string[]
 
+  labels?: string[]
+
   activeAggregation?: string
 
   onChangeAggregation: Function
@@ -17,6 +19,9 @@ type AggregationsCarouselProps = {
 export const AggregationsCarousel = (props: AggregationsCarouselProps) => {
 
   const activeAggregation = props.activeAggregation || props.aggregations[0] || '';
+
+  const label = props.labels ?
+    props.labels[props.aggregations.indexOf(activeAggregation)] : activeAggregation;
 
   const onChangeAggregation = (inc: number) => () => {
     const { length } = props.aggregations;
@@ -37,7 +42,7 @@ export const AggregationsCarousel = (props: AggregationsCarouselProps) => {
       <h3 
         aria-live="polite"
         aria-atomic={true}>
-        {activeAggregation}
+        {label}
       </h3>
       
       <button
