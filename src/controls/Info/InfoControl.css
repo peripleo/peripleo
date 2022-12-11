@@ -33,12 +33,16 @@
   cursor: pointer;
 }
 
+.p6o-info-modal-close.mobile {
+  right: 10px;
+}
+
 .p6o-info-modal-main {
   width: 90%;
   max-height: calc(100% - 140px);
   max-width: 600px;
   background: #fff;
-  padding: 30px;
+  padding: 30px 35px;
   box-sizing: border-box;
   border-radius: 3px;
   overflow-y: auto;

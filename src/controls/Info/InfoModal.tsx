@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, EventHandler } from 'react';
 import ReactDOM from 'react-dom';
 import { IoCloseOutline } from 'react-icons/io5';
+import { Size, useDeviceState } from '../../device';
 
 export type InfoModalProps = {
 
@@ -15,6 +16,8 @@ export type InfoModalProps = {
 export const InfoModal = (props: InfoModalProps) => {
 
   const el = useRef<HTMLDivElement>(null);
+
+  const device = useDeviceState();
 
   useEffect(() => {
     const onKeyDown = (evt: KeyboardEvent) => {
@@ -38,7 +41,7 @@ export const InfoModal = (props: InfoModalProps) => {
       className={props.className ? `p6o-info-modal-bg ${props.className}` : 'p6o-info-modal-bg'} 
       onClick={onClick}>
       <button
-        className="p6o-info-modal-close"
+        className={device.size === Size.DESKTOP ? 'p6o-info-modal-close' : 'p6o-info-modal-close mobile'}
         onClick={props.onClose}>
 
         <IoCloseOutline />
