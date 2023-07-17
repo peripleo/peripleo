@@ -2,10 +2,18 @@
   position: absolute;
   top: 0;
   left: 0;
-  padding: 20px;
+  padding: 0;
   box-sizing: border-box;
   width: 100%;
   height: 100%;
+  pointer-events: none;
+}
+
+.p6o-scrollable-container {
+  display: inline-flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 20px;
   pointer-events: none;
 }
 

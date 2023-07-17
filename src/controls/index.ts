@@ -5,5 +5,6 @@ export * from './Mobile';
 export * from './MobileMenu';
 export * from './MyLocation';
 export * from './Controls';
+export * from './Scrollable';
 export * from './Search';
 export * from './Zoom';
