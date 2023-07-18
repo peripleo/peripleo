@@ -71,8 +71,8 @@
 }
 
 .p6o-aggs-values li {
-  margin-bottom: 2px;
   display: block;
+  padding-bottom: 2px;
   pointer-events: none;
   cursor: pointer;
 }
