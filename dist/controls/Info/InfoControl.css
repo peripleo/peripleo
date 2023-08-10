@@ -1,0 +1,49 @@
+.p6o-controls-btn.p6o-info {
+  position: absolute;
+  top: 170px;
+  right: 20px;
+}
+
+.p6o-controls-btn.p6o-info svg {
+  font-size: 18px;
+}
+
+.p6o-info-modal-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.8);
+  z-index: 99999;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+}
+
+.p6o-info-modal-close {
+  position: fixed;
+  top: 25px;
+  right: 25px;
+  color: #fff;
+  font-size: 35px;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.p6o-info-modal-close.mobile {
+  right: 10px;
+}
+
+.p6o-info-modal-main {
+  width: 90%;
+  max-height: calc(100% - 140px);
+  max-width: 600px;
+  background: #fff;
+  padding: 30px 35px;
+  box-sizing: border-box;
+  border-radius: 3px;
+  overflow-y: auto;
+}

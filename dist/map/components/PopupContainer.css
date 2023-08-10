@@ -1,0 +1,30 @@
+.p6o-map-popup-container-mobile {
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.8);
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+
+  padding: 15px 60px 15px 15px;
+}
+
+.p6o-map-popup-close {
+  position: absolute;
+  color: #fff;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: none;
+}
+
+.p6o-map-popup-close svg {
+  font-size: 35px;
+  stroke: #fff;
+}
+
+.p6o-map-popup-container-mobile .p6o-map-popup-close {
+  display: block;
+  top: 25px;
+  right: 10px;
+}

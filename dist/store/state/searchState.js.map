@@ -1,0 +1,1 @@
+{"version":3,"file":"searchState.js","sourceRoot":"","sources":["../../../src/store/state/searchState.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,IAAI,EAAE,MAAM,QAAQ,CAAC;AAC9B,OAAO,EAAe,YAAY,EAAE,MAAM,UAAU,CAAC;AAErD,MAAM,CAAC,MAAM,WAAW,GAAG,IAAI,CAAc;IAC3C,GAAG,EAAE,QAAQ;IACb,OAAO,EAAE,EAAE,IAAI,EAAE,EAAE,EAAE,MAAM,EAAE,YAAY,CAAC,EAAE,EAAE;CAC/C,CAAC,CAAC"}

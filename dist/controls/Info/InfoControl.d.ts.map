@@ -1,0 +1,1 @@
+{"version":3,"file":"InfoControl.d.ts","sourceRoot":"","sources":["../../../src/controls/Info/InfoControl.tsx"],"names":[],"mappings":"AAAA,OAAO,KAAmB,MAAM,OAAO,CAAC;AAIxC,OAAO,mBAAmB,CAAC;AAE3B,oBAAY,SAAS,GAAG;IAEtB,QAAQ,EAAE,KAAK,CAAC,YAAY,CAAA;IAE5B,SAAS,CAAC,EAAE,MAAM,CAAA;CAEnB,CAAA;AAED,eAAO,MAAM,WAAW,UAAW,SAAS,gBAwB3C,CAAA"}
