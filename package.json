@@ -3,6 +3,7 @@
   "version": "0.1.13",
   "description": "Composable UI components for map-based search interfaces",
   "main": "dist/index.js",
+  "module": "dist/index.ts",
   "types": "dist/index.d.ts",
   "files": [
     "/dist",
