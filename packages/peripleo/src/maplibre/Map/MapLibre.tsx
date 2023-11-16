@@ -1,25 +1,25 @@
 import { useEffect, useRef, useState } from 'react';
-import { Map as MapLibre, MapMouseEvent, PointLike, LngLatBoundsLike } from 'maplibre-gl';
+import { Map, MapMouseEvent, PointLike, /* LngLatBoundsLike */ } from 'maplibre-gl';
 import { MapContext } from './MapContext';
 import { MapProps } from './MapProps';
 import { PopupContainer } from '../Popup';
-import { SearchStatus, useSearch, useSelectionState, useStore } from '../../state';
+import { /* SearchStatus, useSearch, */ useSelectionState, useStore } from '../../state';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 export const CLICK_THRESHOLD = 10;
 
-export const Map = (props: MapProps) => {
+export const MapLibre = (props: MapProps) => {
 
   const ref = useRef<HTMLDivElement>(null);
 
-  const { search } = useSearch();
+  // const { search } = useSearch();
   
   const store = useStore();
 
-  const [map, setMap] = useState<MapLibre>(null);
+  const [map, setMap] = useState<Map>(null);
 
-  const [loaded, setLoaded] = useState(false);
+  // const [loaded, setLoaded] = useState(false);
 
   const [selected, setSelected] = useSelectionState();
 
@@ -45,20 +45,10 @@ export const Map = (props: MapProps) => {
   };
 
   useEffect(() => {
-    if (loaded || search.status !== SearchStatus.OK)
-      return;
-
-    console.log('[Peripleo] initializing map');
-
-    const { minLon, minLat, maxLon, maxLat } = search.result.bounds || {};
-    
-    const bounds: LngLatBoundsLike = props.defaultBounds ? 
-      props.defaultBounds : [[ minLon, minLat ], [ maxLon, maxLat ]];
-    
-    const map = new MapLibre({
+    const map = new Map({
       container: ref.current,
-      style: props.style,
-      bounds 
+      style: props.style || document.querySelector('meta[name="peripleo.map.style"]')?.getAttribute('content'),
+      bounds: props.defaultBounds
     });
 
     if (props.disableScrollZoom)
@@ -67,8 +57,8 @@ export const Map = (props: MapProps) => {
     map.on('click', onMapClicked);
 
     setMap(map);
-    setLoaded(true);
-  }, [search, loaded]);
+    // setLoaded(true);
+  }, []);
 
   return (
     <div 
@@ -90,7 +80,6 @@ export const Map = (props: MapProps) => {
           </>
         )}
       </MapContext.Provider>
-
     </div>
   )
 

@@ -13,6 +13,9 @@
     "test": "npm run test --workspaces"
   },
   "workspaces": [
-    "./packages/peripleo"
+    "./packages/peripleo",
+    "./packages/peripleo-theme-default",
+    "./packages/peripleo-tei",
+    "./packages/prototyping-gbof"
   ]
 }

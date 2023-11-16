@@ -3,7 +3,7 @@ import { PopupProps } from '../Popup';
 
 export interface MapProps {
 
-  style: string; 
+  style?: string; 
   
   defaultBounds?: [[number, number], [number, number]];
 

@@ -1,3 +1,3 @@
-export * from './Map';
+export * from './MapLibre';
 
 export { useMap } from './MapContext';
