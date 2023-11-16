@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useMap } from '@/maplibre/map';
-import { SearchResult, SearchStatus, useSearch, useStore } from '@/state';
+import { useMap } from '../../../maplibre/map';
+import { SearchResult, SearchStatus, useSearch, useStore } from '../../../state';
 import { FeatureCollection, Store } from '@/Types';
 
 const EMPTY_GEOJSON = {

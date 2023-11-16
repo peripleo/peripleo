@@ -15,7 +15,8 @@
     "moduleResolution": "Node",
     "outDir": "dist",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/maplibre": [".src/maplibre/*"],
+      "@/*": ["./src/*"],
     },
     "resolveJsonModule": true,
     "skipLibCheck": true,

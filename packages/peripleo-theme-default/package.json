@@ -1,7 +1,0 @@
-{
-  "name": "@peripleo/theme-default",
-  "version": "0.2.0-alpha",
-  "author": "Rainer Simon",
-  "license": "BSD-3-Clause",
-  "main": "./src/index.ts"
-}

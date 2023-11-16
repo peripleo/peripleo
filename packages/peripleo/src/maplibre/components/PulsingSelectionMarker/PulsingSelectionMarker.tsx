@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { StylePropertyExpression } from 'maplibre-gl';
-import { useMap } from '@/maplibre/map';
-import { useSelectionValue, useStore } from '@/state';
+import { useMap } from '../../../maplibre/map';
+import { useSelectionValue, useStore } from '../../../state';
 import { Marker } from './Marker';
 
 const EMPTY_GEOJSON = { type: 'FeatureCollection', features: [] };

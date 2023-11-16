@@ -2,8 +2,8 @@ import { ReactNode, useEffect, useState } from 'react';
 import { MapGeoJSONFeature, MapMouseEvent, PointLike } from 'maplibre-gl';
 import bbox from '@turf/bbox';
 import { Feature, FeatureCollection } from '@/Types';
-import { CLICK_THRESHOLD, useMap } from '@/maplibre/map';
-import { TooltipContainer, TooltipProps } from '@/maplibre/components';
+import { CLICK_THRESHOLD, useMap } from '../../../maplibre/map';
+import { TooltipContainer, TooltipProps } from '../../../maplibre/components';
 import { pointStyle, fillStyle, strokeStyle } from './styles';
 
 interface StaticDataLayerProps {

@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
-import { Map, MapMouseEvent, PointLike, /* LngLatBoundsLike */ } from 'maplibre-gl';
+import { Map as MapLibre, MapMouseEvent, PointLike, /* LngLatBoundsLike */ } from 'maplibre-gl';
 import { MapContext } from './MapContext';
 import { MapProps } from './MapProps';
 import { PopupContainer } from '../components/Popup';
-import { /* SearchStatus, useSearch, */ useSelectionState, useStore } from '@/state';
+import { /* SearchStatus, useSearch, */ useSelectionState, useStore } from '../../state';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 export const CLICK_THRESHOLD = 10;
 
-export const MapLibre = (props: MapProps) => {
+export const Map = (props: MapProps) => {
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -17,7 +17,7 @@ export const MapLibre = (props: MapProps) => {
   
   const store = useStore();
 
-  const [map, setMap] = useState<Map>(null);
+  const [map, setMap] = useState<MapLibre>(null);
 
   // const [loaded, setLoaded] = useState(false);
 
@@ -45,7 +45,7 @@ export const MapLibre = (props: MapProps) => {
   };
 
   useEffect(() => {
-    const map = new Map({
+    const map = new MapLibre({
       container: ref.current,
       style: props.style || document.querySelector('meta[name="peripleo.map.style"]')?.getAttribute('content'),
       bounds: props.defaultBounds

@@ -1,21 +1,17 @@
-import { 
-  Controls, 
-  MapLibre, 
-  Peripleo, 
-  Zoom 
-} from '@peripleo/peripleo';
+import { Peripleo, Controls } from '@peripleo/peripleo';
+import { Map, Zoom } from '@peripleo/peripleo/maplibre';
 
-import '@peripleo/theme-default';
+import '@peripleo/peripleo/default-theme';
 
 export const App = () => {
 
   return (
     <Peripleo>
-      <MapLibre>
+      <Map>
         <Controls position="topright">
           <Zoom />
         </Controls>
-      </MapLibre>
+      </Map>
     </Peripleo>
   )
 
