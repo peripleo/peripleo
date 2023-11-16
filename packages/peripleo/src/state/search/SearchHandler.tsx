@@ -17,6 +17,8 @@ export const SearchHandler = <T extends unknown, S extends unknown>(props: Searc
   const { search, setSearch } = useSearch<S>();
 
   useEffect(() => {
+    console.log('triggering search:', search);
+    
     if (store && !store.isEmpty()) {
       if (search.status === SearchStatus.PENDING) {
         const result = props.onSearch({ args: search.args, store });
