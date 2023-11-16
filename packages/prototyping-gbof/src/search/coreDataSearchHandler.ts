@@ -1,6 +1,6 @@
 import { SearchArgs, SearchResult, Store } from '@peripleo/peripleo';
 
-export const createTypeSenseSearchHandler = <T extends unknown, S extends unknown>() => {
+export const createCoreDataSearchHandler = <T extends unknown, S extends unknown>() => {
 
   const onSearch = (arg: { args: SearchArgs, store: Store<T> }): SearchResult<S> => {
 

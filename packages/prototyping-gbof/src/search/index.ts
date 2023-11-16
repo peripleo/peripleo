@@ -1,2 +1,3 @@
+export * from './CoreDataSearchProvider';
 export * from './SearchInput';
-export * from './typeSenseSearchHandler';
+export * from './coreDataSearchHandler';
