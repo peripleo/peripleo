@@ -10,13 +10,13 @@ import '@peripleo/theme-default';
 export const App = () => {
 
   return (
-
+    <Peripleo>
       <MapLibre>
         <Controls position="topright">
           <Zoom />
         </Controls>
       </MapLibre>
-
+    </Peripleo>
   )
 
 }
