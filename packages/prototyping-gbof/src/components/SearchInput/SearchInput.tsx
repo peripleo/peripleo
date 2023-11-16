@@ -3,13 +3,13 @@ import { FormEvent, useState} from 'react';
 
 export const SearchInput = () => {
 
-  const { changeSearchQuery } = useSearch();
+  const { setQuery } = useSearch();
 
   const [value, setValue] = useState('');
 
   const onSubmit = (evt: FormEvent) => {
     evt.preventDefault();
-    changeSearchQuery(value);
+    setQuery(value);
   }
 
   return (

@@ -6,7 +6,7 @@ interface CoreDataSearchProviderProps {
 
 }
 
-export const CoreDataSearchProvider = (props: CoreDataSearchProviderProps) => {
+export const CoreDataProvider = (props: CoreDataSearchProviderProps) => {
 
   return <>{props.children}</>
 

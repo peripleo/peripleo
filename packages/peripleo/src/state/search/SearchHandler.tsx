@@ -6,7 +6,7 @@ import { SearchArgs, SearchResult, SearchStatus } from './SearchTypes';
 
 interface SearchHandlerProps<T extends unknown, S extends unknown> {
 
-  onSearch(arg: { args: SearchArgs, store: Store<T> }): SearchResult<S>;
+  onSearch(arg: { args: SearchArgs, store: Store<T> }): SearchResult<S> | Promise<SearchResult<S>>;
 
 }
 
@@ -17,19 +17,16 @@ export const SearchHandler = <T extends unknown, S extends unknown>(props: Searc
   const { search, setSearch } = useSearch<S>();
 
   useEffect(() => {
-    console.log('triggering search:', search);
-    
-    if (store && !store.isEmpty()) {
+    // if (store && !store.isEmpty()) {
       if (search.status === SearchStatus.PENDING) {
-        const result = props.onSearch({ args: search.args, store });
-
-        setSearch({
+        const p = Promise.resolve(props.onSearch({ args: search.args, store }));
+        p.then(result => setSearch({
           args: search.args,
           status: SearchStatus.OK,
           result
-        });
+        }));
       }
-    }
+    //}
   }, [props.onSearch, search, setSearch, store]);
 
   return null;
