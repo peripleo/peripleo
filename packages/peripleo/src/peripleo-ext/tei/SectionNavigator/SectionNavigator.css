@@ -1,0 +1,17 @@
+.p6o-teiview-nav {
+  position: relative;
+  width: 100%;
+}
+
+.p6o-teiview-histogram canvas {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.p6o-teiview-nav-bottom {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

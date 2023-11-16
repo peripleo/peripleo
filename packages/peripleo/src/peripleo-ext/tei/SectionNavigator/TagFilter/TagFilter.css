@@ -1,0 +1,16 @@
+.p6o-teiview-tags button {
+  margin-left: -2px;
+  padding: 4px 6px;
+}
+
+.p6o-teiview-tags button.pinned svg {
+  vertical-align: text-top;
+  transform: scaleX(0.8);
+}
+
+.p6o-more-tags-popover button.pinned,
+.p6o-teiview-tags button.pinned {
+  color: #fff;
+  background-color: var(--p6o-text-color);
+  margin: 0 4px;
+}

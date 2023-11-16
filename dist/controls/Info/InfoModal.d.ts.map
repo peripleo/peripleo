@@ -1,1 +1,0 @@
-{"version":3,"file":"InfoModal.d.ts","sourceRoot":"","sources":["../../../src/controls/Info/InfoModal.tsx"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,EAAqB,YAAY,EAAE,MAAM,OAAO,CAAC;AAK/D,oBAAY,cAAc,GAAG;IAE3B,QAAQ,EAAE,KAAK,CAAC,YAAY,CAAA;IAE5B,SAAS,CAAC,EAAE,MAAM,CAAA;IAElB,OAAO,EAAE,YAAY,CAAC,GAAG,CAAC,CAAA;CAE3B,CAAA;AAED,eAAO,MAAM,SAAS,UAAW,cAAc,sBA2C9C,CAAA"}

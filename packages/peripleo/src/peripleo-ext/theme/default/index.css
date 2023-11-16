@@ -1,0 +1,67 @@
+.p6o-teiview-container header {
+  background-color: #fff;
+  border-bottom: 1px solid var(--p6o-section-border-light);
+  border-radius: var(--p6o-border-radius) var(--p6o-border-radius) 0 0;
+}
+
+.p6o-teiview-container {
+  border: var(--p6o-control-border);
+  background-color: var(--p6o-section-bg-light);
+  border-radius: var(--p6o-border-radius);
+}
+
+.p6o-teiview-mode-switch {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  font-size: 13px;
+  gap: 5px;
+}
+
+.p6o-tei-content {
+  padding: 15px;
+}
+
+.p6o-teiview-nav {
+  border-top: 1px solid var(--p6o-section-border-light);
+  background-color: #fff;
+  border-radius: 0 0 var(--p6o-border-radius) var(--p6o-border-radius);
+}
+
+.p6o-teiview-histogram {
+  padding: 10px 10px 0 10px;
+  height: 50px;
+}
+
+.p6o-teiview-nav-bottom {
+  font-size: 13px;
+  padding: 5px;
+}
+
+.p6o-teiview-nav-picker-popover, 
+.p6o-teiview-nav-picker-popover input {
+  font-size: 13px;
+}
+
+.p6o-teiview-nav-picker-popover .field {
+  align-items: center;
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  padding-top: 5px;
+}
+
+.p6o-teiview-nav-picker-popover button {
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.1);
+  display: inline-flex;
+  height: 28px;
+  justify-content: center;
+  padding: 0;
+  width: 28px;
+}
+
+.p6o-teiview-nav-picker-popover button:hover {
+  background-color: rgba(0, 0, 0, 0.16);
+}
+

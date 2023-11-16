@@ -1,0 +1,16 @@
+.p6o-controls-container {
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.p6o-controls-container.topleft {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.p6o-controls-container.topright {
+  top: 0;
+  right: 0;
+}

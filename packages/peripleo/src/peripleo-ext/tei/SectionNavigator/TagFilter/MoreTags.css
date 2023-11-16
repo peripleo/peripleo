@@ -1,0 +1,15 @@
+.p6o-more-tags-popover {
+  max-width: 340px;
+  max-height: 400px;
+  overflow-y: scroll;
+}
+
+.p6o-more-tags-popover ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.p6o-more-tags-popover li {
+  display: inline-block;
+}

@@ -1,0 +1,14 @@
+.p6o-draggable-panel {
+  position: absolute;
+  width: 100%;
+}
+
+.p6o-draggable-panel .react-resizable-handle {
+  display:block;
+  position: absolute;
+  width:30px;
+  height:30px;
+  bottom:0;
+  right:0;
+  cursor:se-resize;
+}
