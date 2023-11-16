@@ -1,5 +1,5 @@
 import { Map } from 'maplibre-gl';
-import { Feature } from '../../Types';
+import { Feature } from '@/Types';
 
 export interface PopupProps {
 

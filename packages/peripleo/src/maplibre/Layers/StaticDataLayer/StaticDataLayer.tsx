@@ -1,10 +1,10 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { MapGeoJSONFeature, MapMouseEvent, PointLike } from 'maplibre-gl';
 import bbox from '@turf/bbox';
-import { Feature, FeatureCollection } from '../../../Types';
-import { CLICK_THRESHOLD, useMap } from '../../Map';
+import { Feature, FeatureCollection } from '@/Types';
+import { CLICK_THRESHOLD, useMap } from '@/maplibre/map';
+import { TooltipContainer, TooltipProps } from '@/maplibre/components';
 import { pointStyle, fillStyle, strokeStyle } from './styles';
-import { TooltipContainer, TooltipProps } from '../../Tooltip';
 
 interface StaticDataLayerProps {
 
@@ -85,24 +85,24 @@ export const StaticDataLayer = (props: StaticDataLayerProps) => {
       data: shapes
     });
 
-    // @ts-ignore
     map.addLayer({
       ...pointStyle({ color: props.color }),
       id: pointLayerId,
+      // @ts-ignore
       source: pointSourceId
     });
 
-    // @ts-ignore
     map.addLayer({
       ...fillStyle({ fill: props.color }),
       id: fillLayerId,
+      // @ts-ignore
       source: shapeSourceId
     });
 
-    // @ts-ignore
     map.addLayer({
       ...strokeStyle({ fill: props.color }),
       id: strokeLayerId,
+      // @ts-ignore
       source: shapeSourceId
     });
 

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { Store } from '../../Types';
-import { useStore } from '../store';
+import { Store } from '@/Types';
+import { useStore } from '@/state/store';
 import { useSearch } from './useSearch';
 import { SearchArgs, SearchResult, SearchStatus } from './SearchTypes';
 

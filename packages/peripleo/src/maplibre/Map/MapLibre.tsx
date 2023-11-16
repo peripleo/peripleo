@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { Map, MapMouseEvent, PointLike, /* LngLatBoundsLike */ } from 'maplibre-gl';
 import { MapContext } from './MapContext';
 import { MapProps } from './MapProps';
-import { PopupContainer } from '../Popup';
-import { /* SearchStatus, useSearch, */ useSelectionState, useStore } from '../../state';
+import { PopupContainer } from '../components/Popup';
+import { /* SearchStatus, useSearch, */ useSelectionState, useStore } from '@/state';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
 

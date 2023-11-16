@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useMap } from '../../Map';
-import { SearchResult, SearchStatus, useSearch, useStore } from '../../../state';
-import { FeatureCollection, Store } from 'src/peripleo/Types';
+import { useMap } from '@/maplibre/map';
+import { SearchResult, SearchStatus, useSearch, useStore } from '@/state';
+import { FeatureCollection, Store } from '@/Types';
 
 const EMPTY_GEOJSON = {
   type: 'FeatureCollection',
@@ -48,10 +48,10 @@ export const SearchResultsLayer = <T extends unknown>(props: SearchResultsLayerP
           data: EMPTY_GEOJSON
         });
 
-        // @ts-ignore
         map.addLayer({
           ...props.style,
           id: props.id,
+          // @ts-ignore
           source: sourceId,
           metadata: {
             interactive: true,

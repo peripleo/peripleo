@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useRef } from 'react';
+import { LngLatLike } from 'maplibre-gl';
 import { PopupProps } from './PopupProps';
 import { moveIntoView } from './moveIntoView';
-import { LngLatLike } from 'maplibre-gl';
 
 export type PopupContainerProps = PopupProps & {
 

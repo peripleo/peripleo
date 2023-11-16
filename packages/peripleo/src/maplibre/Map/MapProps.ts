@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { PopupProps } from '../Popup';
+import { PopupProps } from '../components/Popup';
 
 export interface MapProps {
 
