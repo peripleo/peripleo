@@ -2,7 +2,7 @@ import algoliasearch from 'algoliasearch/lite';
 import { InstantSearch } from 'react-instantsearch';
 import { Controls, Feature, FeatureCollection, Peripleo } from '@peripleo/peripleo';
 import { Map, Zoom } from '@peripleo/peripleo/maplibre';
-import { SearchBox, SearchResultList } from './components';
+import { RefinementList, SearchBox, SearchResultList } from './components';
 
 import '@peripleo/peripleo/default-theme';
 import { SearchResultsMapLayer } from './components/SearchResultsMapLayer';
@@ -53,6 +53,9 @@ export const App = () => {
 
           <Controls position="topleft">
             <SearchBox />
+
+            <RefinementList attribute="brand" />
+
             <SearchResultList />
           </Controls>
 
