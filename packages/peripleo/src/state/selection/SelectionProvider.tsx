@@ -13,16 +13,18 @@ export const SelectionContext = createContext<SelectionContextState>([undefined,
 
 export const SelectionProvider = (props: { children: ReactNode }) => {
 
-  const [selection, _setSelection] = useState<Feature | undefined>(undefined);
+  const [selection, setSelection] = useState<Feature | undefined>(undefined);
 
+  /*
   const setSelection = (f?: Feature) => {
     if (f) {
-      const id = f.id || f.properties.id;
+      // const id = f.id || f.properties.id;
       _setSelection(({ ...f, id }));
     } else {
       _setSelection(undefined);
     }
   }
+  */
 
   return (
     <SelectionContext.Provider value={[selection, setSelection]}>

@@ -1,18 +1,22 @@
-import { SearchStatus, useSearch } from '@peripleo/peripleo';
-import { CoreDataPlace } from 'src/coredata/Types';
+import { Highlight, Hits } from 'react-instantsearch';
+
+const HitComponent = ({ hit }: { hit: any }) => {
+
+  return (
+    <div className="rounded-lg bg-white py-1 px-3 mb-1 shadow w-[300px] flex justify-between border">
+      <Highlight hit={hit} attribute="name" className="Hit-label" />
+      <span className="Hit-price">${hit.price}</span>
+    </div>
+  );
+}
+
 
 export const SearchResultList = () => {
 
-  const { search } = useSearch<CoreDataPlace>();
-
-  return search.status === SearchStatus.OK ? (
-    <div className="p6o-control">
-      <ul>
-        {search.result.items.map(item => (
-          <li key={item.id}>{item.id}</li>
-        ))}
-      </ul>
-    </div>
-  ) : null;
+  return (
+    <Hits 
+      className="p6o-control"
+      hitComponent={HitComponent} />
+  )
   
 }

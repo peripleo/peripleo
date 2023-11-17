@@ -69,4 +69,5 @@ export const SearchResultsLayer = <T extends unknown>(props: SearchResultsLayerP
   }, [mapLoaded, sourceId, search, props.id, props.style, props.toGeoJSON]);
 
   return null;
+  
 }

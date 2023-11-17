@@ -1,46 +1,67 @@
 import algoliasearch from 'algoliasearch/lite';
-import { Highlight, Hits, InstantSearch, RefinementList, SearchBox } from 'react-instantsearch';
-import { Controls } from '@peripleo/peripleo';
+import { InstantSearch } from 'react-instantsearch';
+import { Controls, Feature, FeatureCollection, Peripleo } from '@peripleo/peripleo';
 import { Map, Zoom } from '@peripleo/peripleo/maplibre';
+import { SearchBox, SearchResultList } from './components';
 
 import '@peripleo/peripleo/default-theme';
+import { SearchResultsMapLayer } from './components/SearchResultsMapLayer';
 
 const searchClient = algoliasearch(
   'latency',
   '6be0576ff61c053d5f9a3225e2a90f76'
 );
 
+const searchResultLayerStyle = {
+  'type': 'circle',
+  'paint': {
+    'circle-radius': 8,
+    'circle-stroke-width': 1,
+    'circle-color': '#ff623b',
+    'circle-stroke-color': '#8d260c'
+  }
+};
 
-function Hit(evt: any) {
-  console.log(evt);
-
-  return (
-    <>
-      <Highlight hit={evt.hit} attribute="name" className="Hit-label" />
-      <span className="Hit-price">${evt.hit.price}</span>
-    </>
-  );
-}
+const toGeoJSON = (items: any[]): FeatureCollection => ({
+  type: 'FeatureCollection',
+  features: items.map(item => ({
+    type: 'Feature',
+    properties: {...item},
+    geometry: {
+      type: 'Point',
+      coordinates: [
+        item._geoloc.lng,
+        item._geoloc.lat
+      ]
+    }
+  }) as Feature)
+});
 
 export const App = () => {
 
   return (
-    <InstantSearch 
-      searchClient={searchClient} 
-      indexName="instant_search">
+    <Peripleo>
+      <InstantSearch 
+        searchClient={searchClient} 
+        indexName="instant_search">
 
-      <Map>
-        <Controls position="topleft">
-          <SearchBox className="p6o-control" />
-          <RefinementList className="p6o-control" attribute="brand" />
-          <Hits hitComponent={Hit} />
-        </Controls>
+        <Map>
+          <SearchResultsMapLayer 
+            id="results"
+            style={searchResultLayerStyle} 
+            toGeoJSON={toGeoJSON} />
 
-        <Controls position="topright">
-          <Zoom />
-        </Controls>
-      </Map>
-    </InstantSearch>
+          <Controls position="topleft">
+            <SearchBox />
+            <SearchResultList />
+          </Controls>
+
+          <Controls position="topright">
+            <Zoom />
+          </Controls>
+        </Map>
+      </InstantSearch>
+    </Peripleo>
   )
 
 }

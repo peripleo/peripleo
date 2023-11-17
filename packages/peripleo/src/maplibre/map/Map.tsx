@@ -15,7 +15,7 @@ export const Map = (props: MapProps) => {
 
   // const { search } = useSearch();
   
-  const store = useStore();
+  // const store = useStore();
 
   const [map, setMap] = useState<MapLibre>(null);
 
@@ -37,8 +37,10 @@ export const Map = (props: MapProps) => {
 
     if (features.length > 0) {
       // TODO pick feature with smallest area?
-      const place = store.getPlaceById(features[0].properties.id);
-      setSelected(place);
+      // const place = store.getPlaceById(features[0].properties.id);
+
+      // @ts-ignore
+      setSelected(features);
     } else {
       setSelected(null);
     }

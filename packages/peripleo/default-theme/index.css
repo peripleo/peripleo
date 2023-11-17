@@ -49,7 +49,6 @@ fieldset .field-error {
 }
 
 input {
-  border: var(--p6o-control-border);
   border-radius: 3px;
   color: var(--p6o-text-color);
   font-family: Roboto, Arial, Helvetica, sans-serif;
