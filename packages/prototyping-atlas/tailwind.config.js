@@ -4,7 +4,11 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'dm-display': ['DM Serif Display'],
+      },
+    },
   },
   plugins: [],
 }
