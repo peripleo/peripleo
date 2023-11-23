@@ -5,8 +5,8 @@ export const SearchFilterSettings = () => {
 
   return (
     <div>
-      <h1 className="flex gap-2 w-full items-center font-medium text-black">
-        <Settings2 strokeWidth={2.5} className="h-4 w-4" /> Filters
+      <h1 className="w-full items-center font-medium text-black">
+        <Settings2 className="h-4 w-4 inline align-text-bottom mb-0.5" /> Filters
       </h1>
       
       <div className="text-muted text-sm mt-4">

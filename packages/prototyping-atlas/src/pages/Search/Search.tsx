@@ -17,11 +17,13 @@ export const Search = () => {
           <Popover.Portal>
             <Popover.Content 
               side="right" 
-              sideOffset={10}
-              className="bg-white z-20 shadow-md rounded-md w-72 max-w-lg p-4 outline-none">
+              sideOffset={20}
+              align="start"
+              alignOffset={-5}
+              className="bg-white/80 backdrop-blur z-20 shadow-md rounded-md w-72 max-w-lg p-4 outline-none">
               <SearchFilterSettings />
 
-              <Popover.Close className="absolute top-2 p-1.5 right-2 rounded-full text-muted hover:bg-slate-200 focus:outline-2 focus:outline-offset-2 focus:outline-teal-700">
+              <Popover.Close className="absolute top-3 p-1.5 right-3 rounded-full hover:bg-slate-200 focus:outline-2 focus:outline-offset-2 focus:outline-teal-700">
                 <X className="h-4 w-4" />
               </Popover.Close>
             </Popover.Content>
