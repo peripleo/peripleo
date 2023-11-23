@@ -1,16 +1,22 @@
-import algoliasearch from 'algoliasearch/lite';
 import { InstantSearch } from 'react-instantsearch';
+import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter';
 import { Controls, Feature, FeatureCollection, Peripleo } from '@peripleo/peripleo';
 import { Map, Zoom } from '@peripleo/peripleo/maplibre';
-import { RefinementList, SearchBox, SearchResultList } from './components';
+import { RefinementList, SearchBox, SearchResultList, SearchResultsMapLayer } from './components';
+
+import server from './config.json';
 
 import '@peripleo/peripleo/default-theme';
-import { SearchResultsMapLayer } from './components/SearchResultsMapLayer';
 
-const searchClient = algoliasearch(
-  'latency',
-  '6be0576ff61c053d5f9a3225e2a90f76'
-);
+const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
+  server: {
+    ...server
+  },
+  additionalSearchParameters: {
+    query_by: "name,names",
+    limit: 250
+  }
+});
 
 const searchResultLayerStyle = {
   'type': 'circle',
@@ -42,8 +48,8 @@ export const App = () => {
   return (
     <Peripleo>
       <InstantSearch 
-        searchClient={searchClient} 
-        indexName="instant_search">
+        searchClient={typesenseInstantsearchAdapter.searchClient} 
+        indexName="georgia_coast_atlas">
 
         <Map>
           <SearchResultsMapLayer 
@@ -54,7 +60,7 @@ export const App = () => {
           <Controls position="topleft">
             <SearchBox />
 
-            <RefinementList attribute="brand" />
+            <RefinementList attribute="type_facet" />
 
             <SearchResultList />
           </Controls>

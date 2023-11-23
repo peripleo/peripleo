@@ -59,6 +59,8 @@ export const SearchResultsMapLayer = (props: SearchResultsMapLayerProps) => {
         setSourceId(sourceId);
       } else {
         // TODO 
+        console.log(items);
+        
         const geojson = toGeoJSON(items);
 
         // @ts-ignore

@@ -1,0 +1,11 @@
+{
+  "apiKey": "my-api-key",
+  "nodes": [
+    {
+      "host": "your-host.at.typesense.net",
+      "port": 443,
+      "protocol": "https"
+    }
+  ],
+  "cacheSearchResultsForSeconds": 120
+}
