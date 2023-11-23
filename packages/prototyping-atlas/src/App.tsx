@@ -11,7 +11,7 @@ export const App = () => {
   return (
     <Peripleo>
       <TypeSenseSearch>
-        <div className="w-full h-full flex flex-col">
+        <div className="w-full h-full flex flex-col font-sans">
           <AppHeader className="flex-grow-0 flex-shrink-0" />
 
           <main className="relative flex flex-grow">

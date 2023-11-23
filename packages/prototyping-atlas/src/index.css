@@ -1,8 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
 
 mark.ais-Highlight-highlighted {
   background: rgba(15, 118, 110, 0.25);
