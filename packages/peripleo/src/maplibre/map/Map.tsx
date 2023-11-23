@@ -65,7 +65,7 @@ export const Map = (props: MapProps) => {
   return (
     <div 
       ref={ref}
-      className="p6o-map-container">
+      className={props.className ? `${props.className} p6o-map-container`: 'p6o-map-container'}>
 
       <MapContext.Provider value={map}>
         {map && (

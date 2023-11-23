@@ -11,22 +11,26 @@ export const App = () => {
   return (
     <Peripleo>
       <TypeSenseSearch>
-        <AppHeader />
+        <div className="w-full h-full flex flex-col">
+          <AppHeader className="flex-grow-0 flex-shrink-0" />
 
-        <HashRouter>
-          <Routes>
-            <Route path="/">
-              <Route index element={<Search />} />
-              <Route path="site/:site" element={<SiteDetails />} />
-            </Route>
-          </Routes>
-        </HashRouter>
+          <main className="relative flex flex-grow">
+            <HashRouter>
+              <Routes>
+                <Route path="/">
+                  <Route index element={<Search />} />
+                  <Route path="site/:site" element={<SiteDetails />} />
+                </Route>
+              </Routes>
+            </HashRouter>
 
-        <Map>
-          <Controls position="topright">
-            <Zoom />
-          </Controls>
-        </Map>
+            <Map className="flex-grow">
+              <Controls position="topright">
+                <Zoom />
+              </Controls>
+            </Map>
+          </main>
+        </div>
       </TypeSenseSearch>
     </Peripleo>
   )

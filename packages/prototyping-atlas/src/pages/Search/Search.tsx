@@ -1,11 +1,11 @@
-import { InstantSearch } from "react-instantsearch"
+import { SearchBox } from '../../components';
 
 export const Search = () => {
 
   return (
-    <div>
-
-    </div>
+    <aside className="absolute z-10 h-full bg-white/70 backdrop-blur shadow">
+      <SearchBox />
+    </aside>
   )
 
 }
