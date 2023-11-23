@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import { Map as MapLibre, MapMouseEvent, PointLike, /* LngLatBoundsLike */ } from 'maplibre-gl';
+import { Map as MapLibre, MapMouseEvent, PointLike } from 'maplibre-gl';
 import { MapContext } from './MapContext';
 import { MapProps } from './MapProps';
 import { PopupContainer } from '../components/Popup';
-import { /* SearchStatus, useSearch, */ useSelectionState, useStore } from '../../state';
+import { useSelectionState } from '../../state';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
 
@@ -13,13 +13,7 @@ export const Map = (props: MapProps) => {
 
   const ref = useRef<HTMLDivElement>(null);
 
-  // const { search } = useSearch();
-  
-  // const store = useStore();
-
   const [map, setMap] = useState<MapLibre>(null);
-
-  // const [loaded, setLoaded] = useState(false);
 
   const [selected, setSelected] = useSelectionState();
 
@@ -59,7 +53,6 @@ export const Map = (props: MapProps) => {
     map.on('click', onMapClicked);
 
     setMap(map);
-    // setLoaded(true);
   }, []);
 
   return (
