@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useHoverValue } from '@peripleo/peripleo';
 import { Highlight, InfiniteHits } from 'react-instantsearch';
 
@@ -14,16 +15,18 @@ const HitComponent = ({ hit }: { hit: any }) => {
   return (
     <div 
       className={isHovered ? `bg-teal-700/30 ${cls}` : cls}>
-      <Highlight hit={hit} attribute="name" />
-      <p className="text-muted text-xs line-clamp-1">
-        <Highlight hit={hit} attribute={"names"} /> {hit.id}
-      </p>
+      <Link to={`/site/${hit.id}`}>
+        <Highlight hit={hit} attribute="name" />
+        <p className="text-muted text-xs line-clamp-1">
+          <Highlight hit={hit} attribute={"names"} /> {hit.id}
+        </p>
+      </Link>
     </div>
   );
 }
 
 export const SearchResultList = () => {
-  
+
   return (
     <InfiniteHits 
       className="text-sm" 

@@ -18,9 +18,11 @@ export const Map = (props: MapProps) => {
 
   const { selected, setSelected } = useSelectionState();
 
-  const [currentHover, setCurrentHover] = useState<{ source: string, feature: Feature } | undefined>();
+  // Hover state according to mouse move events
+  const [mapHover, setMapHover] = useState<{ source: string, feature: Feature } | undefined>();
 
-  const { setHover } = useHoverState();
+  // Global Peripleo state, to sync with mouse move state
+  const { hover, setHover } = useHoverState();
 
   const getFeature = (evt: MapMouseEvent, withBuffer?: boolean) => {
     const map = evt.target;
@@ -57,7 +59,7 @@ export const Map = (props: MapProps) => {
     const setFeatureState = (source: string, feature: Feature, hover: boolean) =>
       map.setFeatureState({ source, id: feature.id }, { hover });
 
-    setCurrentHover(hover => {
+    setMapHover(hover => {
       if (feature?.id === hover?.feature.id) {
         return hover; // No change
       } else {
@@ -72,7 +74,8 @@ export const Map = (props: MapProps) => {
     });
   }
 
-  useEffect(() => setHover(currentHover?.feature), [currentHover]);
+  // Sync map hover state 'upwards'
+  useEffect(() => setHover(mapHover?.feature), [mapHover]);
 
   useEffect(() => {
     const map = new MapLibre({

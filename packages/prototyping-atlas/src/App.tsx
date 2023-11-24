@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import { Controls, Peripleo } from '@peripleo/peripleo';
 import { Map, Zoom } from '@peripleo/peripleo/maplibre';
@@ -11,29 +12,29 @@ export const App = () => {
   return (
     <Peripleo>
       <TypeSenseSearch>
-        <div className="w-full h-full flex flex-col font-sans">
-          <AppHeader className="flex-grow-0 flex-shrink-0" />
+        <HashRouter>
+          <div className="w-full h-full flex flex-col font-sans">
+            <AppHeader className="flex-grow-0 flex-shrink-0" />
 
-          <main className="relative flex flex-grow">
-            <HashRouter>
+            <main className="relative flex flex-grow">
               <Routes>
                 <Route path="/">
                   <Route index element={<Search />} />
                   <Route path="site/:site" element={<SiteDetails />} />
                 </Route>
               </Routes>
-            </HashRouter>
 
-            <Map className="flex-grow">
-              <Controls position="topright">
-                <Zoom />
-              </Controls>
+              <Map className="flex-grow">
+                <Controls position="topright">
+                  <Zoom />
+                </Controls>
 
-              <HackedResultsMapLayer
-                id="searchresults" />
-            </Map>
-          </main>
-        </div>
+                <HackedResultsMapLayer
+                  id="searchresults" />
+              </Map>
+            </main>
+          </div>
+        </HashRouter>
       </TypeSenseSearch>
     </Peripleo>
   )
