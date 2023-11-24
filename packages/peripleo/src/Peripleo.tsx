@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { SelectionProvider } from './state';
+import { HoverProvider, SelectionProvider } from './state';
 import { DeviceStateProvider } from './layout';
 
 import './index.css';
@@ -17,7 +17,9 @@ export const Peripleo = (props: PeripleoProps) => {
   return (
     <DeviceStateProvider breakPoint={props.deviceBreakpoint || 540}>
       <SelectionProvider>
-        {props.children}
+        <HoverProvider>
+          {props.children}
+        </HoverProvider>
       </SelectionProvider>
     </DeviceStateProvider>
   )

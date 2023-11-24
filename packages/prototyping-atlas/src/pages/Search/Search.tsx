@@ -1,13 +1,8 @@
 import * as Popover from '@radix-ui/react-popover';
 import { Settings2, X } from 'lucide-react';
 import { SearchBox, SearchFilterSettings, SearchResultList } from '../../components';
-import { useSelectionValue } from '@peripleo/peripleo';
 
 export const Search = () => {
-
-  const selected = useSelectionValue();
-
-  console.log('selected', selected);
 
   return (
     <aside className="flex flex-col absolute z-10 h-full w-[280px] bg-white/80 backdrop-blur shadow overflow-hidden">
