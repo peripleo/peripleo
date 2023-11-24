@@ -1,11 +1,27 @@
 import { useEffect } from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
-import { Controls, Peripleo } from '@peripleo/peripleo';
+import { HashRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import { Controls, Peripleo, useSelectionValue } from '@peripleo/peripleo';
 import { Map, Zoom } from '@peripleo/peripleo/maplibre';
 import { AppHeader, HackedResultsMapLayer, TypeSenseSearch } from './components';
 import { Search, SiteDetails } from './pages';
 
 import '@peripleo/peripleo/default-theme';
+
+const MapSelectionListener = () => {
+
+  const selected = useSelectionValue();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // If a selection happens via the map, navigate to site details
+    if (selected)
+      navigate(`/site/${selected.id}`);
+  }, [selected]);
+
+  return null;
+
+}
 
 export const App = () => {
 
@@ -23,6 +39,8 @@ export const App = () => {
                   <Route path="site/:siteId" element={<SiteDetails />} />
                 </Route>
               </Routes>
+
+              <MapSelectionListener />
 
               <Map className="flex-grow">
                 <Controls position="topright">

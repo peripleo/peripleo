@@ -1,5 +1,5 @@
 import { X } from 'lucide-react';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useInfiniteHits } from 'react-instantsearch';
 import { Link, useParams } from 'react-router-dom';
 
@@ -10,10 +10,6 @@ export const SiteDetails = () => {
   const { hits } = useInfiniteHits();
 
   const site = useMemo(() => hits.find(hit => hit.id === siteId), [siteId]);
-
-  useEffect(() => {
-    console.log(site);
-  }, [site]);
 
   return (
     <aside className="flex flex-col absolute p-3 z-10 h-full w-[280px] bg-white/80 backdrop-blur shadow overflow-hidden">
