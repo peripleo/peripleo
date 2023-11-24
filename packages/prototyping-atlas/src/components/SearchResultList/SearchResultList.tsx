@@ -1,5 +1,7 @@
 import { useHoverValue } from '@peripleo/peripleo';
-import { Highlight, Hits } from 'react-instantsearch';
+import { Highlight, InfiniteHits } from 'react-instantsearch';
+
+import './SearchResultList.css';
 
 const HitComponent = ({ hit }: { hit: any }) => {
 
@@ -20,12 +22,12 @@ const HitComponent = ({ hit }: { hit: any }) => {
   );
 }
 
-
 export const SearchResultList = () => {
   
   return (
-    <Hits 
+    <InfiniteHits 
       className="text-sm" 
+      showPrevious={false}
       hitComponent={HitComponent} />
   )
   

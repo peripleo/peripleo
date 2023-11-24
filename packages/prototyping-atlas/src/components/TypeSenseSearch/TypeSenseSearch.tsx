@@ -24,7 +24,7 @@ const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
   },
   additionalSearchParameters: {
     query_by: "name,names",
-    limit: 250
+    limit: 100
   }
 });
 
