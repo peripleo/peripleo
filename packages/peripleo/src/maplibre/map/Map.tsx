@@ -4,6 +4,7 @@ import { MapContext } from './MapContext';
 import { MapProps } from './MapProps';
 import { PopupContainer } from '../components/Popup';
 import { useSelectionState } from '../../state';
+import { Feature } from '../../Types';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
 
@@ -15,7 +16,7 @@ export const Map = (props: MapProps) => {
 
   const [map, setMap] = useState<MapLibre>(null);
 
-  const [selected, setSelected] = useSelectionState();
+  const { selected, setSelected } = useSelectionState();
 
   const onMapClicked = (evt: MapMouseEvent) => {
     const map = evt.target;
@@ -26,19 +27,15 @@ export const Map = (props: MapProps) => {
     ];
 
     const features = map.queryRenderedFeatures(bbox)
-      // @ts-ignore
-      .filter(feature => feature.layer.metadata?.interactive);
+      .filter(feature => 'interactive' in (feature.layer.metadata as object || {}));
 
     if (features.length > 0) {
-      // TODO pick feature with smallest area?
-      // const place = store.getPlaceById(features[0].properties.id);
-
-      // @ts-ignore
-      setSelected(features);
+      const { type, properties, geometry } = features[0];
+      setSelected({ type, properties, geometry } as Feature);
     } else {
-      setSelected(null);
+      setSelected(undefined);
     }
-  };
+  }
 
   useEffect(() => {
     const map = new MapLibre({
