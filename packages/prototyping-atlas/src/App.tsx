@@ -1,7 +1,7 @@
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import { Controls, Peripleo } from '@peripleo/peripleo';
 import { Map, Zoom } from '@peripleo/peripleo/maplibre';
-import { AppHeader, TypeSenseSearch } from './components';
+import { AppHeader, HackedResultsMapLayer, TypeSenseSearch } from './components';
 import { Search, SiteDetails } from './pages';
 
 import '@peripleo/peripleo/default-theme';
@@ -28,6 +28,9 @@ export const App = () => {
               <Controls position="topright">
                 <Zoom />
               </Controls>
+
+              <HackedResultsMapLayer
+                id="searchresults" />
             </Map>
           </main>
         </div>

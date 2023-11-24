@@ -1,10 +1,10 @@
-export interface Feature {
+export type ID = string;
 
-  id: string;
+export interface Feature<T extends { id: ID } = { id: ID }> {
 
   type: 'Feature',
 
-  properties: {
+  properties: T & {
 
     [key: string]: any;
 
@@ -20,11 +20,29 @@ export interface Feature {
 
 }
 
-export interface FeatureCollection {
+export interface FeatureCollection<T extends { id: ID } = { id: ID }> {
 
   type: 'FeatureCollection',
 
-  features: Feature[];
+  features: Feature<T>[];
+
+}
+
+export interface LinkedItem<T extends unknown, L extends Link = Link> {
+
+  id: ID;
+
+  data: T;
+
+  linkedTo: L[];
+
+}
+
+export interface Link<T extends unknown = string> {
+
+  relation: T;
+
+  linkedTo: string;
 
 }
 
@@ -37,81 +55,5 @@ export interface Bounds {
   maxLon: number;
 
   maxLat: number;
-
-} 
-
-export interface Place extends Feature {
-
-  id: string;
-
-  properties: {
-
-    title: string;
-
-    [key: string]: any
-
-  }
-
-}
-
-export interface Trace<T extends unknown> {
-
-  id: string;
-
-  items: Item<T>[];
-
-}
-
-export interface Item<T extends unknown> {
-
-  id: string;
-
-  type: 'Annotation';
-
-  target: {
-
-    type: 'Dataset';
-
-    value: T;
-
-  }
-
-  body:  {
-
-    type: 'Dataset';
-
-    value: { id: string }[];
-    
-  }
-
-}
-
-export interface Store<T extends unknown> {
-
-  allItems(): Item<T>[];
-
-  allPlaces(): Place[];
-
-  allTraces(): Trace<T>[];
-
-  getExtent(): Bounds;
-
-  getItemsAt(placeOrId: Place | string): Item<T>[];
-
-  getItemById(id: string): Item<T> | undefined;
-
-  getPlaceById(id: string): Place | undefined;
-
-  getPlacesIntersecting(minLon: number, minLat: number, maxLon: number, maxLat: number): Place[];
-
-  getTracesAt(placeOrId: Place | string): Trace<T>[];
-
-  isEmpty(): boolean;
-
-  minItemsPerPlace: number;
-
-  maxItemsPerPlace: number;
-
-  setData(places: Place[], traces: Trace<T>[], keepExisting?: boolean): void;
 
 }
