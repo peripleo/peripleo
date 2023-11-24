@@ -20,6 +20,7 @@ const toGeoJSON = (hits: any[]): FeatureCollection => ({
     const { id, name, names, objectID, record_id, type, type_facet, geometry } = hit;
 
     return {
+      id,
       type: 'Feature',
       properties: {
         id, name, names, objectID, record_id, type, type_facet
@@ -34,7 +35,12 @@ const searchResultLayerStyle = {
   'paint': {
     'circle-radius': 8,
     'circle-stroke-width': 1,
-    'circle-color': '#ff623b',
+    'circle-color': [
+      'case',
+      ['boolean', ['feature-state', 'hover'], false],
+      '#3b62ff',
+      '#ff623b'
+    ],
     'circle-stroke-color': '#8d260c'
   }
 };

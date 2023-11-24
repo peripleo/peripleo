@@ -18,9 +18,11 @@ export const Map = (props: MapProps) => {
 
   const { selected, setSelected } = useSelectionState();
 
-  const { hover, setHover } = useHoverState();
+  const [currentHover, setCurrentHover] = useState<{ source: string, feature: Feature } | undefined>();
 
-  const getFeature = (evt: MapMouseEvent, withBuffer?: boolean): Feature | undefined => {
+  const { setHover } = useHoverState();
+
+  const getFeature = (evt: MapMouseEvent, withBuffer?: boolean) => {
     const map = evt.target;
 
     const query = withBuffer ? [
@@ -32,21 +34,45 @@ export const Map = (props: MapProps) => {
       .filter(feature => 'interactive' in (feature.layer.metadata as object || {}));
 
     if (features.length > 0) {
-      const { type, properties, geometry } = features[0];
-      return { type, properties, geometry } as Feature;
+      const { source, id, type, properties, geometry } = features[0];
+
+      const feature = { id, type, properties, geometry } as Feature;
+
+      return { source, feature };
+    } else {
+      return { source: undefined, feature: undefined };
     }
   }
 
   const onClick = (evt: MapMouseEvent) => {
-    const feature = getFeature(evt, true);
+    const { feature } = getFeature(evt, true);
     setSelected(feature);
   }
 
   const onMouseMove = (evt: MapMouseEvent) => {
-    const feature = getFeature(evt);
-    setHover(hover => 
-      feature?.properties.id === hover?.properties.id ? hover : feature);
+    const map = evt.target;
+
+    const { source, feature } = getFeature(evt);
+
+    const setFeatureState = (source: string, feature: Feature, hover: boolean) =>
+      map.setFeatureState({ source, id: feature.id }, { hover });
+
+    setCurrentHover(hover => {
+      if (feature?.id === hover?.feature.id) {
+        return hover; // No change
+      } else {
+        if (hover)
+          setFeatureState(hover.source, hover.feature, false);
+        
+        if (feature)
+          setFeatureState(source, feature, true);
+
+        return feature ? { source, feature } : undefined;
+      }
+    });
   }
+
+  useEffect(() => setHover(currentHover?.feature), [currentHover]);
 
   useEffect(() => {
     const map = new MapLibre({

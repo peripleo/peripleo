@@ -1,14 +1,10 @@
-export type ID = string;
-
-export interface Feature<T extends { id: ID } = { id: ID }> {
+export interface Feature<T extends { [key: string]: any } = {}> {
 
   type: 'Feature',
 
-  properties: T & {
+  id: string,
 
-    [key: string]: any;
-
-  }
+  properties: T;
 
   geometry: {
 
@@ -20,7 +16,7 @@ export interface Feature<T extends { id: ID } = { id: ID }> {
 
 }
 
-export interface FeatureCollection<T extends { id: ID } = { id: ID }> {
+export interface FeatureCollection<T extends { [key: string]: any } = {}> {
 
   type: 'FeatureCollection',
 
@@ -28,9 +24,9 @@ export interface FeatureCollection<T extends { id: ID } = { id: ID }> {
 
 }
 
-export interface LinkedItem<T extends unknown, L extends Link = Link> {
+export interface LinkedItem<T extends { [key: string]: any }, L extends Link = Link> {
 
-  id: ID;
+  id: string;
 
   data: T;
 
