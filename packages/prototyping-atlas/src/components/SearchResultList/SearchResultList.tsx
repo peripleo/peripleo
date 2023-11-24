@@ -2,6 +2,8 @@ import { Highlight, Hits } from 'react-instantsearch';
 
 const HitComponent = ({ hit }: { hit: any }) => {
 
+  console.log(hit);
+
   return (
     <div className="py-2 px-3 h-[5.5em] border-b flex flex-col justify-start">
       <Highlight hit={hit} attribute="name" />
