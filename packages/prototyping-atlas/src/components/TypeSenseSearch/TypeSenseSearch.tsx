@@ -33,7 +33,10 @@ export const TypeSenseSearch = (props: { children: ReactNode }) => {
   return (
     <InstantSearch 
       searchClient={typesenseInstantsearchAdapter.searchClient} 
-      indexName={VITE_TS_INDEX_NAME}>
+      indexName={VITE_TS_INDEX_NAME}
+      future={{
+        preserveSharedStateOnUnmount: true
+      }}>
       {props.children}
     </InstantSearch>
   )
