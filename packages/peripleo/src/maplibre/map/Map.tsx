@@ -7,6 +7,7 @@ import { useSelectionState, useHoverState } from '../../state';
 import { Feature } from '../../Types';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { useFeatureRadioState } from './useFeatureState';
 
 export const CLICK_THRESHOLD = 10;
 
@@ -16,13 +17,19 @@ export const Map = (props: MapProps) => {
 
   const [map, setMap] = useState<MapLibre>(null);
 
-  const { selected, setSelected } = useSelectionState();
-
   // Hover state according to mouse move events
-  const [mapHover, setMapHover] = useState<{ source: string, feature: Feature } | undefined>();
+  const [mapHover, setMapHover] = useFeatureRadioState('hover');
 
-  // Global Peripleo state, to sync with mouse move state
-  const { hover, setHover } = useHoverState();
+  // Global Peripleo state (which can be changed programmatically from outside)
+  const {hover, setHover} = useHoverState();
+
+  // Map selection state
+  const [mapSelection, setMapSelection] = useFeatureRadioState('selected');
+
+  // Global Peripleo state (which can be changed programmatically from outside)
+  const {selected, setSelected} = useSelectionState();
+
+  const muteStateUpdates = useRef<boolean>(false);
 
   const getFeature = (evt: MapMouseEvent, withBuffer?: boolean) => {
     const map = evt.target;
@@ -46,36 +53,40 @@ export const Map = (props: MapProps) => {
     }
   }
 
-  const onClick = (evt: MapMouseEvent) => {
-    const { feature } = getFeature(evt, true);
-    setSelected(feature);
-  }
-
   const onMouseMove = (evt: MapMouseEvent) => {
-    const map = evt.target;
+    const { feature, source } = getFeature(evt);
 
-    const { source, feature } = getFeature(evt);
-
-    const setFeatureState = (source: string, feature: Feature, hover: boolean) =>
-      map.setFeatureState({ source, id: feature.id }, { hover });
-
-    setMapHover(hover => {
-      if (feature?.id === hover?.feature.id) {
-        return hover; // No change
-      } else {
-        if (hover)
-          setFeatureState(hover.source, hover.feature, false);
-        
-        if (feature)
-          setFeatureState(source, feature, true);
-
-        return feature ? { source, feature } : undefined;
-      }
-    });
+    muteStateUpdates.current = true;
+    setMapHover(evt.target, feature, source);
   }
 
-  // Sync map hover state 'upwards'
+  const onClick = (evt: MapMouseEvent) => {
+    const { feature, source } = getFeature(evt, true);
+
+    muteStateUpdates.current = true;
+    setMapSelection(evt.target, feature, source);
+  }
+
+  // Sync map hover and select states 'upwards'
   useEffect(() => setHover(mapHover?.feature), [mapHover]);
+  useEffect(() => setSelected(mapSelection?.feature), [mapSelection]);
+
+  // Sync external hover and select state 'downwards'
+  useEffect(() => {
+    // If muted, this update is an effect from mouse hover - ignore
+    if (!muteStateUpdates.current)
+      setMapHover(map, hover);
+
+    muteStateUpdates.current = false;
+  }, [map, hover]);
+
+  useEffect(() => {
+    // If muted, this update is an effect from pointer click - ignore
+    if (!muteStateUpdates.current)
+      setMapSelection(map, selected);
+
+    muteStateUpdates.current = false;
+  }, [map, selected]);
 
   useEffect(() => {
     const map = new MapLibre({
