@@ -46,12 +46,7 @@ export const useFeatureRadioState = (property: string) => {
     }
   });
 
-  // This prevents endless loops when syncing state upwards
-  const deferred = (map: Map, feature?: Feature, source?: string) => {
-    setTimeout(() => setSelected(map, feature, source), 1);
-  }
-
-  return [selected, deferred] as [
+  return [selected, setSelected] as [
     { source: string, feature: Feature } | undefined,
     (map: Map, feature?: Feature, source?: string) => void
   ];

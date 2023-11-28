@@ -1,13 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Map as MapLibre, MapMouseEvent, PointLike } from 'maplibre-gl';
 import { MapContext } from './MapContext';
 import { MapProps } from './MapProps';
 import { PopupContainer } from '../components/Popup';
 import { useSelectionState, useHoverState } from '../../state';
+import { useFeatureRadioState } from './useFeatureState';
 import { Feature } from '../../Types';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { useFeatureRadioState } from './useFeatureState';
 
 export const CLICK_THRESHOLD = 10;
 
@@ -29,7 +29,7 @@ export const Map = (props: MapProps) => {
   // Global Peripleo state (which can be changed programmatically from outside)
   const {selected, setSelected} = useSelectionState();
 
-  const muteStateUpdates = useRef<boolean>(false);
+  const isExternalChange = useRef<boolean>(true);
 
   const getFeature = (evt: MapMouseEvent, withBuffer?: boolean) => {
     const map = evt.target;
@@ -56,36 +56,39 @@ export const Map = (props: MapProps) => {
   const onMouseMove = (evt: MapMouseEvent) => {
     const { feature, source } = getFeature(evt);
 
-    muteStateUpdates.current = true;
+    isExternalChange.current = false;
     setMapHover(evt.target, feature, source);
   }
 
   const onClick = (evt: MapMouseEvent) => {
     const { feature, source } = getFeature(evt, true);
 
-    muteStateUpdates.current = true;
+    isExternalChange.current = false;
     setMapSelection(evt.target, feature, source);
   }
 
-  // Sync map hover and select states 'upwards'
-  useEffect(() => setHover(mapHover?.feature), [mapHover]);
-  useEffect(() => setSelected(mapSelection?.feature), [mapSelection]);
+  useLayoutEffect(() => {
+    if (!isExternalChange.current)
+      setHover(mapHover?.feature); // sync hover state upwards
+  }, [mapHover]);
 
-  // Sync external hover and select state 'downwards'
-  useEffect(() => {
-    // If muted, this update is an effect from mouse hover - ignore
-    if (!muteStateUpdates.current)
-      setMapHover(map, hover);
+  useLayoutEffect(() => {
+    if (isExternalChange.current)
+      setMapHover(map, hover); // sync external update downwards
 
-    muteStateUpdates.current = false;
+    isExternalChange.current = true;
   }, [map, hover]);
 
-  useEffect(() => {
-    // If muted, this update is an effect from pointer click - ignore
-    if (!muteStateUpdates.current)
-      setMapSelection(map, selected);
+  useLayoutEffect(() => {
+    if (!isExternalChange.current)
+      setSelected(mapSelection?.feature); // sync selection state upwards
+  }, [mapSelection]);
 
-    muteStateUpdates.current = false;
+  useLayoutEffect(() => {
+    if (isExternalChange.current)
+      setMapSelection(map, selected); // sync external update downwards
+
+    isExternalChange.current = true;
   }, [map, selected]);
 
   useEffect(() => {
