@@ -58,7 +58,7 @@ const PersistentSearchState = (props: { children: ReactNode }) => {
     if (!hits.isLastPage) {
       setTimeout(() => {
         hits.showMore();
-      }, 100);
+      }, 50);
     }
   }, [hits.showMore, hits.results]);
 
