@@ -60,7 +60,7 @@ const PersistentSearchState = (props: { children: ReactNode }) => {
         hits.showMore();
       }, 100);
     }
-  }, [hits.showMore, hits.results.page]);
+  }, [hits.showMore, hits.results]);
 
   return (
     <PersistentSearchStateContext.Provider value={{ hits, searchBox }}>
