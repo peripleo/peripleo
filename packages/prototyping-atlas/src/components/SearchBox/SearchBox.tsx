@@ -1,13 +1,13 @@
 import { FormEvent } from 'react';
-import { SearchBoxProps, useSearchBox } from 'react-instantsearch';
 import { Search } from 'lucide-react';
+import { useSearchBox } from '../TypeSenseSearch';
 
-export const SearchBox = (props: SearchBoxProps) => {
+export const SearchBox = () => {
 
   const {
     query,
     refine,
-  } = useSearchBox(props);
+  } = useSearchBox();
 
   const onSubmit = (evt: FormEvent) => evt.preventDefault();
 
