@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { X } from 'lucide-react';
-import { useInfiniteHits } from 'react-instantsearch';
 import { Link, useParams } from 'react-router-dom';
+import { useInfiniteHits } from '../../components';
 
 export const SiteDetails = () => {
 
@@ -9,7 +9,7 @@ export const SiteDetails = () => {
 
   const { hits } = useInfiniteHits();
 
-  const site = useMemo(() => hits.find(hit => hit.id === siteId), [siteId]);
+  const site = useMemo(() => hits.find(hit => hit.id == siteId), [hits, siteId]);
 
   // Debugging only!
   useEffect(() => {
