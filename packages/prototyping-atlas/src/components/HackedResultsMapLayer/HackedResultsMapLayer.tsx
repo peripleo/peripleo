@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { FeatureCollection } from '@peripleo/peripleo';
 import { useMap } from '@peripleo/peripleo/maplibre';
-import { UseInfiniteHitsProps, useInfiniteHits } from 'react-instantsearch';
+import { useInfiniteHits } from '../TypeSenseSearch';
 
-type HackedResultsMapLayerProps = UseInfiniteHitsProps & { 
+type HackedResultsMapLayerProps = { 
 
   id: string
 
@@ -47,9 +47,9 @@ const searchResultLayerStyle = {
 
 export const HackedResultsMapLayer = (props: HackedResultsMapLayerProps) => {
 
-  const { id, ...rest } = props;
+  const { id } = props;
 
-  const { hits } = useInfiniteHits(rest);
+  const { hits } = useInfiniteHits();
 
   const [sourceId, setSourceId] = useState<string | null>(null);
 

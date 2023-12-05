@@ -35,8 +35,8 @@ export const App = () => {
             <main className="relative flex flex-grow">
               <Routes>
                 <Route path="/">
-                  <Route index element={<Search />} />
                   <Route path="site/:siteId" element={<SiteDetails />} />
+                  <Route path="*" element={<Search />} />
                 </Route>
               </Routes>
 

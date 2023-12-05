@@ -95,7 +95,8 @@ export const Map = (props: MapProps) => {
     const map = new MapLibre({
       container: ref.current,
       style: props.style || document.querySelector('meta[name="peripleo.map.style"]')?.getAttribute('content'),
-      bounds: props.defaultBounds
+      bounds: props.defaultBounds,
+      hash: 'map'
     });
 
     if (props.disableScrollZoom)

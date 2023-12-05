@@ -1,8 +1,8 @@
-import { ReactNode, createContext, useContext } from 'react';
+import { ReactNode, createContext, useContext, useEffect } from 'react';
 import TypesenseInstantsearchAdapter from 'typesense-instantsearch-adapter';
 import { 
   InstantSearch, 
-  useHits as _useHits, 
+  useInfiniteHits as _useInfiniteHits,
   useSearchBox as _useSearchBox
 } from 'react-instantsearch'; 
 
@@ -28,13 +28,13 @@ const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
   },
   additionalSearchParameters: {
     query_by: "name,names",
-    limit: 100
+    limit: 250
   }
 });
 
 interface PersistentSearchStateContextValue {
 
-  hits: ReturnType<typeof _useHits>;
+  hits: ReturnType<typeof _useInfiniteHits>;
 
   searchBox: ReturnType<typeof _useSearchBox>;
 
@@ -49,9 +49,18 @@ const PersistentSearchStateContext = createContext<PersistentSearchStateContextV
  */
 const PersistentSearchState = (props: { children: ReactNode }) => {
   
-  const hits = _useHits();
+  const hits = _useInfiniteHits();
 
   const searchBox = _useSearchBox();
+
+  useEffect(() => {
+    // Just for testing!  
+    if (!hits.isLastPage) {
+      setTimeout(() => {
+        hits.showMore();
+      }, 100);
+    }
+  }, [hits.showMore, hits.results.page]);
 
   return (
     <PersistentSearchStateContext.Provider value={{ hits, searchBox }}>
@@ -82,7 +91,7 @@ export const TypeSenseSearch = (props: { children: ReactNode }) => {
  * Use these hooks as drop-in replacements for InstantSearch-provide hooks.
  */
 
-export const useHits = () => {
+export const useInfiniteHits = () => {
   const { hits } = useContext(PersistentSearchStateContext);
   return hits;
 }

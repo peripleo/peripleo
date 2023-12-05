@@ -38,7 +38,7 @@ export const Search = () => {
         </Popover.Root>
       </div>
   
-      <div className="overflow-y-auto">
+      <div className="overflow-y-auto flex-grow">
         <SearchResultList />
       </div>
     </aside>

@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
-import { Feature, ID } from '../../Types';
+import { Feature } from '../../Types';
 
 export type HoverContextState = {
 
@@ -23,12 +23,12 @@ export const HoverProvider = (props: { children: ReactNode }) => {
 
 }
 
-export const useHoverState = <T extends { id: ID } = { id: ID }>() => {
+export const useHoverState = <T extends { id: string } = { id: string }>() => {
   const { hover, setHover } = useContext(HoverContext);
   return { hover: hover as Feature<T>, setHover };
 }
 
-export const useHoverValue = <T extends { id: ID } = { id: ID }>() => {
+export const useHoverValue = <T extends { id: string } = { id: string }>() => {
   const { hover } = useContext(HoverContext);
   return hover as Feature<T>;
 }
