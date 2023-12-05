@@ -3,7 +3,7 @@ import TypesenseInstantsearchAdapter from 'typesense-instantsearch-adapter';
 import { 
   InstantSearch, 
   useHits as _useHits, 
-  useSearchBox as _useSearchBox 
+  useSearchBox as _useSearchBox
 } from 'react-instantsearch'; 
 
 const { 

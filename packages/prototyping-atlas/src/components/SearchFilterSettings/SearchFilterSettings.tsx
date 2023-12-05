@@ -1,9 +1,21 @@
-import { RefinementList } from 'react-instantsearch';
+import { RefinementList, useDynamicWidgets } from 'react-instantsearch';
 import { Settings2 } from 'lucide-react';
 
 import './SearchFilterSettings.css';
 
 export const SearchFilterSettings = () => {
+
+  const { attributesToRender } = useDynamicWidgets({
+    facets: ['*']
+  });
+
+  // Simple formatting strategy: get rid of _facet and capitalize
+  const format = (attribute: string) =>
+    attribute
+      .substring(0, attribute.lastIndexOf('_'))
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
 
   return (
     <div>
@@ -12,8 +24,13 @@ export const SearchFilterSettings = () => {
       </h1>
 
       <div>
-        <h2 className="mt-5 font-semibold text-sm mb-2">Types</h2>
-        <RefinementList attribute="type_facet" />
+        {attributesToRender.map(attribute => (
+          <div key={attribute}>
+            <h2 className="mt-5 font-semibold text-sm mb-2">{format(attribute)}</h2>
+
+            <RefinementList attribute={attribute} />
+          </div>
+        ))}
       </div>
     </div>
   )
