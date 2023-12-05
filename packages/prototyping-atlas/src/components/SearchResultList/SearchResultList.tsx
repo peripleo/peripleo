@@ -13,8 +13,6 @@ interface HitComponentProps {
 
   isHovered: boolean;
 
-  onPointerEnter(): void;
-
 }
 
 const HitComponent = (props: HitComponentProps) => {
@@ -25,8 +23,7 @@ const HitComponent = (props: HitComponentProps) => {
 
   return (
     <div 
-      className={props.isHovered ? `bg-teal-700/30 ${cls}` : cls}
-      onPointerEnter={props.onPointerEnter}>
+      className={props.isHovered ? `bg-teal-700/30 ${cls}` : cls}>
       <Link 
         to={`/site/${hit.id}`}>
         <Highlight hit={hit} attribute="name" />
@@ -40,22 +37,22 @@ const HitComponent = (props: HitComponentProps) => {
 
 export const SearchResultList = () => {
 
-  const hits = useInfiniteHits();
+  const { hits } = useInfiniteHits();
 
   const { hover, setHover } = useHoverState();
 
-  const onPointerEnter = (hit: any) => () =>
-    setHover({...hit, properties: { id: hit.id }});
-
   const Row = ({ index, style}) => {
-    const hit = hits.hits[index];
+    const hit = hits[index];
     
     return (
-      <div style={style}>
+      <div 
+        style={style} 
+        // @ts-ignore
+        onPointerEnter={() => setHover(hover => hover?.id == hit.id 
+          ? hover : {...hit, properties: { id: hit.id }})}>
         <HitComponent 
           hit={hit} 
-          isHovered={hover?.id == hit.id}
-          onPointerEnter={onPointerEnter(hits.hits[index])} />
+          isHovered={hover?.id == hit?.id} />
       </div>
     )
   }
@@ -65,7 +62,7 @@ export const SearchResultList = () => {
       {({ height, width }) => (
         <FixedSizeList
           height={height}
-          itemCount={hits.hits.length}
+          itemCount={hits.length}
           width={width}
           itemSize={88}>
           {Row}

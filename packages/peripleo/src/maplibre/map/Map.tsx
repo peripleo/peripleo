@@ -75,7 +75,7 @@ export const Map = (props: MapProps) => {
   useLayoutEffect(() => {
     if (isExternalChange.current)
       setMapHover(map, hover); // sync external update downwards
-
+    
     isExternalChange.current = true;
   }, [map, hover]);
 
