@@ -33,7 +33,13 @@ const toGeoJSON = (hits: any[]): FeatureCollection => ({
 const searchResultLayerStyle = {
   'type': 'circle',
   'paint': {
-    'circle-radius': 8,
+    'circle-radius': [
+      'interpolate', 
+      ['linear'],
+      ['number', ['get','point_count'], 1 ],
+      0, 4, 
+      10, 14
+    ],
     'circle-stroke-width': 1,
     'circle-color': [
       'case',
@@ -69,8 +75,9 @@ export const HackedResultsMapLayer = (props: HackedResultsMapLayerProps) => {
 
         map.addSource(sourceId, {
           type: 'geojson',
-          // TODO
-          data: EMPTY_GEOJSON
+          data: toGeoJSON(hits),
+          cluster: true,
+          clusterRadius: 6
         });
 
         map.addLayer({
