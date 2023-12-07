@@ -1,4 +1,5 @@
 import { RefinementList, useDynamicWidgets } from 'react-instantsearch';
+import { jwtDecode } from 'jwt-decode';
 import { Settings2 } from 'lucide-react';
 
 import './SearchFilterSettings.css';
@@ -10,12 +11,19 @@ export const SearchFilterSettings = () => {
   });
 
   // Simple formatting strategy: get rid of _facet and capitalize
-  const format = (attribute: string) =>
-    attribute
-      .substring(0, attribute.lastIndexOf('_'))
-      .split(' ')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
+  const format = (attribute: string): string => {
+    if (attribute.startsWith('ey')) {
+      const payload = jwtDecode(attribute);
+      return 'label' in payload ? payload.label as string : attribute;
+    } else {
+      return attribute
+        .substring(0, attribute.lastIndexOf('_'))
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+    }
+  }
+
 
   return (
     <div>

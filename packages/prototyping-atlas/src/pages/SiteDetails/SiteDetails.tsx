@@ -1,5 +1,6 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { X } from 'lucide-react';
+import { jwtDecode } from "jwt-decode";
 import { Link, useParams } from 'react-router-dom';
 import { useInfiniteHits } from '../../components';
 
@@ -11,10 +12,12 @@ export const SiteDetails = () => {
 
   const site = useMemo(() => hits.find(hit => hit.id == siteId), [hits, siteId]);
 
-  // Debugging only!
-  useEffect(() => {
-    console.log('site', site);
-  }, [site]);
+  const userDefinedFields: [string, string][] = useMemo(() => Object.entries(site)
+    .filter(([key, _]) => key.startsWith('ey'))
+    .map(([key, value]) => { 
+      const payload = jwtDecode(key);
+      return [ 'label' in payload ? payload.label : '', value.toString() ] as [string, string];
+    }), [site]);
 
   return (
     <aside className="flex flex-col absolute p-3 z-10 h-full w-[280px] bg-white/80 backdrop-blur shadow overflow-hidden">
@@ -31,10 +34,10 @@ export const SiteDetails = () => {
           </h1>
 
           <ol className="text-sm mt-4 leading-6 overflow-hidden">
-            {(site.user_defined as any[]).map(record => (
-              <li key={record.label} className="mb-2">
-                <div className="text-muted">{record.label}</div>
-                <div className="font-medium overflow-hidden text-ellipsis">{record.value}</div>
+            {userDefinedFields.map(([key, value]) => (
+              <li key={key} className="mb-2">
+                <div className="text-muted">{key}</div>
+                <div className="font-medium overflow-hidden text-ellipsis">{value}</div>
               </li>
             ))}
           </ol>
