@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { Settings2, X } from 'lucide-react';
 import * as Popover from '@radix-ui/react-popover';
@@ -8,6 +9,8 @@ import { RefinementListProxy } from './RefinementListProxy';
 import './SearchFilterSettings.css';
 
 export const SearchFilterSettings = () => {
+
+  const [open, setOpen] = useState(false);
 
   const facets = useFacets();
 
@@ -26,8 +29,9 @@ export const SearchFilterSettings = () => {
   }
 
   return (
-    <Popover.Root>
+    <Popover.Root open={open}>
       <Popover.Trigger 
+        onClick={() => setOpen(open => !open)}
         className="p-2 rounded-full hover:bg-slate-300 focus:outline-2 focus:outline-offset-2 focus:outline-teal-700">
         <Settings2 className="h-4 w-4" />
         {facets.map(facet => (<RefinementListProxy key={facet} attribute={facet} />))}
@@ -58,6 +62,7 @@ export const SearchFilterSettings = () => {
           </div>
 
           <Popover.Close
+            onClick={() => setOpen(false)}
             className="absolute top-3 right-3 p-1.5 rounded-full hover:bg-slate-200 focus:outline-2 focus:outline-offset-2 focus:outline-teal-700">
             <X className="h-4 w-4" />
           </Popover.Close>
