@@ -5,7 +5,7 @@ import {
   InstantSearch, 
   useDynamicWidgets,
   useInfiniteHits,
-  useSearchBox as _useSearchBox,
+  useSearchBox as _useSearchBox
 } from 'react-instantsearch'; 
 
 const { 
