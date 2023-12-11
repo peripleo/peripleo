@@ -39,17 +39,34 @@ const routing = {
   stateMapping: {
     stateToRoute: (state: any) => {
       const uiState = state[VITE_TS_INDEX_NAME];
-      return {
+      const { refinementList } = uiState;
+
+      let route = {
         q: uiState.query
       };
+
+      if (refinementList)
+        route = {
+          ...route,
+          ...refinementList
+        }
+
+      return route;
     },
 
     routeToState: (state: any) => {
-      return {
+      const { q, ...facets} = state;
+      
+      let uiState: any = {
         [VITE_TS_INDEX_NAME]: {
-          query: state.q
+          query: q,
         }
       };
+
+      if (Object.keys(facets).length > 0)
+        uiState.refinementList = facets;
+
+      return uiState;
     }
   }
 };
@@ -75,7 +92,7 @@ const PersistentSearchState = (props: { children: ReactNode }) => {
 
   const searchBox = _useSearchBox();
 
-  const hits = useInfiniteHits();
+  const infiniteHits = useInfiniteHits();
 
   const [cachedHits, setCachedHits] = useState<any[]>([]);
 
@@ -88,18 +105,21 @@ const PersistentSearchState = (props: { children: ReactNode }) => {
   });
 
   useEffect(() => {
-    // Add to cache and load next page
-    if (hits.isFirstPage)
-      setCachedHits(() => hits.currentPageHits);
-    else
-      setCachedHits(h => ([...h, ...hits.currentPageHits]));
+    const { results } = infiniteHits;
 
-    if (!hits.isLastPage) {
-      setTimeout(() => {
-        hits.showMore();
-      }, 50);
+    const isFirstPage = results.page === 0;
+    const isLastPage = results.page + 1 >= results.nbPages;
+
+    // Add to cache and load next page
+    if (isFirstPage)
+      setCachedHits(() => results.hits);
+    else
+      setCachedHits(h => ([...h, ...results.hits]));
+
+    if (!isLastPage && infiniteHits.showMore) {
+      setTimeout(() => infiniteHits.showMore(), 25);
     }
-  }, [hits.showMore, hits.results]);
+  }, [infiniteHits.showMore, infiniteHits.results]);
   
   return (
     <PersistentSearchStateContext.Provider value={{ cachedHits, facets: attributesToRender, searchBox }}>
