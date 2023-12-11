@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { FeatureCollection } from '@peripleo/peripleo';
 import { useMap } from '@peripleo/peripleo/maplibre';
-import { useInfiniteHits } from '../TypeSenseSearch';
+import { useCachedHits } from '../TypeSenseSearch';
 
 type HackedResultsMapLayerProps = { 
 
@@ -55,7 +55,7 @@ export const HackedResultsMapLayer = (props: HackedResultsMapLayerProps) => {
 
   const { id } = props;
 
-  const { hits } = useInfiniteHits();
+  const hits = useCachedHits();
 
   const [sourceId, setSourceId] = useState<string | null>(null);
 

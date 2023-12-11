@@ -2,13 +2,13 @@ import { useMemo } from 'react';
 import { X } from 'lucide-react';
 import { jwtDecode } from "jwt-decode";
 import { Link, useParams } from 'react-router-dom';
-import { useInfiniteHits } from '../../components';
+import { useCachedHits } from '../../components';
 
 export const SiteDetails = () => {
 
   const { siteId }  = useParams();
 
-  const { hits } = useInfiniteHits();
+  const hits = useCachedHits();
 
   const site = useMemo(() => hits.find(hit => hit.id == siteId), [hits, siteId]);
 

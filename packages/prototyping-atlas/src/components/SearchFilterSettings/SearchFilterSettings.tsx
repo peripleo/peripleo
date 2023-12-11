@@ -1,14 +1,13 @@
-import { RefinementList, useDynamicWidgets } from 'react-instantsearch';
 import { jwtDecode } from 'jwt-decode';
 import { Settings2 } from 'lucide-react';
+import { useFacets } from '../TypeSenseSearch';
 
 import './SearchFilterSettings.css';
+import { RefinementList } from 'react-instantsearch';
 
 export const SearchFilterSettings = () => {
 
-  const { attributesToRender } = useDynamicWidgets({
-    facets: ['*']
-  });
+  const facets = useFacets();
 
   // Simple formatting strategy: get rid of _facet and capitalize
   const format = (attribute: string): string => {
@@ -24,7 +23,6 @@ export const SearchFilterSettings = () => {
     }
   }
 
-
   return (
     <div>
       <h1 className="w-full items-center font-medium text-black">
@@ -32,14 +30,14 @@ export const SearchFilterSettings = () => {
       </h1>
 
       <div>
-        {attributesToRender.map(attribute => (
-          <div key={attribute}>
-            <h2 className="mt-5 font-semibold text-sm mb-2">{format(attribute)}</h2>
+        {facets.map(facet => (
+          <div key={facet}>
+            <h2 className="mt-5 font-semibold text-sm mb-2">{format(facet)}</h2>
 
-            <RefinementList attribute={attribute} />
+            <RefinementList attribute={facet} />
           </div>
         ))}
-      </div>
+        </div>
     </div>
   )
 
