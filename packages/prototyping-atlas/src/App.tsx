@@ -6,6 +6,7 @@ import { AppHeader, HackedResultsMapLayer, TypeSenseSearch } from './components'
 import { Search, SiteDetails } from './pages';
 
 import '@peripleo/peripleo/default-theme';
+import { SearchResultTooltip } from './components/SearchResultTooltip';
 
 const MapSelectionListener = () => {
 
@@ -53,8 +54,8 @@ export const App = () => {
 
                 <Tooltip 
                   layerId="searchresults" 
-                  content={() => (
-                    <div>Hello World</div>
+                  content={(target, event) => (
+                    <SearchResultTooltip target={target} event={event} />
                   )}/>
               </Map>
             </main>

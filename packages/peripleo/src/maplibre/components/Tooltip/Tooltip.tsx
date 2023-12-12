@@ -1,22 +1,23 @@
 import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { MapGeoJSONFeature, MapMouseEvent, PointLike } from 'maplibre-gl';
+import { GeoJSONSource, MapGeoJSONFeature, MapMouseEvent, PointLike } from 'maplibre-gl';
 import { CLICK_THRESHOLD, useMap } from '../../map';
+import { Feature, FeatureCluster } from '@/Types';
 
 interface TooltipProps {
 
   layerId: string;
 
-  content(feature: MapGeoJSONFeature): ReactNode;
+  content(target: Feature | FeatureCluster, event: MouseEvent): ReactNode;
 
 }
 
 interface Hovered { 
   
-  event: MapMouseEvent; 
+  target: Feature | FeatureCluster;
   
-  feature: MapGeoJSONFeature;
-
+  event: MouseEvent; 
+  
 }
 
 const DEFAULT_OFFSET = 10;
@@ -40,15 +41,43 @@ export const Tooltip = (props: TooltipProps) => {
     const features = map.queryRenderedFeatures(bbox)
       .filter(({ layer }) => layer.id === props.layerId);
 
-    if (features.length > 0)
-      setHovered({ feature: features[0], event });
-    else
+    if (features.length > 0) {
+      const { id, type, source, properties, geometry } = features[0];
+
+      if (properties.cluster) {
+        // This feature is a cluster
+        const clusterSource = map.getSource(source) as GeoJSONSource;
+        clusterSource.getClusterLeaves(properties.cluster_id, Infinity, 0, (error, results) => {
+          if (error) {
+            console.error(error);
+          } else {
+            const clusteredFeatures = results.map(r => ({ 
+              id: r.id,
+              type: r.type, 
+              properties: r.properties, 
+              geometry: r.geometry 
+            }) as Feature);
+
+            setHovered({ 
+              target: { clusterId: id.toString(), features: clusteredFeatures }, 
+              event: event.originalEvent
+            });
+          }
+        });
+      } else {
+        setHovered({ 
+          target: { id: id.toString(), type, properties, geometry } as Feature, 
+          event: event.originalEvent
+        });
+      }
+    } else {
       setHovered(undefined);
+    }
   }
 
   useLayoutEffect(() => {
     if (el.current) {
-      const { clientX, clientY } = hovered.event.originalEvent;
+      const { clientX, clientY } = hovered.event;
 
       const style = el.current.style;
       style.left = `${clientX + DEFAULT_OFFSET}px`;
@@ -68,7 +97,7 @@ export const Tooltip = (props: TooltipProps) => {
     <div
       ref={el}
       className="p6o-tooltip-container">
-      {props.content(hovered.feature)}
+      {props.content(hovered.target, hovered.event)}
     </div>,
 
     document.body

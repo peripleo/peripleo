@@ -16,6 +16,14 @@ export interface Feature<T extends { [key: string]: any } = {}> {
 
 }
 
+export interface FeatureCluster<T extends { [key: string]: any } = {}> {
+
+  clusterId: string,
+
+  features: Feature<T>[];
+
+}
+
 export interface FeatureCollection<T extends { [key: string]: any } = {}> {
 
   type: 'FeatureCollection',
