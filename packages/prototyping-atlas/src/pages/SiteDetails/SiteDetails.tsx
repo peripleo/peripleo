@@ -1,12 +1,16 @@
 import { useMemo } from 'react';
 import { X } from 'lucide-react';
 import { jwtDecode } from "jwt-decode";
-import { Link, useParams } from 'react-router-dom';
 import { useCachedHits } from '../../components';
+import { Link, useParams } from '../../components/Router';
 
 export const SiteDetails = () => {
 
-  const { siteId }  = useParams();
+  const params = useParams();
+
+  console.log('params', params);
+
+  const { siteId } = params;
 
   const hits = useCachedHits();
 

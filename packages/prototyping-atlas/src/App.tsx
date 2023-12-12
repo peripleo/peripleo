@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
-import { HashRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { Controls, Peripleo, useSelectionValue } from '@peripleo/peripleo';
 import { Map, Tooltip, Zoom } from '@peripleo/peripleo/maplibre';
-import { AppHeader, HackedResultsMapLayer, TypeSenseSearch } from './components';
+import { AppHeader, HackedResultsMapLayer, SearchResultTooltip, TypeSenseSearch } from './components';
+import { Router, Routes, Route, useNavigate } from './components/Router';
 import { Search, SiteDetails } from './pages';
 
 import '@peripleo/peripleo/default-theme';
-import { SearchResultTooltip } from './components/SearchResultTooltip';
+
 
 const MapSelectionListener = () => {
 
@@ -29,19 +29,16 @@ export const App = () => {
   return (
     <Peripleo>
       <TypeSenseSearch>
-        <HashRouter>
+        <Router>
           <div className="w-full h-full flex flex-col font-sans">
             <AppHeader className="flex-grow-0 flex-shrink-0" />
 
             <main className="relative flex flex-grow">
               <Routes>
-                <Route path="/">
-                  <Route index element={<Search />} />
-                  <Route path="site/:siteId" element={<SiteDetails />} />
-                  <Route path="*" element={<Search />} />
-                </Route>
+                <Route match="/site/:siteId" element={ <SiteDetails /> } />
+                <Route element={ <Search /> } />
               </Routes>
-
+                
               <MapSelectionListener />
 
               <Map className="flex-grow">
@@ -60,7 +57,7 @@ export const App = () => {
               </Map>
             </main>
           </div>
-        </HashRouter>
+        </Router>
       </TypeSenseSearch>
     </Peripleo>
   )

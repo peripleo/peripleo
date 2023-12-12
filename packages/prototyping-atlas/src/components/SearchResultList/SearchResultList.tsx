@@ -1,11 +1,11 @@
 import { FixedSizeList } from 'react-window';
 import AutoSizer from "react-virtualized-auto-sizer";
-import { Link } from 'react-router-dom';
 import { useHoverState } from '@peripleo/peripleo';
 import { Highlight } from 'react-instantsearch';
 import { useCachedHits } from '../TypeSenseSearch';
 
 import './SearchResultList.css';
+import { Link } from '../Router';
 
 interface HitComponentProps {
 
