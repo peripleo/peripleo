@@ -33,12 +33,7 @@ export const Tooltip = (props: TooltipProps) => {
   const onMouseMove = (event: MapMouseEvent) => {
     const map = event.target;
 
-    const bbox: [PointLike, PointLike] = [
-      [event.point.x - CLICK_THRESHOLD, event.point.y - CLICK_THRESHOLD],
-      [event.point.x + CLICK_THRESHOLD, event.point.y + CLICK_THRESHOLD]
-    ];
-
-    const features = map.queryRenderedFeatures(bbox)
+    const features = map.queryRenderedFeatures(event.point)
       .filter(({ layer }) => layer.id === props.layerId);
 
     if (features.length > 0) {
