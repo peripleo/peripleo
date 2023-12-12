@@ -36,6 +36,7 @@ export const SearchFilterSettings = () => {
         onClick={() => setOpen(open => !open)}
         className="relative p-2 rounded-full hover:bg-slate-300 focus:outline-2 focus:outline-offset-2 focus:outline-teal-700">
         <Settings2 className="h-4 w-4" />
+        
         {facets.map(facet => (<RefinementListProxy key={facet} attribute={facet} />))}
 
         {items.length > 0 && (

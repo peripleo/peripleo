@@ -64,7 +64,7 @@ const routing = {
       };
 
       if (Object.keys(facets).length > 0)
-        uiState.refinementList = facets;
+        uiState[VITE_TS_INDEX_NAME].refinementList = facets;
 
       return uiState;
     }
@@ -130,7 +130,7 @@ const PersistentSearchState = (props: { children: ReactNode }) => {
 }
 
 export const TypeSenseSearch = (props: { children: ReactNode }) => {
-
+  
   return (
     <InstantSearch 
       indexName={VITE_TS_INDEX_NAME}
