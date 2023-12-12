@@ -1,2 +1,1 @@
-export * from './TooltipContainer';
-export * from './TooltipProps';
+export * from './Tooltip';

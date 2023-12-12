@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { FeatureCollection } from '@peripleo/peripleo';
-import { useMap } from '@peripleo/peripleo/maplibre';
 import { useCachedHits } from '../TypeSenseSearch';
+import { useMap } from '@peripleo/peripleo/maplibre';
 
 type HackedResultsMapLayerProps = { 
 

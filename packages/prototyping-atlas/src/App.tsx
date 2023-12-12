@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { HashRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { Controls, Peripleo, useSelectionValue } from '@peripleo/peripleo';
-import { Map, Zoom } from '@peripleo/peripleo/maplibre';
+import { Map, Tooltip, Zoom } from '@peripleo/peripleo/maplibre';
 import { AppHeader, HackedResultsMapLayer, TypeSenseSearch } from './components';
 import { Search, SiteDetails } from './pages';
 
@@ -50,6 +50,12 @@ export const App = () => {
 
                 <HackedResultsMapLayer
                   id="searchresults" />
+
+                <Tooltip 
+                  layerId="searchresults" 
+                  content={() => (
+                    <div>Hello World</div>
+                  )}/>
               </Map>
             </main>
           </div>
