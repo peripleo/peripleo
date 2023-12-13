@@ -14,16 +14,17 @@ const parseParams = (params?: string) => {
   if (!params?.includes('='))
     return {};
 
-  const pairs = params.split('&');
+  const str = params.replace(/^[/#]+/, '').trim();
+  const pairs = str.split('&');
 
   return Object.fromEntries(pairs.map(p => p.split('=')));
 }
 
-const parseHash = (hash: string) => {
-  const [route, params] = hash.substring(1).split(/\&(.*)/s)
+export const parseHash = (hash: string) => {
+  const [route, params] = hash.substring(1).split(/\&(.*)/s);
 
   if (!route)
-    return { route: '/', params: {}};
+    return { route: '/', params: parseParams(params)};
 
   if (route.includes('='))
     return { route: '/', params: parseParams(hash) };
@@ -31,7 +32,7 @@ const parseHash = (hash: string) => {
   return { route, params: parseParams(params) };
 }
 
-const serializeHash = (arg: { route: string, params: { [key: string]: string }}): string => {
+export const serializeHash = (arg: { route: string, params: { [key: string]: string }}): string => {
   const { route, params } = arg;
 
   let hash = `#${route}`;
