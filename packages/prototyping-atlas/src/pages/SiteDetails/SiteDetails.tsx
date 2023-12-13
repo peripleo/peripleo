@@ -12,6 +12,7 @@ export const SiteDetails = () => {
 
   const hits = useCachedHits();
 
+  // Temporary! Site should be fetched from the API
   const site = useMemo(() => hits.find(hit => hit.id == siteId), [hits, siteId]);
 
   const userDefinedFields: [string, string][] = useMemo(() => Object.entries(site)

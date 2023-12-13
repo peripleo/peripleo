@@ -4,7 +4,6 @@ import { Settings2, X } from 'lucide-react';
 import * as Popover from '@radix-ui/react-popover';
 import { useFacets } from '../TypeSenseSearch';
 import { RefinementList, useCurrentRefinements } from 'react-instantsearch';
-import { RefinementListProxy } from './RefinementListProxy';
 
 import './SearchFilterSettings.css';
 
@@ -37,8 +36,6 @@ export const SearchFilterSettings = () => {
         className="relative p-2 rounded-full hover:bg-slate-300 focus:outline-2 focus:outline-offset-2 focus:outline-teal-700">
         <Settings2 className="h-4 w-4" />
         
-        {facets.map(facet => (<RefinementListProxy key={facet} attribute={facet} />))}
-
         {items.length > 0 && (
           <div className="absolute -top-[6px] -right-[6px] w-[19px] h-[19px]
             text-[11px] font-medium rounded-full flex justify-center items-center bg-teal-700 text-white">

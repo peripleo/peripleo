@@ -1,6 +1,7 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import TypesenseInstantsearchAdapter from 'typesense-instantsearch-adapter';
 import { history } from 'instantsearch.js/es/lib/routers';
+import { RefinementListProxy } from './RefinementListProxy';
 import { 
   InstantSearch, 
   useDynamicWidgets,
@@ -124,6 +125,9 @@ const PersistentSearchState = (props: { children: ReactNode }) => {
   return (
     <PersistentSearchStateContext.Provider value={{ cachedHits, facets: attributesToRender, searchBox }}>
       {props.children}
+
+      {/* This ensures dynamic attribute refinements stay persistent */}
+      {attributesToRender.map(facet => (<RefinementListProxy key={facet} attribute={facet} />))}
     </PersistentSearchStateContext.Provider>
   )
 
