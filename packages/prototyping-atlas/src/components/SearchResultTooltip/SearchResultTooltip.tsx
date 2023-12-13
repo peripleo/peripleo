@@ -1,4 +1,5 @@
 import { Feature, FeatureCluster } from '@peripleo/peripleo';
+import { TypeSenseSearchResult } from '../TypeSenseSearch';
 
 interface SearchResultTooltipProps {
 
@@ -13,11 +14,11 @@ export const SearchResultTooltip = (props: SearchResultTooltipProps) => {
   const isCluster = 'clusterId' in props.target;
 
   const feature = isCluster 
-    ? (props.target as FeatureCluster<{ name: string}>).features[0] 
-    : (props.target as Feature<{ name: string}>);
+    ? (props.target as FeatureCluster<TypeSenseSearchResult>).features[0] 
+    : (props.target as Feature<TypeSenseSearchResult>);
 
   const more = isCluster
-    ? (props.target as FeatureCluster<{ name: string}>).features.length - 1
+    ? (props.target as FeatureCluster<TypeSenseSearchResult>).features.length - 1
     : 0; 
 
   return (
