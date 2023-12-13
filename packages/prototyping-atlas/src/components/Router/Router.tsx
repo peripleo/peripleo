@@ -41,11 +41,8 @@ export const serializeHash = (arg: { route: string, params: { [key: string]: str
     .map(([key, value]) => `${key}=${value}`)
     .join('&');
 
-  if (queryParams) {
+  if (queryParams)
     hash += `&${queryParams}`;
-  }
-
-  console.log('result', hash);
 
   return hash;
 }
@@ -84,14 +81,10 @@ export const useParams = () => {
 export const useNavigate = () => {
   const { setUrlState } = useContext(RouterContext);
 
-  return (route: string) => setUrlState(state => {
-    console.log('current', state);
-
-    return {
-      route,
-      params: state.params
-    }
-  });
+  return (route: string) => setUrlState(state => ({
+    route,
+    params: state.params
+  }));
 }
 
 export const useSetParams = () => {

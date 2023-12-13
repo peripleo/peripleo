@@ -2,15 +2,13 @@ import { useMemo } from 'react';
 import { X } from 'lucide-react';
 import { jwtDecode } from "jwt-decode";
 import { useCachedHits } from '../../components';
-import { Link, useParams } from '../../components/Router';
+import { Link, useCurrentRoute } from '../../components/Router';
 
 export const SiteDetails = () => {
 
-  const params = useParams();
+  const route = useCurrentRoute();
 
-  console.log('params', params);
-
-  const { siteId } = params;
+  const [, siteId] = route.split('/').filter(Boolean);
 
   const hits = useCachedHits();
 

@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { useCurrentRoute, useNavigate, useParams } from './Router';
+import { useNavigate } from './Router';
 
 interface LinkProps {
 
@@ -16,6 +16,8 @@ export const Link = (props: LinkProps) => {
   const navigate = useNavigate();
 
   const onClick = (evt: React.MouseEvent) => {
+    // This prevents normal link navigation, and instead
+    // makes sure 'navigate' gets called to retain params
     evt.preventDefault();
     navigate(props.to);
   }
