@@ -81,10 +81,13 @@ export const useParams = () => {
 export const useNavigate = () => {
   const { setUrlState } = useContext(RouterContext);
 
-  return (route: string) => setUrlState(state => ({
-    route,
-    params: state.params
-  }));
+  return (route: string) => setUrlState(() => {
+    const current = parseHash(window.location.hash);
+    return {
+      route,
+      params: current.params
+    }
+  });
 }
 
 export const useSetParams = () => {
