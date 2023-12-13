@@ -1,8 +1,9 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { X } from 'lucide-react';
 import { jwtDecode } from "jwt-decode";
-import { useCachedHits } from '../../components';
+import { toFeature, useCachedHits } from '../../components';
 import { Link, useCurrentRoute } from '../../components/Router';
+import { useSelectionState } from '@peripleo/peripleo';
 
 export const SiteDetails = () => {
 
@@ -11,6 +12,8 @@ export const SiteDetails = () => {
   const [, siteId] = route.split('/').filter(Boolean);
 
   const hits = useCachedHits();
+
+  const { setSelected } = useSelectionState();
 
   // Temporary! Site should be fetched from the API
   const site = useMemo(() => hits.find(hit => hit.id == siteId), [hits, siteId]);
@@ -21,6 +24,14 @@ export const SiteDetails = () => {
       const payload = jwtDecode(key);
       return [ 'label' in payload ? payload.label : '', value.toString() ] as [string, string];
     }), [site]);
+
+  useEffect(() => {
+    setSelected(toFeature(site));
+
+    return () => {
+      setSelected(undefined);
+    }
+  }, [site?.id])
 
   return (
     <aside className="flex flex-col absolute p-3 z-10 h-full w-[280px] bg-white/80 backdrop-blur shadow overflow-hidden">

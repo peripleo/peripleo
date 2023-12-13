@@ -1,16 +1,16 @@
 import { useEffect } from 'react';
 import { StylePropertyExpression } from 'maplibre-gl';
 import { useMap } from '../../../maplibre/map';
-import { useSelectionValue, useStore } from '../../../state';
+import { useSelectionValue } from '../../../state';
 import { Marker } from './Marker';
 
 const EMPTY_GEOJSON = { type: 'FeatureCollection', features: [] };
 
 interface SelectionCircleProps {
 
-  duration: number;
+  duration?: number;
 
-  rgb: [number, number, number];
+  rgb?: [number, number, number];
 
   size: number;
 
@@ -18,17 +18,19 @@ interface SelectionCircleProps {
 
 export const PulsingSelectionMarker = (props: SelectionCircleProps) => {
 
+  const rgb = props.rgb || [246, 112, 86];
+
+  const duration = props.duration || 1000;
+
   const map = useMap();
 
   const selection = useSelectionValue();
-
-  const store = useStore();
 
   useEffect(() => {
     const onLoad = () => {
       map.addImage(
         'selection-pulse', 
-        Marker(props.size * 2, props.rgb, props.duration, map), 
+        Marker(props.size * 2, rgb, duration, map), 
         { pixelRatio: 2 });
 
       map.addSource('pulsing-selection-marker-source', {
@@ -67,9 +69,8 @@ export const PulsingSelectionMarker = (props: SelectionCircleProps) => {
 
   useEffect(() => {
     if (selection) {
-      const place = store.getPlaceById(selection.id);
       // @ts-ignore
-      map.getSource('pulsing-selection-marker-source')?.setData(place);
+      map.getSource('pulsing-selection-marker-source')?.setData(selection);
     } else {
       // @ts-ignore
       map.getSource('pulsing-selection-marker-source')?.setData(EMPTY_GEOJSON);

@@ -3,9 +3,9 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import { useHoverState } from '@peripleo/peripleo';
 import { Highlight } from 'react-instantsearch';
 import { useCachedHits } from '../TypeSenseSearch';
+import { Link } from '../Router';
 
 import './SearchResultList.css';
-import { Link } from '../Router';
 
 interface HitComponentProps {
 

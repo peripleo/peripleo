@@ -3,6 +3,5 @@ export * from './HackedResultsMapLayer';
 export * from './SearchBox';
 export * from './SearchFilterSettings';
 export * from './SearchResultList';
-export * from './SearchResultsMapLayer';
 export * from './SearchResultTooltip';
 export * from './TypeSenseSearch';

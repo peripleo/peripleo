@@ -2,6 +2,7 @@ import { ReactNode, createContext, useContext, useEffect, useState } from 'react
 import TypesenseInstantsearchAdapter from 'typesense-instantsearch-adapter';
 import { history } from 'instantsearch.js/es/lib/routers';
 import { RefinementListProxy } from './RefinementListProxy';
+import { TypeSenseSearchResult } from './TypeSenseSearchResult';
 import { 
   InstantSearch, 
   useDynamicWidgets,
@@ -74,7 +75,7 @@ const routing = {
 
 interface PersistentSearchStateContextValue {
 
-  cachedHits: any[];
+  cachedHits: TypeSenseSearchResult[];
 
   searchBox: ReturnType<typeof _useSearchBox>;
 
@@ -95,7 +96,7 @@ const PersistentSearchState = (props: { children: ReactNode }) => {
 
   const infiniteHits = useInfiniteHits();
 
-  const [cachedHits, setCachedHits] = useState<any[]>([]);
+  const [cachedHits, setCachedHits] = useState<TypeSenseSearchResult[]>([]);
 
   // For some reason, 'hits' in useInfiniteHits gets set to zero
   // as soon as this hook in used. Only 'currentPageHits' gets filled.
@@ -113,9 +114,9 @@ const PersistentSearchState = (props: { children: ReactNode }) => {
 
     // Add to cache and load next page
     if (isFirstPage)
-      setCachedHits(() => results.hits);
+      setCachedHits(() => results.hits as unknown as TypeSenseSearchResult[]);
     else
-      setCachedHits(h => ([...h, ...results.hits]));
+      setCachedHits(h => ([...h, ...results.hits as unknown as TypeSenseSearchResult[]]));
 
     if (!isLastPage && infiniteHits.showMore) {
       setTimeout(() => infiniteHits.showMore(), 25);

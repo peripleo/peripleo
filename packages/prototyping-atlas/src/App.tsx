@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Controls, Peripleo, useSelectionValue } from '@peripleo/peripleo';
-import { Map, Tooltip, Zoom } from '@peripleo/peripleo/maplibre';
+import { Map, PulsingSelectionMarker, Tooltip, Zoom } from '@peripleo/peripleo/maplibre';
 import { AppHeader, HackedResultsMapLayer, SearchResultTooltip, TypeSenseSearch } from './components';
 import { Router, Routes, Route, useNavigate } from './components/Router';
 import { Search, SiteDetails } from './pages';
@@ -15,10 +15,9 @@ const MapSelectionListener = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // If a selection happens via the map, navigate to site details
-    if (selected)
+    if (selected?.id)
       navigate(`/site/${selected.id}`);
-  }, [selected]);
+  }, [selected?.id]);
 
   return null;
 
@@ -48,6 +47,8 @@ export const App = () => {
 
                 <HackedResultsMapLayer
                   id="searchresults" />
+
+                <PulsingSelectionMarker size={100} />
 
                 <Tooltip 
                   layerId="searchresults" 
