@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { FeatureCollection } from '@peripleo/peripleo';
 import { useCachedHits } from '../TypeSenseSearch';
 import { useMap } from '@peripleo/peripleo/maplibre';
+import { useGeoSearch } from 'react-instantsearch';
 
 type HackedResultsMapLayerProps = { 
 
@@ -57,6 +58,8 @@ export const HackedResultsMapLayer = (props: HackedResultsMapLayerProps) => {
 
   const hits = useCachedHits();
 
+  const { items, refine } = useGeoSearch();
+
   const [sourceId, setSourceId] = useState<string | null>(null);
 
   const [mapLoaded, setMapLoaded] = useState(false);
@@ -66,6 +69,13 @@ export const HackedResultsMapLayer = (props: HackedResultsMapLayerProps) => {
   useEffect(() => {
     const onLoad = () => setMapLoaded(true);
     map.on('load', onLoad);
+
+    /*
+    refine({
+      northEast: { lat: 89, lng: 180 },
+      southWest: { lat: -89, lng: -180 }
+    })
+    */
   }, []);
 
   useEffect(() => {
@@ -92,6 +102,7 @@ export const HackedResultsMapLayer = (props: HackedResultsMapLayerProps) => {
 
         setSourceId(sourceId);
       } else {
+        console.log('unlocated', hits.filter(h => !h.geometry));
         const geojson = toGeoJSON(hits);
 
         // @ts-ignore

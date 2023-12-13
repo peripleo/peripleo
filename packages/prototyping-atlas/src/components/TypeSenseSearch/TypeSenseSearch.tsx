@@ -109,6 +109,8 @@ const PersistentSearchState = (props: { children: ReactNode }) => {
   useEffect(() => {
     const { results } = infiniteHits;
 
+    console.log(infiniteHits);
+
     const isFirstPage = results.page === 0;
     const isLastPage = results.page + 1 >= results.nbPages;
 
