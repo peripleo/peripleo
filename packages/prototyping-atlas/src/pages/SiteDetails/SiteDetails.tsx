@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { X } from 'lucide-react';
 import { Link, useCurrentRoute, useSelectionState } from '@peripleo/peripleo';
-import { useCachedHits } from '../../components';
+import { toFeature, useCachedHits } from '../../components';
 import { useRuntimeConfig } from '../../RuntimeConfig';
 
 export const SiteDetails = () => {
@@ -14,12 +14,12 @@ export const SiteDetails = () => {
 
   const hits = useCachedHits();
 
-  const [site, setSite] = useState<any>();
+  // const [site, setSite] = useState<any>();
 
   const { setSelected } = useSelectionState();
 
   // Temporary! Site should be fetched from the API
-  // const site = useMemo(() => hits.find(hit => hit.id == siteId), [hits, siteId]);
+  const site = useMemo(() => hits.find(hit => hit.id == siteId), [hits, siteId]);
 
   /*
   const userDefinedFields: [string, string][] = useMemo(() => Object.entries(site)
@@ -31,8 +31,9 @@ export const SiteDetails = () => {
   */
 
   useEffect(() => {
-    const url = 
-      `${core_data.url}/core_data/public/places/${siteId}?project_ids=${core_data.project_ids.join(',')}`;
+
+    // const url = 
+    //  `${core_data.url}/core_data/public/places/${siteId}?project_ids=${core_data.project_ids.join(',')}`;
 
     /*
     fetch(url)
@@ -44,13 +45,13 @@ export const SiteDetails = () => {
       */
 
 
-    // setSelected(toFeature(site));
-    /*
+    setSelected(toFeature(site));
+    
     return () => {
       setSelected(undefined);
     }
-    */
-  }, [siteId])
+    
+  }, [site])
 
   return (
     <aside className="flex flex-col absolute p-3 z-10 h-full w-[280px] bg-white/80 backdrop-blur shadow overflow-hidden">
