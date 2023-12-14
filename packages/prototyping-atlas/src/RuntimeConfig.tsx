@@ -22,6 +22,10 @@ export interface RuntimeConfiguration {
 
     index_name: string;    
 
+    query_by: string;
+
+    limit?: number;
+
   }
 
   core_data: {

@@ -25,8 +25,8 @@ const createTypesenseAdapter = (config: RuntimeConfiguration) =>
       cacheSearchResultsForSeconds: 120
     },
     additionalSearchParameters: {
-      query_by: "name,names",
-      limit: 250
+      query_by: config.typesense.query_by,
+      limit: config.typesense.limit || 250
     }
   });
 

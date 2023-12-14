@@ -8,7 +8,9 @@
     "port": 443,
     "protocol": "https",
     "api_key": "your_typesense_api_key",
-    "index_name": "your_index_name"    
+    "index_name": "your_index_name",
+    "query_by": "title",
+    "limit": 100
   },
   "core_data": {
     "url": "https://core-data-api.example.com",
