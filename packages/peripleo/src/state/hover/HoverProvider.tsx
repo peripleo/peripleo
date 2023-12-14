@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
-import { Feature } from '../../Types';
+import { Feature } from '../../model';
 
 export type HoverContextState = {
 

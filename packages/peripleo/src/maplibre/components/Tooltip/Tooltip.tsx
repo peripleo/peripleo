@@ -1,8 +1,8 @@
 import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { GeoJSONSource, MapGeoJSONFeature, MapMouseEvent, PointLike } from 'maplibre-gl';
-import { CLICK_THRESHOLD, useMap } from '../../map';
-import { Feature, FeatureCluster } from '@/Types';
+import { GeoJSONSource,  MapMouseEvent } from 'maplibre-gl';
+import { useMap } from '../../map';
+import { Feature, FeatureCluster } from '../../../model';
 
 interface TooltipProps {
 

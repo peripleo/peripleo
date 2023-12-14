@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
-import { Feature, ID } from '../../Types';
+import { Feature } from '../../model';
 
 export type SelectionContextState = {
 
@@ -23,12 +23,12 @@ export const SelectionProvider = (props: { children: ReactNode }) => {
 
 }
 
-export const useSelectionState = <T extends { id: ID } = { id: ID }>() => {
+export const useSelectionState = <T extends { id: string } = { id: string }>() => {
   const { selected, setSelected } = useContext(SelectionContext);
   return { selected: selected as Feature<T>, setSelected };
 }
 
-export const useSelectionValue = <T extends { id: ID } = { id: ID }>() => {
+export const useSelectionValue = <T extends { id: string } = { id: string }>() => {
   const { selected } = useContext(SelectionContext);
   return selected as Feature<T>;
 }

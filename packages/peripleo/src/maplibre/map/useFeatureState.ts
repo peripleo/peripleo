@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Map } from 'maplibre-gl';
-import { Feature } from '../../Types';
+import { Feature } from '../../model';
 
 export const useFeatureRadioState = (property: string) => {
 

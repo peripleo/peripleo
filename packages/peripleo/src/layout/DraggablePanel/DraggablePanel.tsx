@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 import Draggable from 'react-draggable';
 import { ResizableBox } from 'react-resizable';
-import { CSSDimension } from '../Types';
 
 import './DraggablePanel.css';
 
