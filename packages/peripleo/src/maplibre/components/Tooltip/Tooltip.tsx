@@ -44,7 +44,7 @@ export const Tooltip = (props: TooltipProps) => {
         const clusterSource = map.getSource(source) as GeoJSONSource;
         clusterSource.getClusterLeaves(properties.cluster_id, Infinity, 0, (error, results) => {
           if (error) {
-            console.error(error);
+            console.warn(error);
           } else {
             const clusteredFeatures = results.map(r => ({ 
               id: r.id,
