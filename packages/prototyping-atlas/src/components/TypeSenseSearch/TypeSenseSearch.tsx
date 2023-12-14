@@ -1,6 +1,7 @@
-import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { ReactNode, createContext, useContext, useEffect, useMemo, useState } from 'react';
 import TypesenseInstantsearchAdapter from 'typesense-instantsearch-adapter';
 import { history } from 'instantsearch.js/es/lib/routers';
+import { useRuntimeConfig, type RuntimeConfiguration } from '../../RuntimeConfig';
 import { RefinementListProxy } from './RefinementListProxy';
 import { TypeSenseSearchResult } from './TypeSenseSearchResult';
 import { 
@@ -10,37 +11,30 @@ import {
   useSearchBox as _useSearchBox
 } from 'react-instantsearch'; 
 
-const { 
-  VITE_TS_HOST, 
-  VITE_TS_PORT, 
-  VITE_TS_PROTOCOL, 
-  VITE_TS_API_KEY,
-  VITE_TS_INDEX_NAME
-} = import.meta.env;
+const createTypesenseAdapter = (config: RuntimeConfiguration) => 
+  new TypesenseInstantsearchAdapter({
+    server: {
+      apiKey: config.typesense.api_key,
+      nodes: [
+        {
+          host: config.typesense.host,
+          port: config.typesense.port || 443,
+          protocol: config.typesense.protocol || 'https'
+        }
+      ],
+      cacheSearchResultsForSeconds: 120
+    },
+    additionalSearchParameters: {
+      query_by: "name,names",
+      limit: 250
+    }
+  });
 
-const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
-  server: {
-    apiKey: VITE_TS_API_KEY,
-    nodes: [
-      {
-        host: VITE_TS_HOST,
-        port: VITE_TS_PORT,
-        protocol: VITE_TS_PROTOCOL
-      }
-    ],
-    cacheSearchResultsForSeconds: 120
-  },
-  additionalSearchParameters: {
-    query_by: "name,names",
-    limit: 250
-  }
-});
-
-const routing = {
+const createRouting = (config: RuntimeConfiguration) => ({
   router: history(),
   stateMapping: {
     stateToRoute: (state: any) => {
-      const uiState = state[VITE_TS_INDEX_NAME];
+      const uiState = state[config.typesense.index_name];
       const { refinementList } = uiState;
 
       let route = {
@@ -60,18 +54,18 @@ const routing = {
       const { q, ...facets} = state;
       
       let uiState: any = {
-        [VITE_TS_INDEX_NAME]: {
+        [config.typesense.index_name]: {
           query: q,
         }
       };
 
       if (Object.keys(facets).length > 0)
-        uiState[VITE_TS_INDEX_NAME].refinementList = facets;
+        uiState[config.typesense.index_name].refinementList = facets;
 
       return uiState;
     }
   }
-};
+});
 
 interface PersistentSearchStateContextValue {
 
@@ -135,12 +129,18 @@ const PersistentSearchState = (props: { children: ReactNode }) => {
 }
 
 export const TypeSenseSearch = (props: { children: ReactNode }) => {
+
+  const config = useRuntimeConfig();
+
+  const adapter = useMemo(() => createTypesenseAdapter(config), []);
+
+  const routing = useMemo(() => createRouting(config), []);
   
   return (
     <InstantSearch 
-      indexName={VITE_TS_INDEX_NAME}
+      indexName={config.typesense.index_name}
       routing={routing}
-      searchClient={typesenseInstantsearchAdapter.searchClient}
+      searchClient={adapter.searchClient}
       future={{
         preserveSharedStateOnUnmount: true
       }}>

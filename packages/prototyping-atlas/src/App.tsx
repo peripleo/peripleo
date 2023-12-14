@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Map, PulsingSelectionMarker, Tooltip, Zoom } from '@peripleo/peripleo/maplibre';
 import { AppHeader, HackedResultsMapLayer, SearchResultTooltip, TypeSenseSearch } from './components';
 import { Search, SiteDetails } from './pages';
+import { useRuntimeConfig } from './RuntimeConfig';
 import { 
   Controls, 
   Peripleo, 
@@ -31,6 +32,8 @@ const MapSelectionListener = () => {
 
 export const App = () => {
 
+  const { branding } = useRuntimeConfig();
+
   return (
     <Peripleo>
       <TypeSenseSearch>
@@ -46,7 +49,9 @@ export const App = () => {
                 
               <MapSelectionListener />
 
-              <Map className="flex-grow">
+              <Map 
+                className="flex-grow"
+                style={branding.map_style}>
                 <Controls position="topright">
                   <Zoom />
                 </Controls>

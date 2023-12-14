@@ -1,17 +1,14 @@
 import { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
-import { useCachedHits } from '../../components';
 import { Link, useCurrentRoute, useSelectionState } from '@peripleo/peripleo';
-
-const VITE_CD_HOST = import.meta.env.VITE_CD_HOST.endsWith('/')
-  ? import.meta.env.VITE_CD_HOST.substring(0, import.meta.env.VITE_CD_HOST.length - 1)
-  : import.meta.env.VITE_CD_HOST;
-
-const { VITE_CD_PROJECT_IDS } = import.meta.env;
+import { useCachedHits } from '../../components';
+import { useRuntimeConfig } from '../../RuntimeConfig';
 
 export const SiteDetails = () => {
 
   const route = useCurrentRoute();
+
+  const { core_data } = useRuntimeConfig();
 
   const [, siteId] = route.split('/').filter(Boolean);
 
@@ -34,7 +31,8 @@ export const SiteDetails = () => {
   */
 
   useEffect(() => {
-    const url = `${VITE_CD_HOST}/core_data/public/places/${siteId}?project_ids=${VITE_CD_PROJECT_IDS}`;
+    const url = 
+      `${core_data.url}/core_data/public/places/${siteId}?project_ids=${core_data.project_ids.join(',')}`;
 
     /*
     fetch(url)

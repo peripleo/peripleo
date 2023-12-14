@@ -5,7 +5,7 @@ export interface MapProps {
 
   className?: string;
 
-  style?: string; 
+  style: string; 
   
   defaultBounds?: [[number, number], [number, number]];
 

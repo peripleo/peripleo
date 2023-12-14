@@ -3,9 +3,9 @@ import { GeoJSONSource, MapGeoJSONFeature, Map as MapLibre, MapMouseEvent, Point
 import { MapContext } from './MapContext';
 import { MapProps } from './MapProps';
 import { PopupContainer } from '../components/Popup';
+import { Feature } from '../../model';
 import { useSelectionState, useHoverState } from '../../state';
 import { useFeatureRadioState } from './useFeatureState';
-import { Feature } from '../../Types';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
 
@@ -116,7 +116,7 @@ export const Map = (props: MapProps) => {
   useEffect(() => {
     const map = new MapLibre({
       container: ref.current,
-      style: props.style || document.querySelector('meta[name="peripleo.map.style"]')?.getAttribute('content'),
+      style: props.style,
       bounds: props.defaultBounds,
       hash: 'map'
     });
