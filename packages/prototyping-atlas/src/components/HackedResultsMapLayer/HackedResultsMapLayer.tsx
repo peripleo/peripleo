@@ -75,7 +75,7 @@ export const HackedResultsMapLayer = (props: HackedResultsMapLayerProps) => {
       northEast: { lat: 89, lng: 180 },
       southWest: { lat: -89, lng: -180 }
     })
-    */
+    */    
   }, []);
 
   useEffect(() => {
@@ -102,7 +102,6 @@ export const HackedResultsMapLayer = (props: HackedResultsMapLayerProps) => {
 
         setSourceId(sourceId);
       } else {
-        console.log('unlocated', hits.filter(h => !h.geometry));
         const geojson = toGeoJSON(hits);
 
         // @ts-ignore

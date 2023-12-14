@@ -1,9 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
-import { jwtDecode } from "jwt-decode";
-import { toFeature, useCachedHits } from '../../components';
-import { Link, useCurrentRoute } from '../../components/Router';
-import { useSelectionState } from '@peripleo/peripleo';
+import { useCachedHits } from '../../components';
+import { Link, useCurrentRoute, useSelectionState } from '@peripleo/peripleo';
 
 const VITE_CD_HOST = import.meta.env.VITE_CD_HOST.endsWith('/')
   ? import.meta.env.VITE_CD_HOST.substring(0, import.meta.env.VITE_CD_HOST.length - 1)

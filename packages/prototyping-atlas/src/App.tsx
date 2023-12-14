@@ -1,12 +1,18 @@
 import { useEffect } from 'react';
-import { Controls, Peripleo, useSelectionValue } from '@peripleo/peripleo';
 import { Map, PulsingSelectionMarker, Tooltip, Zoom } from '@peripleo/peripleo/maplibre';
 import { AppHeader, HackedResultsMapLayer, SearchResultTooltip, TypeSenseSearch } from './components';
-import { Router, Routes, Route, useNavigate } from './components/Router';
 import { Search, SiteDetails } from './pages';
+import { 
+  Controls, 
+  Peripleo, 
+  Route,
+  Router,
+  Routes,
+  useNavigate,
+  useSelectionValue 
+} from '@peripleo/peripleo';
 
 import '@peripleo/peripleo/default-theme';
-
 
 const MapSelectionListener = () => {
 
