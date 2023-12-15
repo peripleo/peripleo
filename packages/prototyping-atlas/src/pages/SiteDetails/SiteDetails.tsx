@@ -21,8 +21,6 @@ export const SiteDetails = () => {
   // Temporary! Site should be fetched from the API
   const site = useMemo(() => hits.find(hit => hit.id == siteId), [hits, siteId]);
 
-  console.log(site);
-
   /*
   const userDefinedFields: [string, string][] = useMemo(() => Object.entries(site)
     .filter(([key, _]) => key.startsWith('ey'))
@@ -33,19 +31,14 @@ export const SiteDetails = () => {
   */
 
   useEffect(() => {
+    const url = 
+      `${core_data.url}/core_data/public/places/${site.record_id}?project_ids=${core_data.project_ids.join(',')}`;
 
-    // const url = 
-    //  `${core_data.url}/core_data/public/places/${siteId}?project_ids=${core_data.project_ids.join(',')}`;
-
-    /*
     fetch(url)
       .then(res => res.json())
       .then(data => {
         console.log('place', data);
-      })
-
-      */
-
+      });
 
     setSelected(toFeature(site));
     
