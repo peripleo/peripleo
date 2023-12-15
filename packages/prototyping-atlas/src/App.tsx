@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { Map, PulsingSelectionMarker, Tooltip, Zoom } from '@peripleo/peripleo/maplibre';
 import { AppHeader, SearchResultsMapLayer, SearchResultTooltip, TypeSenseSearch } from './components';
 import { Search, SiteDetails } from './pages';
-import { useRuntimeConfig } from './RuntimeConfig';
 import { 
   Controls, 
   Peripleo, 
@@ -14,6 +13,7 @@ import {
 } from '@peripleo/peripleo';
 
 import '@peripleo/peripleo/default-theme';
+import { useRuntimeConfig } from './CoreDataConfig';
 
 const MapSelectionListener = () => {
 

@@ -1,7 +1,7 @@
 import { ReactNode, createContext, useContext, useEffect, useMemo, useState } from 'react';
 import TypesenseInstantsearchAdapter from 'typesense-instantsearch-adapter';
 import { history } from 'instantsearch.js/es/lib/routers';
-import { useRuntimeConfig, type RuntimeConfiguration } from '../../RuntimeConfig';
+import { CoreDataConfig, useRuntimeConfig } from '../../CoreDataConfig';
 import { RefinementListProxy } from './RefinementListProxy';
 import { TypeSenseSearchResult } from './TypeSenseSearchResult';
 import { 
@@ -12,7 +12,7 @@ import {
   useSearchBox as _useSearchBox,
 } from 'react-instantsearch'; 
 
-const createTypesenseAdapter = (config: RuntimeConfiguration) => 
+const createTypesenseAdapter = (config: CoreDataConfig) => 
   new TypesenseInstantsearchAdapter({
     server: {
       apiKey: config.typesense.api_key,
@@ -32,7 +32,7 @@ const createTypesenseAdapter = (config: RuntimeConfiguration) =>
     }
   });
 
-const createRouting = (config: RuntimeConfiguration) => ({
+const createRouting = (config: CoreDataConfig) => ({
   router: history(),
   stateMapping: {
     stateToRoute: (state: any) => {

@@ -1,3 +1,4 @@
+export * from './configuration';
 export * from './layout';
 export * from './model';
 export * from './routing';

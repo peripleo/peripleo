@@ -2,7 +2,7 @@ import { useEffect, useMemo } from 'react';
 import { X } from 'lucide-react';
 import { Link, useCurrentRoute, useSelectionState } from '@peripleo/peripleo';
 import { toFeature, useCachedHits } from '../../components';
-import { useRuntimeConfig } from '../../RuntimeConfig';
+import { useRuntimeConfig } from '../../CoreDataConfig';
 
 export const SiteDetails = () => {
 

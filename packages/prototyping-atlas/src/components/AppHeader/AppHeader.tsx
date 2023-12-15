@@ -1,4 +1,4 @@
-import { useRuntimeConfig } from '../../RuntimeConfig';
+import { useRuntimeConfig } from '../../CoreDataConfig';
 
 export const AppHeader = (props: { className?: string }) => {
 
