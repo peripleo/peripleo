@@ -1,7 +1,7 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
 import { Feature } from '../../model';
 
-export type SelectionContextState = {
+export type SelectionContextValue = {
 
   selected: Feature | undefined,
 
@@ -9,7 +9,7 @@ export type SelectionContextState = {
 
 }
 
-export const SelectionContext = createContext<SelectionContextState>(undefined);
+export const SelectionContext = createContext<SelectionContextValue>(undefined);
 
 export const SelectionProvider = (props: { children: ReactNode }) => {
 

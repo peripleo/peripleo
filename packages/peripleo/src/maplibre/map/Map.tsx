@@ -1,10 +1,9 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useLayoutEffect, useRef } from 'react';
 import { GeoJSONSource, MapGeoJSONFeature, Map as MapLibre, MapMouseEvent, PointLike } from 'maplibre-gl';
-import { MapContext } from './MapContext';
 import { MapProps } from './MapProps';
 import { PopupContainer } from '../components/Popup';
 import { Feature } from '../../model';
-import { useSelectionState, useHoverState } from '../../state';
+import { MapContext, useSelectionState, useHoverState } from '../../state';
 import { useFeatureRadioState } from './useFeatureState';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -15,7 +14,11 @@ export const Map = (props: MapProps) => {
 
   const ref = useRef<HTMLDivElement>(null);
 
-  const [map, setMap] = useState<MapLibre>(null);
+  const context = useContext(MapContext);
+
+  const map = context.map as MapLibre;
+
+  const { setMap } = context;
 
   // Hover state according to mouse move events
   const [mapHover, setMapHover] = useFeatureRadioState('hover');
@@ -139,22 +142,19 @@ export const Map = (props: MapProps) => {
     <div 
       ref={ref}
       className={props.className ? `${props.className} p6o-map-container`: 'p6o-map-container'}>
+      {map && (
+        <>
+          {props.children}
 
-      <MapContext.Provider value={map}>
-        {map && (
-          <>
-            {props.children}
-
-            {props.popup && (
-              <PopupContainer 
-                map={map}
-                selected={selected}
-                popup={props.popup} 
-                onClose={() => setSelected(undefined)} />
-            )}
-          </>
-        )}
-      </MapContext.Provider>
+          {props.popup && (
+            <PopupContainer 
+              map={map}
+              selected={selected}
+              popup={props.popup} 
+              onClose={() => setSelected(undefined)} />
+          )}
+        </>
+      )}
     </div>
   )
 

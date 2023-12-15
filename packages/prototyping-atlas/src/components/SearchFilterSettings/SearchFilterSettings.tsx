@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { Settings2, X } from 'lucide-react';
 import * as Popover from '@radix-ui/react-popover';
-import { useFacets } from '../TypeSenseSearch';
+import * as Switch from '@radix-ui/react-switch';
+import { useMap } from '@peripleo/peripleo/maplibre';
+import { useFacets, useGeoSearch } from '../TypeSenseSearch';
 import { RefinementList, useCurrentRefinements } from 'react-instantsearch';
 
 import './SearchFilterSettings.css';
@@ -11,9 +13,21 @@ export const SearchFilterSettings = () => {
 
   const [open, setOpen] = useState(false);
 
+  const [filterByMapBounds, setFilterByMapBounds] = useState(false);
+
   const facets = useFacets();
 
+  const map = useMap();
+  
+  const { refine, clearMapRefinement } = useGeoSearch();
+
   const { items } = useCurrentRefinements();
+
+  useEffect(() => {
+   
+      console.log('filter by bounds', map);
+
+  }, [map, filterByMapBounds]);
 
   // Simple formatting strategy: get rid of _facet and capitalize
   const format = (attribute: string): string => {
@@ -56,6 +70,17 @@ export const SearchFilterSettings = () => {
             <h1 className="w-full items-center font-medium text-black">
               <Settings2 className="h-4 w-4 inline align-text-bottom mb-0.5" /> Filters
             </h1>
+
+            <div>
+              <Switch.Root 
+                id="toggle-bounds-filter"
+                className="switch-root"
+                onCheckedChange={checked => setFilterByMapBounds(Boolean(checked))}>
+                <Switch.Thumb className="switch-thumb" />
+              </Switch.Root>
+
+              Filter by map bounds
+            </div>
 
             <div>
               {facets.map(facet => (

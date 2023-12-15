@@ -1,7 +1,7 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
 import { Feature } from '../../model';
 
-export type HoverContextState = {
+export type HoverContextValue = {
 
   hover: Feature | undefined,
 
@@ -9,7 +9,7 @@ export type HoverContextState = {
 
 }
 
-export const HoverContext = createContext<HoverContextState>(undefined);
+export const HoverContext = createContext<HoverContextValue>(undefined);
 
 export const HoverProvider = (props: { children: ReactNode }) => {
 
