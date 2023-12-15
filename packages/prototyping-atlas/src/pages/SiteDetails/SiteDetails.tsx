@@ -21,6 +21,8 @@ export const SiteDetails = () => {
   // Temporary! Site should be fetched from the API
   const site = useMemo(() => hits.find(hit => hit.id == siteId), [hits, siteId]);
 
+  console.log(site);
+
   /*
   const userDefinedFields: [string, string][] = useMemo(() => Object.entries(site)
     .filter(([key, _]) => key.startsWith('ey'))

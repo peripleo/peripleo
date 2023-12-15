@@ -8,7 +8,8 @@ import {
   InstantSearch, 
   useDynamicWidgets,
   useInfiniteHits,
-  useSearchBox as _useSearchBox
+  useGeoSearch as _useGeoSearch,
+  useSearchBox as _useSearchBox,
 } from 'react-instantsearch'; 
 
 const createTypesenseAdapter = (config: RuntimeConfiguration) => 
@@ -24,6 +25,7 @@ const createTypesenseAdapter = (config: RuntimeConfiguration) =>
       ],
       cacheSearchResultsForSeconds: 120
     },
+    geoLocationField: "coordinates",
     additionalSearchParameters: {
       query_by: config.typesense.query_by,
       limit: config.typesense.limit || 250
@@ -71,9 +73,11 @@ interface PersistentSearchStateContextValue {
 
   cachedHits: TypeSenseSearchResult[];
 
-  searchBox: ReturnType<typeof _useSearchBox>;
-
   facets: string[];
+
+  geoSearch: ReturnType<typeof _useGeoSearch>;
+
+  searchBox: ReturnType<typeof _useSearchBox>;
 
 }
 
@@ -87,6 +91,8 @@ const PersistentSearchStateContext = createContext<PersistentSearchStateContextV
 const PersistentSearchState = (props: { children: ReactNode }) => {
 
   const searchBox = _useSearchBox();
+
+  const geoSearch = _useGeoSearch();
 
   const infiniteHits = useInfiniteHits();
 
@@ -118,7 +124,13 @@ const PersistentSearchState = (props: { children: ReactNode }) => {
   }, [infiniteHits.showMore, infiniteHits.results]);
   
   return (
-    <PersistentSearchStateContext.Provider value={{ cachedHits, facets: attributesToRender, searchBox }}>
+    <PersistentSearchStateContext.Provider value={{ 
+      cachedHits, 
+      facets: attributesToRender, 
+      geoSearch,
+      searchBox
+    }}>
+
       {props.children}
 
       {/* This ensures dynamic attribute refinements stay persistent */}
@@ -169,4 +181,9 @@ export const useFacets = () => {
 export const useSearchBox = () => {
   const { searchBox } = useContext(PersistentSearchStateContext);
   return searchBox;
+}
+
+export const useGeoSearch = () => {
+  const { geoSearch } = useContext(PersistentSearchStateContext);
+  return geoSearch;
 }

@@ -1,4 +1,4 @@
-import { SearchBox, SearchFilterSettings, SearchResultList } from '../../components';
+import { SearchBox, SearchFilterSettings, SearchResultsList } from '../../components';
 
 export const Search = () => {
 
@@ -10,7 +10,7 @@ export const Search = () => {
       </div>
   
       <div className="overflow-y-auto flex-grow">
-        <SearchResultList />
+        <SearchResultsList />
       </div>
     </aside>
   )

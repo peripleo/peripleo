@@ -4,7 +4,7 @@ import { Link, useHoverState } from '@peripleo/peripleo';
 import { Highlight } from 'react-instantsearch';
 import { useCachedHits } from '../TypeSenseSearch';
 
-import './SearchResultList.css';
+import './SearchResultsList.css';
 
 interface HitComponentProps {
 
@@ -34,7 +34,7 @@ const HitComponent = (props: HitComponentProps) => {
   );
 }
 
-export const SearchResultList = () => {
+export const SearchResultsList = () => {
 
   const hits = useCachedHits();
 

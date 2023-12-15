@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Map, PulsingSelectionMarker, Tooltip, Zoom } from '@peripleo/peripleo/maplibre';
-import { AppHeader, HackedResultsMapLayer, SearchResultTooltip, TypeSenseSearch } from './components';
+import { AppHeader, SearchResultsMapLayer, SearchResultTooltip, TypeSenseSearch } from './components';
 import { Search, SiteDetails } from './pages';
 import { useRuntimeConfig } from './RuntimeConfig';
 import { 
@@ -56,7 +56,7 @@ export const App = () => {
                   <Zoom />
                 </Controls>
 
-                <HackedResultsMapLayer
+                <SearchResultsMapLayer
                   id="searchresults" />
 
                 <PulsingSelectionMarker size={100} />
