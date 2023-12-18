@@ -3,6 +3,7 @@ import { X } from 'lucide-react';
 import { Link, useCurrentRoute, useSelectionState } from '@peripleo/peripleo';
 import { CoreDataPlace, UserDefinedField, toFeature } from '../../model/CoreData';
 import { useRuntimeConfig } from '../../CoreDataConfig';
+import { useRelated } from './useRelated';
 
 export const SiteDetails = () => {
 
@@ -18,6 +19,8 @@ export const SiteDetails = () => {
 
   const userDefined: UserDefinedField[]= site?.user_defined ? Object.values(site.user_defined) : [];
 
+  useRelated(recordId);
+
   useEffect(() => {
     const url = 
       `${core_data.url}/core_data/public/places/${recordId}?project_ids=${core_data.project_ids.join(',')}`;
@@ -26,7 +29,7 @@ export const SiteDetails = () => {
       .then(res => res.json())
       .then(({ place }) => {
         setSite(place);
-        
+
         const feature = toFeature(place, recordId);
         setSelected(feature);
       });
