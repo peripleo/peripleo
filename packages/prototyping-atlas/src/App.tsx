@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 import { Map, PulsingSelectionMarker, Tooltip, Zoom } from '@peripleo/peripleo/maplibre';
 import { AppHeader, SearchResultsMapLayer, SearchResultTooltip, TypeSenseSearch } from './components';
+import {  CoreDataProperties } from './model/CoreData';
 import { Search, SiteDetails } from './pages';
+import { useRuntimeConfig } from './CoreDataConfig';
 import { 
   Controls, 
   Peripleo, 
@@ -13,11 +15,10 @@ import {
 } from '@peripleo/peripleo';
 
 import '@peripleo/peripleo/default-theme';
-import { useRuntimeConfig } from './CoreDataConfig';
 
 const MapSelectionListener = () => {
 
-  const selected = useSelectionValue();
+  const selected = useSelectionValue<CoreDataProperties>();
 
   const navigate = useNavigate();
 

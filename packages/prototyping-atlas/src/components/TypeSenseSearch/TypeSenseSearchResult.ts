@@ -23,10 +23,9 @@ export interface TypeSenseSearchResult {
 }
 
 export const toFeature = (result: TypeSenseSearchResult): Feature => ({
-  id: result.id,
+  id: result.record_id,
   type: 'Feature',
   properties: {
-    id: result.id, 
     name: result.name,
     names: result.names, 
     record_id: result.record_id, 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { FeatureCollection } from '@peripleo/peripleo';
-import { useCachedHits } from '../TypeSenseSearch';
+import { toFeature, useCachedHits } from '../TypeSenseSearch';
 import { useMap } from '@peripleo/peripleo/maplibre';
 
 type SearchResultsMapLayerProps = { 
@@ -9,25 +9,9 @@ type SearchResultsMapLayerProps = {
 
 }; 
 
-const EMPTY_GEOJSON = {
-  type: 'FeatureCollection',
-  features: []
-};
-
 const toGeoJSON = (hits: any[]): FeatureCollection => ({
   type: 'FeatureCollection',
-  features: hits.map(hit => {
-    const { id, name, names, objectID, record_id, type, type_facet, geometry } = hit;
-
-    return {
-      id,
-      type: 'Feature',
-      properties: {
-        id, name, names, objectID, record_id, type, type_facet
-      },
-      geometry
-    }
-  }) 
+  features: hits.map(hit => toFeature(hit)) 
 });
 
 const searchResultLayerStyle = {

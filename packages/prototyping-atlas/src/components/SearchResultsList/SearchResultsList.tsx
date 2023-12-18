@@ -24,10 +24,10 @@ const HitComponent = (props: HitComponentProps) => {
     <div 
       className={props.isHovered ? `bg-teal-700/30 ${cls}` : cls}>
       <Link 
-        to={`/site/${hit.id}`}>
+        to={`/site/${hit.record_id}`}>
         <Highlight hit={hit} attribute="name" />
         <p className="text-muted text-xs line-clamp-1">
-          <Highlight hit={hit} attribute={"names"} /> {hit.id}
+          <Highlight hit={hit} attribute={"names"} /> {hit.record_id}
         </p>
       </Link>
     </div>
@@ -47,11 +47,11 @@ export const SearchResultsList = () => {
       <div 
         style={style} 
         // @ts-ignore
-        onPointerEnter={() => setHover(hover => hover?.id == hit.id 
-          ? hover : {...hit, properties: { id: hit.id }})}>
+        onPointerEnter={() => setHover(hover => hover?.id == hit.record_id 
+          ? hover : {...hit, id: hit.record_id, properties: { id: hit.record_id }})}>
         <HitComponent 
           hit={hit} 
-          isHovered={hover?.id == hit?.id} />
+          isHovered={hover?.id == hit?.record_id} />
       </div>
     )
   }
