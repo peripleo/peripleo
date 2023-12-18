@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
-import { Link, Place, useCurrentRoute, useSelectionState } from '@peripleo/peripleo';
-import { toFeature } from '../../model/CoreData';
+import { Link, useCurrentRoute, useSelectionState } from '@peripleo/peripleo';
+import { CoreDataPlace, UserDefinedField, toFeature } from '../../model/CoreData';
 import { useRuntimeConfig } from '../../CoreDataConfig';
 
 export const SiteDetails = () => {
@@ -12,18 +12,11 @@ export const SiteDetails = () => {
 
   const [, recordId] = route.split('/').filter(Boolean);
 
-  const [site, setSite] = useState<Place>();
+  const [site, setSite] = useState<CoreDataPlace>();
 
   const { setSelected } = useSelectionState();
 
-  /*
-  const userDefinedFields: [string, string][] = useMemo(() => Object.entries(site)
-    .filter(([key, _]) => key.startsWith('ey'))
-    .map(([key, value]) => { 
-      const payload = jwtDecode(key);
-      return [ 'label' in payload ? payload.label : '', value.toString() ] as [string, string];
-    }), [site]);
-  */
+  const userDefined: UserDefinedField[]= site?.user_defined ? Object.values(site.user_defined) : [];
 
   useEffect(() => {
     const url = 
@@ -33,9 +26,7 @@ export const SiteDetails = () => {
       .then(res => res.json())
       .then(({ place }) => {
         setSite(place);
-
-        console.log(place);
-
+        
         const feature = toFeature(place, recordId);
         setSelected(feature);
       });
@@ -43,7 +34,7 @@ export const SiteDetails = () => {
     return () => {
       setSelected(undefined);
     } 
-  }, [recordId])
+  }, [recordId]);
 
   return (
     <aside className="flex flex-col absolute p-3 z-10 h-full w-[280px] bg-white/80 backdrop-blur shadow overflow-hidden">
@@ -60,12 +51,12 @@ export const SiteDetails = () => {
           </h1>
 
           <ol className="text-sm mt-4 leading-6 overflow-hidden">
-            {/* userDefinedFields.map(([key, value]) => (
-              <li key={key} className="mb-2">
-                <div className="text-muted">{key}</div>
+            {userDefined.map(({ label, value }) => (
+              <li key={label} className="mb-2">
+                <div className="text-muted">{label}</div>
                 <div className="font-medium overflow-hidden text-ellipsis">{value}</div>
               </li>
-            )) */}
+            ))}
           </ol>
         </div>
       )}

@@ -1,5 +1,4 @@
 import { 
-  Feature, 
   Place,
   PlaceFeatureProperties,
   toFeature as _toFeature
@@ -11,7 +10,21 @@ export interface CoreDataProperties extends PlaceFeatureProperties {
 
 }
 
-export const toFeature = (place: Place, recordId: string) => {
+export interface CoreDataPlace extends Place {
+
+  user_defined?: { [key: string]: UserDefinedField }
+
+}
+
+export interface UserDefinedField {
+
+  label: string;
+
+  value: string;
+
+}
+
+export const toFeature = (place: CoreDataPlace, recordId: string) => {
   const f = _toFeature<CoreDataProperties>(place);
   return {
     ...f,
