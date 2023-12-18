@@ -24,9 +24,31 @@ export const SearchFilterSettings = () => {
   const { items } = useCurrentRefinements();
 
   useEffect(() => {
-   
-      console.log('filter by bounds', map);
+    if (!map)
+      return;
 
+    if (filterByMapBounds) {
+      const onChangeViewport = () => {
+        const bounds = map.getBounds();
+
+        refine({
+          northEast: bounds.getNorthEast(),
+          southWest: bounds.getSouthWest()
+        });
+      }
+
+      // Initial filter
+      onChangeViewport();
+
+
+      map.on('zoomend', onChangeViewport);
+
+      return () => {
+        map.off('zoomend', onChangeViewport);
+      }
+    } else {
+      clearMapRefinement();
+    }   
   }, [map, filterByMapBounds]);
 
   // Simple formatting strategy: get rid of _facet and capitalize
