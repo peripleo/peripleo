@@ -65,6 +65,8 @@ export const SearchFilterSettings = () => {
     }
   }
 
+  const filtersApplied = items.length + (filterByMapBounds ? 1 : 0);
+
   return (
     <Popover.Root open={open}>
       <Popover.Trigger 
@@ -72,10 +74,10 @@ export const SearchFilterSettings = () => {
         className="relative p-2 rounded-full hover:bg-slate-300 focus:outline-2 focus:outline-offset-2 focus:outline-teal-700">
         <Settings2 className="h-4 w-4" />
         
-        {items.length > 0 && (
+        {filtersApplied > 0 && (
           <div className="absolute -top-[6px] -right-[6px] w-[19px] h-[19px]
             text-[11px] font-medium rounded-full flex justify-center items-center bg-teal-700 text-white">
-            {items.length}
+            {filtersApplied}
           </div>
         )}
       </Popover.Trigger>
@@ -97,6 +99,7 @@ export const SearchFilterSettings = () => {
               <Switch.Root 
                 id="toggle-bounds-filter"
                 className="switch-root"
+                checked={filterByMapBounds}
                 onCheckedChange={checked => setFilterByMapBounds(Boolean(checked))}>
                 <Switch.Thumb className="switch-thumb" />
               </Switch.Root>
