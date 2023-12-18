@@ -25,6 +25,7 @@
   "dependencies": {
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-switch": "^1.0.3",
+    "@turf/bbox": "^6.5.0",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.292.0",
     "react": "^18.2.0",

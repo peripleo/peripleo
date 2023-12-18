@@ -12,6 +12,8 @@ export interface TypeSenseSearchResult {
 
   names: string[];
 
+  coordinates: number[];
+
   geometry: {
 
     type: 'Point',

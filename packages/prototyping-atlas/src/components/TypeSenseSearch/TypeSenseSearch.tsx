@@ -1,9 +1,11 @@
 import { ReactNode, createContext, useContext, useEffect, useMemo, useState } from 'react';
 import TypesenseInstantsearchAdapter from 'typesense-instantsearch-adapter';
 import { history } from 'instantsearch.js/es/lib/routers';
+import bbox from '@turf/bbox';
 import { CoreDataConfig, useRuntimeConfig } from '../../CoreDataConfig';
 import { RefinementListProxy } from './RefinementListProxy';
 import { TypeSenseSearchResult } from './TypeSenseSearchResult';
+import { useMap } from '@peripleo/peripleo/maplibre';
 import { 
   InstantSearch, 
   useDynamicWidgets,
@@ -98,6 +100,8 @@ const PersistentSearchState = (props: { children: ReactNode }) => {
 
   const [cachedHits, setCachedHits] = useState<TypeSenseSearchResult[]>([]);
 
+  const map = useMap();
+
   // For some reason, 'hits' in useInfiniteHits gets set to zero
   // as soon as this hook in used. Only 'currentPageHits' gets filled.
   // Doesn't really matter much, since we are maintaining our own 
@@ -119,9 +123,26 @@ const PersistentSearchState = (props: { children: ReactNode }) => {
       setCachedHits(h => ([...h, ...results.hits as unknown as TypeSenseSearchResult[]]));
 
     if (!isLastPage && infiniteHits.showMore) {
+      console.log('fetching more');
       setTimeout(() => infiniteHits.showMore(), 25);
+    } else {
+      if (cachedHits.length > 0 && results.hits.length > 0 && map) {      
+        const features = {
+          type: 'FeatureCollection',
+          features: cachedHits
+            // For some reason, 0/0 points throw turf off :-(
+            .filter(h => 'geometry' in h && (h.coordinates[0] !== 0 || h.coordinates[1] !== 0))
+        };
+
+        const [minX, minY, maxX, maxY] = bbox(features);
+        map.fitBounds([[minX, minY], [maxX, maxY]], { 
+          padding: 100,
+          maxZoom: 14
+        });
+      }
+
     }
-  }, [infiniteHits.showMore, infiniteHits.results]);
+  }, [infiniteHits.results]);
   
   return (
     <PersistentSearchStateContext.Provider value={{ 
