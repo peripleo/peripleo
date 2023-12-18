@@ -31,15 +31,25 @@ export const SearchFilterSettings = () => {
       const onChangeViewport = () => {
         const bounds = map.getBounds();
 
-        refine({
-          northEast: bounds.getNorthEast(),
-          southWest: bounds.getSouthWest()
-        });
+        const northEast = bounds.getNorthEast();
+        const southWest = bounds.getSouthWest();
+
+        // Note TypeSense seems to be buggy. If the bounds are too large,
+        // it will return 0 results. (Note that lng values >180, <(-180) DO NOT
+        // seem to be the problem!)
+        const extent = northEast.lng - southWest.lng;
+        if (extent > 200) {
+          clearMapRefinement();
+        } else {
+          console.log('setting map bounds');
+          refine({
+            northEast,
+            southWest
+          });
+        }
       }
 
-      // Initial filter
-      onChangeViewport();
-
+      onChangeViewport(); // Initial filter
 
       map.on('zoomend', onChangeViewport);
 
