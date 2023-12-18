@@ -8,6 +8,14 @@ export interface CoreDataConfig {
 
     map_style: string;
 
+    related?: {
+
+      endpoint: string;
+
+      default_open?: boolean;
+
+    }[]
+
   }
 
   typesense: {

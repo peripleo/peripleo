@@ -3,17 +3,10 @@ import { useRuntimeConfig } from '../../CoreDataConfig';
 
 export const useRelated = (recordId: string) => {
 
-  const { core_data } = useRuntimeConfig();
+  const { branding, core_data } = useRuntimeConfig();
 
-  const [media, setMedia] = useState<any>();
-
-  const [organizations, setOrganizations] = useState<any>();
-
-  const [people, setPeople] = useState<any>();
-
-  const [places, setPlaces] = useState<any>();
-
-  const [taxonomies, setTaxonomies] = useState<any>();
+  const [state, setState] = useState<{ endpoint: string, data?: any }[]>(
+    (branding.related || []).map(({ endpoint }) => ({ endpoint })));
 
   const fetchOne = (endpoint: string) => {
     const url = 
@@ -23,22 +16,19 @@ export const useRelated = (recordId: string) => {
   }
 
   useEffect(() => {
-    // TODO pull from config
-    const endpoints = [
-      'media_content',
-      'organizations',
-      'people',
-      'places',
-      'taxonomies'
-    ];
+    const endpoints = branding.related.map(t => t.endpoint);
 
     endpoints.map(endpoint => fetchOne(endpoint)
-      .then(result => {
+      .then(data => {
         console.log('endpoint: ' + endpoint);
-        console.log(result);
+        console.log(data);
+
+        setState(state => state.map(t => t.endpoint === endpoint ? ({ endpoint, data }) : t));
       })
       .catch(() => console.warn(`No results for ${recordId}/${endpoint}`))
     );
   }, []);
+
+  return state;
 
 }

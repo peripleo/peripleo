@@ -1,7 +1,14 @@
 {
   "branding": {
     "title": "Core Data",
-    "map_style": "https://api.maptiler.com/maps/basic-v2-light/style.json?key=<your_api_key>"
+    "map_style": "https://api.maptiler.com/maps/basic-v2-light/style.json?key=<your_api_key>",
+    "related": [
+      { "endpoint": "media_content", "default_open": false },
+      { "endpoint": "organizations", "default_open": false },
+      { "endpoint": "people", "default_open": false },
+      { "endpoint": "places", "default_open": false },
+      { "endpoint": "taxonomies", "default_open": false }
+    ]
   },
   "typesense": {
     "host": "your_typescript_instance.typesense.net",

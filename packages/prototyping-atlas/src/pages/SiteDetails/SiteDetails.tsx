@@ -19,7 +19,7 @@ export const SiteDetails = () => {
 
   const userDefined: UserDefinedField[]= site?.user_defined ? Object.values(site.user_defined) : [];
 
-  useRelated(recordId);
+  const related = useRelated(recordId);
 
   useEffect(() => {
     const url = 
