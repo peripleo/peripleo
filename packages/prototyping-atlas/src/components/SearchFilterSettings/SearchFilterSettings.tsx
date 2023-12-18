@@ -41,7 +41,6 @@ export const SearchFilterSettings = () => {
         if (extent > 200) {
           clearMapRefinement();
         } else {
-          console.log('setting map bounds');
           refine({
             northEast,
             southWest

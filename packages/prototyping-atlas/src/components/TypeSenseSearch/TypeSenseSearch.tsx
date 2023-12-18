@@ -1,5 +1,6 @@
-import { ReactNode, createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { ReactNode, createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import TypesenseInstantsearchAdapter from 'typesense-instantsearch-adapter';
+import { dequal } from 'dequal/lite';
 import { history } from 'instantsearch.js/es/lib/routers';
 import bbox from '@turf/bbox';
 import { CoreDataConfig, useRuntimeConfig } from '../../CoreDataConfig';
@@ -100,6 +101,8 @@ const PersistentSearchState = (props: { children: ReactNode }) => {
 
   const [cachedHits, setCachedHits] = useState<TypeSenseSearchResult[]>([]);
 
+  const lastSearchState = useRef<any>();
+
   const map = useMap();
 
   // For some reason, 'hits' in useInfiniteHits gets set to zero
@@ -112,7 +115,7 @@ const PersistentSearchState = (props: { children: ReactNode }) => {
 
   useEffect(() => {
     const { results } = infiniteHits;
-    
+
     const isFirstPage = results.page === 0;
     const isLastPage = results.page + 1 >= results.nbPages;
 
@@ -123,10 +126,14 @@ const PersistentSearchState = (props: { children: ReactNode }) => {
       setCachedHits(h => ([...h, ...results.hits as unknown as TypeSenseSearchResult[]]));
 
     if (!isLastPage && infiniteHits.showMore) {
-      console.log('fetching more');
       setTimeout(() => infiniteHits.showMore(), 25);
     } else {
-      if (cachedHits.length > 0 && results.hits.length > 0 && map) {      
+      const hasHits = cachedHits.length > 0 && results.hits.length > 0;
+      const hasStateChanged = !dequal(results._state, lastSearchState.current);
+
+      const isBoundsFilterActive = geoSearch.isRefinedWithMap();
+
+      if (map && hasHits && hasStateChanged && !isBoundsFilterActive) {      
         const features = {
           type: 'FeatureCollection',
           features: cachedHits
@@ -140,8 +147,9 @@ const PersistentSearchState = (props: { children: ReactNode }) => {
           maxZoom: 14
         });
       }
-
     }
+
+    lastSearchState.current = results._state;
   }, [infiniteHits.results]);
   
   return (
