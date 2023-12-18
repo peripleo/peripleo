@@ -93,7 +93,7 @@ export const SearchFilterSettings = () => {
               <Settings2 className="h-4 w-4 inline align-text-bottom mb-0.5" /> Filters
             </h1>
 
-            <div>
+            <div className="flex items-center text-sm mt-5">
               <Switch.Root 
                 id="toggle-bounds-filter"
                 className="switch-root"
@@ -101,7 +101,9 @@ export const SearchFilterSettings = () => {
                 <Switch.Thumb className="switch-thumb" />
               </Switch.Root>
 
-              Filter by map bounds
+              <label 
+                className="ml-2"
+                htmlFor="toggle-bounds-filter">Filter by map bounds</label>
             </div>
 
             <div>
