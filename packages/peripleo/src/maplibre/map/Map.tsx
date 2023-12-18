@@ -1,14 +1,15 @@
 import { useContext, useEffect, useLayoutEffect, useRef } from 'react';
-import { GeoJSONSource, MapGeoJSONFeature, Map as MapLibre, MapMouseEvent, PointLike } from 'maplibre-gl';
+import { MapGeoJSONFeature, Map as MapLibre, MapMouseEvent, PointLike } from 'maplibre-gl';
 import { MapProps } from './MapProps';
 import { PopupContainer } from '../components/Popup';
 import { Feature } from '../../model';
 import { MapContext, useSelectionState, useHoverState } from '../../state';
-import { useFeatureRadioState } from './useFeatureState';
+import { useFeatureRadioState } from './useFeatureRadioState';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { findMapFeature, listFeaturesInCluster } from './clusterUtils';
 
-export const CLICK_THRESHOLD = 10;
+export const CLICK_THRESHOLD = 3;
 
 export const Map = (props: MapProps) => {
 
@@ -36,82 +37,88 @@ export const Map = (props: MapProps) => {
 
   const getFeature = (
     evt: MapMouseEvent, withBuffer?: boolean
-  ): Promise<{ source?: string, feature?: Feature, cluster?: MapGeoJSONFeature }> => 
-    new Promise((resolve, reject) => {
-      const map = evt.target;
+  ) => {
+    const map = evt.target;
 
-      const query = withBuffer ? [
-        [evt.point.x - CLICK_THRESHOLD, evt.point.y - CLICK_THRESHOLD],
-        [evt.point.x + CLICK_THRESHOLD, evt.point.y + CLICK_THRESHOLD]
-      ] as [PointLike, PointLike]: evt.point;
+    const query = withBuffer ? [
+      [evt.point.x - CLICK_THRESHOLD, evt.point.y - CLICK_THRESHOLD],
+      [evt.point.x + CLICK_THRESHOLD, evt.point.y + CLICK_THRESHOLD]
+    ] as [PointLike, PointLike]: evt.point;
 
-      const features = map.queryRenderedFeatures(query)
-        .filter(feature => 'interactive' in (feature.layer.metadata as object || {}));
+    const features = map.queryRenderedFeatures(query)
+      .filter(feature => 'interactive' in (feature.layer.metadata as object || {}));
 
-      if (features.length > 0) {
-        const { source, id, type, properties, geometry } = features[0];
+    if (features.length > 0)
+      return features[0];
+  }
 
-        if (properties.cluster) {
-          // This feature is a cluster
-          const clusterSource = map.getSource(source) as GeoJSONSource;
-          clusterSource.getClusterLeaves(properties.cluster_id, Infinity, 0, (error, results) => {
-            if (error) {
-              reject(error);
-            } else {
-              // TODO pick the the feature closest to the mousepointer? Return all?
-              const clusteredFeatures = results.map(r => ({ 
-                id: r.id,
-                type: r.type, 
-                properties: r.properties, 
-                geometry: r.geometry 
-              }) as Feature);
+  const onMouseMove = (evt: MapMouseEvent) => {
+    const feature = getFeature(evt);
+  
+    isExternalChange.current = false;
+    setMapHover(evt.target, feature);
+  }
 
-              resolve({ source, feature: clusteredFeatures[0], cluster: features[0]});
-            }
-          });
-        } else {
-          const feature = { id, type, properties, geometry } as Feature;
-          resolve({ source, feature });  
-        }
-      } else {
-        resolve({ source: undefined, feature: undefined });
-      }
-    });
+  const onClick = (evt: MapMouseEvent) => {
+    const feature = getFeature(evt, true);
 
-  const onMouseMove = (evt: MapMouseEvent) => 
-    getFeature(evt).then(({ source, feature, cluster }) => {
-      isExternalChange.current = false;
-      
-      // @ts-ignore
-      setMapHover(evt.target, cluster || feature, source);
-    });
+    isExternalChange.current = false;
+    setMapSelection(evt.target, feature, feature?.source);
+  }
 
-  const onClick = (evt: MapMouseEvent) => 
-    getFeature(evt, true).then(({ source, feature }) => {
-      isExternalChange.current = false;
-      setMapSelection(evt.target, feature, source);
-    });
+  // Gets the domain-model Feature for the given MapGeoJSONFeature
+  const resolveModelFeature = (
+    map: MapLibre, 
+    feature: MapGeoJSONFeature
+  ): Promise<Feature> => new Promise(resolve => {
+    if (!feature) {
+      resolve(undefined);
+    } else if (feature.properties.cluster) {
+      listFeaturesInCluster(map, feature)
+        .then(resolvedFeatures => resolve(resolvedFeatures.length > 0 ? resolvedFeatures[0] : undefined));
+    } else {
+      const { id, type, properties, geometry } = feature;
+      resolve({ id, type, properties, geometry } as Feature);
+    }
+  });
 
   useLayoutEffect(() => {
     if (!isExternalChange.current)
-      setHover(mapHover?.feature); // sync hover state upwards
-  }, [mapHover]);
+      // sync hover state upwards
+      resolveModelFeature(map, mapHover?.feature).then(setHover); 
+  }, [map, mapHover]);
 
   useLayoutEffect(() => {
-    if (isExternalChange.current)
-      setMapHover(map, hover); // sync external update downwards
+    if (!map)
+      return; 
+
+    if (isExternalChange.current) {
+      // sync external update downwards
+      if (hover)
+        findMapFeature(map, hover.id).then(f => setMapHover(map, f));
+      else
+        setMapHover(map, undefined);
+    }
     
     isExternalChange.current = true;
   }, [map, hover]);
 
   useLayoutEffect(() => {
     if (!isExternalChange.current)
-      setSelected(mapSelection?.feature); // sync selection state upwards
-  }, [mapSelection]);
+      // sync selection state upwards
+      resolveModelFeature(map, mapSelection?.feature).then(setSelected);
+  }, [map, mapSelection]);
 
   useLayoutEffect(() => {
+    if (!map)
+      return; 
+
     if (isExternalChange.current)
-      setMapSelection(map, selected); // sync external update downwards
+      // sync external update downwards
+      if (selected)
+        findMapFeature(map, selected.id).then(f => setMapSelection(map, f));
+      else
+        setMapSelection(map, undefined);
 
     isExternalChange.current = true;
   }, [map, selected]);
