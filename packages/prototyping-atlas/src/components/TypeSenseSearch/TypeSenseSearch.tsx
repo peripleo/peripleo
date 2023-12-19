@@ -1,19 +1,16 @@
-import { ReactNode, createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { ReactNode, createContext, useContext, useMemo } from 'react';
 import TypesenseInstantsearchAdapter from 'typesense-instantsearch-adapter';
-import { dequal } from 'dequal/lite';
 import { history } from 'instantsearch.js/es/lib/routers';
-import bbox from '@turf/bbox';
 import { CoreDataConfig, useRuntimeConfig } from '../../CoreDataConfig';
 import { RefinementListProxy } from './RefinementListProxy';
 import { TypeSenseSearchResult } from './TypeSenseSearchResult';
-import { useMap } from '@peripleo/peripleo/maplibre';
 import { 
   InstantSearch, 
   useDynamicWidgets,
-  useInfiniteHits,
   useGeoSearch as _useGeoSearch,
   useSearchBox as _useSearchBox,
 } from 'react-instantsearch'; 
+import { useProgressiveSearch } from './useProgressiveSearch';
 
 const createTypesenseAdapter = (config: CoreDataConfig) => 
   new TypesenseInstantsearchAdapter({
@@ -71,7 +68,7 @@ const createRouting = (config: CoreDataConfig) => ({
     }
   }
 });
-
+  
 interface PersistentSearchStateContextValue {
 
   cachedHits: TypeSenseSearchResult[];
@@ -95,15 +92,7 @@ const PersistentSearchState = (props: { children: ReactNode }) => {
 
   const searchBox = _useSearchBox();
 
-  const geoSearch = _useGeoSearch();
-
-  const infiniteHits = useInfiniteHits();
-
-  const [cachedHits, setCachedHits] = useState<TypeSenseSearchResult[]>([]);
-
-  const lastSearchState = useRef<any>();
-
-  const map = useMap();
+  const { cachedHits, geoSearch } = useProgressiveSearch();
 
   // For some reason, 'hits' in useInfiniteHits gets set to zero
   // as soon as this hook in used. Only 'currentPageHits' gets filled.
@@ -113,45 +102,6 @@ const PersistentSearchState = (props: { children: ReactNode }) => {
     facets: ['*']
   });
 
-  useEffect(() => {
-    const { results } = infiniteHits;
-
-    const isFirstPage = results.page === 0;
-    const isLastPage = results.page + 1 >= results.nbPages;
-
-    // Add to cache and load next page
-    if (isFirstPage)
-      setCachedHits(() => results.hits as unknown as TypeSenseSearchResult[]);
-    else
-      setCachedHits(h => ([...h, ...results.hits as unknown as TypeSenseSearchResult[]]));
-
-    if (!isLastPage && infiniteHits.showMore) {
-      setTimeout(() => infiniteHits.showMore(), 25);
-    } else {
-      const hasHits = cachedHits.length > 0 && results.hits.length > 0;
-      const hasStateChanged = !dequal(results._state, lastSearchState.current);
-
-      const isBoundsFilterActive = geoSearch.isRefinedWithMap();
-
-      if (map && hasHits && hasStateChanged && !isBoundsFilterActive) {      
-        const features = {
-          type: 'FeatureCollection',
-          features: cachedHits
-            // For some reason, 0/0 points throw turf off :-(
-            .filter(h => 'geometry' in h && (h.coordinates[0] !== 0 || h.coordinates[1] !== 0))
-        };
-
-        const [minX, minY, maxX, maxY] = bbox(features);
-        map.fitBounds([[minX, minY], [maxX, maxY]], { 
-          padding: 100,
-          maxZoom: 14
-        });
-      }
-    }
-
-    lastSearchState.current = results._state;
-  }, [infiniteHits.results]);
-  
   return (
     <PersistentSearchStateContext.Provider value={{ 
       cachedHits, 
