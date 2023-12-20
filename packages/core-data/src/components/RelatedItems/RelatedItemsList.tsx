@@ -29,7 +29,7 @@ export const RelatedItemsList = (props: RelatedItemsListProps) => {
                 {data ? (
                   <span className="ml-1">({data.items.length})</span>
                 ) : (
-                  <ThreeDots className="text-muted/40 ml-4"/>
+                  <ThreeDots className="text-muted/60 ml-4"/>
                 )}
               </div>
 

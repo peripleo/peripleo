@@ -3,11 +3,11 @@
     "title": "Core Data",
     "map_style": "https://api.maptiler.com/maps/basic-v2-light/style.json?key=<your_api_key>",
     "related": [
-      { "endpoint": "media_content", "default_open": false },
-      { "endpoint": "organizations", "default_open": false },
-      { "endpoint": "people", "default_open": false },
-      { "endpoint": "places", "default_open": false },
-      { "endpoint": "taxonomies", "default_open": false }
+      { "endpoint": "media_content", "ui_label": "Related Media & Documents", "default_open": false },
+      { "endpoint": "organizations", "ui_label": "Organizations", "default_open": false },
+      { "endpoint": "people", "ui_label": "Related People", "default_open": false },
+      { "endpoint": "places", "ui_label": "Related Places", "default_open": false },
+      { "endpoint": "taxonomies", "ui_label": "Taxonomies", "default_open": false }
     ]
   },
   "typesense": {
