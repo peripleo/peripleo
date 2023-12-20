@@ -11,6 +11,8 @@ export interface RelatedItemsData {
 
   data?: any;
 
+  error?: Error;
+
 }
 
 export const useRelated = (recordId: string) => {
@@ -34,7 +36,11 @@ export const useRelated = (recordId: string) => {
 
         setState(state => state.map(t => t.endpoint === conf.endpoint ? ({ ...t, data }) : t));
       })
-      .catch(() => console.warn(`No results for ${recordId}/${conf.endpoint}`))
+      .catch(error => {
+        console.warn(`No results for ${recordId}/${conf.endpoint}`);
+
+        setState(state => state.map(t => t.endpoint === conf.endpoint ? ({ ...t, error }) : t));
+      })
     );
   }, []);
 

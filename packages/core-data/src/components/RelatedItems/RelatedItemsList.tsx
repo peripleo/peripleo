@@ -1,5 +1,5 @@
 import * as Accordion from '@radix-ui/react-accordion';
-import { ChevronDown } from 'lucide-react';
+import { AlertCircle, ChevronDown } from 'lucide-react';
 import { ThreeDots } from '../LoadAnimations';
 import { useRelated } from './useRelated';
 
@@ -17,7 +17,7 @@ export const RelatedItemsList = (props: RelatedItemsListProps) => {
 
   return related.length > 0 && (
     <Accordion.Root type="multiple">
-      {related.map(({ data, ...conf }) => (
+      {related.map(({ data, error, ...conf }) => (
         <Accordion.Item value={conf.endpoint}>
           <Accordion.Header>
             <Accordion.Trigger 
@@ -28,6 +28,8 @@ export const RelatedItemsList = (props: RelatedItemsListProps) => {
 
                 {data ? (
                   <span className="ml-1">({data.items.length})</span>
+                ) : error ? (
+                  <AlertCircle className="inline ml-1.5 h-4 w-4 text-red-600 align-text-bottom" />
                 ) : (
                   <ThreeDots className="text-muted/60 ml-4"/>
                 )}
