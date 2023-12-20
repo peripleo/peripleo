@@ -50,9 +50,11 @@ export const SearchFilterSettings = () => {
 
       onChangeViewport(); // Initial filter
 
+      map.on('dragend', onChangeViewport);
       map.on('zoomend', onChangeViewport);
 
       return () => {
+        map.off('dragend', onChangeViewport);
         map.off('zoomend', onChangeViewport);
       }
     } else {

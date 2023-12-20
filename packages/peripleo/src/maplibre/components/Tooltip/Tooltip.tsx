@@ -44,7 +44,9 @@ export const Tooltip = (props: TooltipProps) => {
         const clusterSource = map.getSource(source) as GeoJSONSource;
         clusterSource.getClusterLeaves(properties.cluster_id, Infinity, 0, (error, results) => {
           if (error) {
-            console.warn(error);
+            // Usually happens if the cluster no longer exists at the time this method gets called.
+            // Frequently the case while hovering during a zoom action.
+            // console.warn(error);
           } else {
             const clusteredFeatures = results.map(r => ({ 
               id: r.id,

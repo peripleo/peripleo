@@ -5,9 +5,9 @@ import { PopupContainer } from '../components/Popup';
 import { Feature } from '../../model';
 import { MapContext, useSelectionState, useHoverState } from '../../state';
 import { useFeatureRadioState } from './useFeatureRadioState';
+import { findMapFeature, listFeaturesInCluster } from './clusterUtils';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { findMapFeature, listFeaturesInCluster } from './clusterUtils';
 
 export const CLICK_THRESHOLD = 3;
 
@@ -75,7 +75,11 @@ export const Map = (props: MapProps) => {
       resolve(undefined);
     } else if (feature.properties.cluster) {
       listFeaturesInCluster(map, feature)
-        .then(resolvedFeatures => resolve(resolvedFeatures.length > 0 ? resolvedFeatures[0] : undefined));
+        .then(resolvedFeatures => resolve(resolvedFeatures.length > 0 ? resolvedFeatures[0] : undefined))
+        .catch(error => {
+          // Can happens if the cluster no longer exists at the time this method gets called.
+          // Frequently the case during zooming.
+        });
     } else {
       const { id, type, properties, geometry } = feature;
       resolve({ id, type, properties, geometry } as Feature);
