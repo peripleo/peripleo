@@ -48,7 +48,8 @@ export const SearchResultsList = () => {
         style={style} 
         // @ts-ignore
         onPointerEnter={() => setHover(hover => hover?.id == hit.record_id 
-          ? hover : {...hit, id: hit.record_id, properties: { id: hit.record_id }})}>
+          ? hover : {...hit, id: hit.record_id, properties: { id: hit.record_id }})}
+        onPointerLeave={() => setHover(undefined)}>
         <HitComponent 
           hit={hit} 
           isHovered={hover?.id == hit?.record_id} />
