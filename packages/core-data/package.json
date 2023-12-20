@@ -23,6 +23,7 @@
     "vitest": "^1.0.4"
   },
   "dependencies": {
+    "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-switch": "^1.0.3",
     "@turf/bbox": "^6.5.0",

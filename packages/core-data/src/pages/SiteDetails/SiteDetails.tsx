@@ -3,7 +3,7 @@ import { X } from 'lucide-react';
 import { Link, useCurrentRoute, useSelectionState } from '@peripleo/peripleo';
 import { CoreDataPlace, UserDefinedField, toFeature } from '../../model/CoreData';
 import { useRuntimeConfig } from '../../CoreDataConfig';
-import { useRelated } from './useRelated';
+import { useRelated } from '../../components/RelatedItems';
 
 export const SiteDetails = () => {
 
