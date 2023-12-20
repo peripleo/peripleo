@@ -13,13 +13,13 @@ export const SearchFilterSettings = () => {
 
   const [open, setOpen] = useState(false);
 
-  const [filterByMapBounds, setFilterByMapBounds] = useState(false);
-
   const facets = useFacets();
 
   const map = useMap();
   
-  const { refine, clearMapRefinement } = useGeoSearch();
+  const { refine, clearMapRefinement, isRefinedWithMap} = useGeoSearch();
+
+  const [filterByMapBounds, setFilterByMapBounds] = useState(isRefinedWithMap());
 
   const { items } = useCurrentRefinements();
 
