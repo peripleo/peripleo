@@ -27,7 +27,7 @@ export const SiteDetails = () => {
 
     fetch(url)
       .then(res => res.json())
-      .then(({ place }) => {
+      .then(place => {
         setSite(place);
 
         const feature = toFeature(place, recordId);
