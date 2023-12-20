@@ -12,6 +12,8 @@ export interface CoreDataConfig {
 
       endpoint: string;
 
+      ui_label: string;
+
       default_open?: boolean;
 
     }[]

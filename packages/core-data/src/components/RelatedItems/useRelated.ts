@@ -1,12 +1,23 @@
 import { useEffect, useState } from 'react';
 import { useRuntimeConfig } from '../../CoreDataConfig';
 
+export interface RelatedItemsData {
+
+  endpoint: string;
+
+  ui_label: string;
+
+  default_open?: boolean;
+
+  data?: any;
+
+}
+
 export const useRelated = (recordId: string) => {
 
   const { branding, core_data } = useRuntimeConfig();
 
-  const [state, setState] = useState<{ endpoint: string, data?: any }[]>(
-    (branding.related || []).map(({ endpoint }) => ({ endpoint })));
+  const [state, setState] = useState<RelatedItemsData[]>(branding.related || []);
 
   const fetchOne = (endpoint: string) => {
     const url = 
@@ -16,16 +27,14 @@ export const useRelated = (recordId: string) => {
   }
 
   useEffect(() => {
-    const endpoints = branding.related.map(t => t.endpoint);
-
-    endpoints.map(endpoint => fetchOne(endpoint)
+    branding.related.map(conf => fetchOne(conf.endpoint)
       .then(data => {
-        console.log('endpoint: ' + endpoint);
+        console.log('endpoint: ' + conf.endpoint);
         console.log(data);
 
-        setState(state => state.map(t => t.endpoint === endpoint ? ({ endpoint, data }) : t));
+        setState(state => state.map(t => t.endpoint === conf.endpoint ? ({ ...t, data }) : t));
       })
-      .catch(() => console.warn(`No results for ${recordId}/${endpoint}`))
+      .catch(() => console.warn(`No results for ${recordId}/${conf.endpoint}`))
     );
   }, []);
 
