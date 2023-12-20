@@ -3,6 +3,8 @@ import { AlertCircle, ChevronDown } from 'lucide-react';
 import { ThreeDots } from '../LoadAnimations';
 import { useRelated } from './useRelated';
 
+import './RelatedItemsList.css';
+
 interface RelatedItemsListProps {
 
   recordId: string;
@@ -21,7 +23,7 @@ export const RelatedItemsList = (props: RelatedItemsListProps) => {
         <Accordion.Item value={conf.endpoint}>
           <Accordion.Header>
             <Accordion.Trigger 
-              className="border-black/20 border border-t border-b-0 border-l-0 border-r-0 border-solid 
+              className="accordion-trigger border-black/20 border border-t border-b-0 border-l-0 border-r-0 border-solid 
                 rounded-none w-full flex justify-between items-center px-3 py-3 text-sm">
               <div>
                 {conf.ui_label}
@@ -35,12 +37,14 @@ export const RelatedItemsList = (props: RelatedItemsListProps) => {
                 )}
               </div>
 
-              <ChevronDown className="h-4 w-4" />
+              <ChevronDown className="accordion-chevron h-4 w-4" />
             </Accordion.Trigger>
           </Accordion.Header>
 
-          <Accordion.Content>
-            Lorem Ipsum
+          <Accordion.Content className="accordion-content">
+            <div className="text-sm px-3 pt-2 pb-4 text-muted">
+              Lorem Ipsum
+            </div>
           </Accordion.Content>
         </Accordion.Item>
       ))}
