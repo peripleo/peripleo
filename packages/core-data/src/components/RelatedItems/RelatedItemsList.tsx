@@ -15,12 +15,10 @@ export const RelatedItemsList = (props: RelatedItemsListProps) => {
 
   const related = useRelated(props.recordId);
 
-  console.log(related);
-
   return related.length > 0 && (
     <Accordion.Root type="multiple">
       {related.map(({ data, error, ...conf }) => (
-        <Accordion.Item value={conf.endpoint}>
+        <Accordion.Item value={conf.endpoint} key={conf.endpoint}>
           <Accordion.Header>
             <Accordion.Trigger 
               className="accordion-trigger border-black/20 border border-t border-b-0 border-l-0 border-r-0 border-solid 

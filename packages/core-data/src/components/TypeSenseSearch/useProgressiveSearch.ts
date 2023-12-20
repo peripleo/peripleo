@@ -31,14 +31,26 @@ export const useProgressiveSearch = () => {
 
   const map = useMap();
 
+  const hasStateChanged = (a: any, b: any) => {
+    // Ignore changes to page number!
+    if (a)
+      delete a.page;
+  
+    if (b)
+      delete b.page;
+
+    return !dequal(a, b);
+  }
+
   useEffect(() => {
     const { results } = infiniteHits;
 
+    const stateChanged = hasStateChanged(results._state, lastSearchState.current);
     const isFirstPage = results.page === 0;
     const isLastPage = results.page + 1 >= results.nbPages;
 
     // Add to cache and load next page
-    if (isFirstPage) {
+    if (isFirstPage && stateChanged) {
       setCachedHits(() => createCachedHits(results.hits as unknown as TypeSenseSearchResult[]));
     } else {
       setCachedHits(({ merge }) => merge(results.hits as unknown as TypeSenseSearchResult[]));
@@ -48,11 +60,9 @@ export const useProgressiveSearch = () => {
       setTimeout(() => infiniteHits.showMore(), 25);
     } else {
       const hasHits = cachedHits.hits.length > 0 && results.hits.length > 0;
-      const hasStateChanged = !dequal(results._state, lastSearchState.current);
-
       const isBoundsFilterActive = geoSearch.isRefinedWithMap();
 
-      if (map && hasHits && hasStateChanged && !isBoundsFilterActive) {      
+      if (map && hasHits && stateChanged && !isBoundsFilterActive) {      
         const features = {
           type: 'FeatureCollection',
           features: cachedHits.hits
