@@ -1,4 +1,5 @@
 export * from './AppHeader';
+export * from './RelatedItems';
 export * from './SearchResultsMapLayer';
 export * from './SearchBox';
 export * from './SearchFilterSettings';

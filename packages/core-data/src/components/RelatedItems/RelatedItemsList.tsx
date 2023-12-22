@@ -1,7 +1,7 @@
 import * as Accordion from '@radix-ui/react-accordion';
 import { AlertCircle, ChevronDown } from 'lucide-react';
 import { ThreeDots } from '../LoadAnimations';
-import { useRelated } from './useRelated';
+import { RelatedItemsData } from './useRelated';
 
 import './RelatedItemsList.css';
 
@@ -9,15 +9,15 @@ interface RelatedItemsListProps {
 
   recordId: string;
 
+  items: RelatedItemsData[];
+
 }
 
 export const RelatedItemsList = (props: RelatedItemsListProps) => {
 
-  const related = useRelated(props.recordId);
-
-  return related.length > 0 && (
+  return props.items.length > 0 && (
     <Accordion.Root type="multiple">
-      {related.map(({ data, error, ...conf }) => (
+      {props.items.map(({ data, error, ...conf }) => (
         <Accordion.Item value={conf.endpoint} key={conf.endpoint}>
           <Accordion.Header>
             <Accordion.Trigger 
