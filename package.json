@@ -14,8 +14,7 @@
   },
   "workspaces": [
     "./packages/peripleo",
-    "./packages/peripleo-theme-default",
     "./packages/peripleo-tei",
-    "./packages/prototyping-gbof"
+    "./packages/core-data"
   ]
 }

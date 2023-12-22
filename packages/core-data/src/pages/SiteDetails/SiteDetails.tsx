@@ -44,19 +44,14 @@ export const SiteDetails = () => {
   useEffect(() => {
     const images = related.find(i => i.endpoint === 'media_contents' && i.data?.items?.length > 0);
     if (images) {
-      console.log('got images');
-
-      setHeaderImage(img => {
-        console.log('img', img);
-        if (img)
-          return img;
-
-        console.log(images);
-        const { content_url, title } = images.data.items[0].body;
-        console.log('setting', content_url);
-
-        return { url: content_url, title };
-      })
+      setHeaderImage(image => {
+        if (image) {
+          return image;
+        } else {
+          const { content_url, title } = images.data.items[0].body;
+          return { url: content_url, title };
+        }
+      });
     }
   }, [related]);
 
