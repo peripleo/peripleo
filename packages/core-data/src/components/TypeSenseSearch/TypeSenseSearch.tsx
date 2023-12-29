@@ -33,7 +33,9 @@ const createTypesenseAdapter = (config: CoreDataConfig) =>
   });
 
 const createRouting = (config: CoreDataConfig) => ({
-  router: history(),
+  router: history({
+    cleanUrlOnDispose: false
+  }),
   stateMapping: {
     stateToRoute: (state: any) => {
       const uiState = state[config.typesense.index_name];

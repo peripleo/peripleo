@@ -1,10 +1,10 @@
 import { AnnotationPage } from '@peripleo/peripleo';
 import * as Accordion from '@radix-ui/react-accordion';
 import { AlertCircle, ChevronDown } from 'lucide-react';
-import { CoreDataMedia, CoreDataPerson} from '../../model';
+import { CoreDataMedia, CoreDataOrganization, CoreDataPerson, CoreDataTaxonomy} from '../../model';
 import { ThreeDots } from '../LoadAnimations';
 import { RelatedItemsData } from './useRelated';
-import { RelatedMedia, RelatedPeople } from './sections';
+import { RelatedMedia, RelatedOrganizations, RelatedPeople, RelatedTaxonomies } from './sections';
 
 import './RelatedItemsList.css';
 
@@ -45,13 +45,13 @@ export const RelatedItemsList = (props: RelatedItemsListProps) => {
           <Accordion.Content className="accordion-content text-sm leading-6">
             {conf.endpoint === 'media_contents' ? (
               <RelatedMedia data={data as AnnotationPage<CoreDataMedia>} />
+            ) : conf.endpoint === 'organizations' ? (
+              <RelatedOrganizations data={data as AnnotationPage<CoreDataOrganization>} />
             ) : conf.endpoint === 'people' ? (
               <RelatedPeople data={data as AnnotationPage<CoreDataPerson>} />
-            ) : (
-              <div className="text-sm px-3 pt-2 pb-4 text-muted">
-                Lorem Ipsum
-              </div>
-            )}
+            ) : conf.endpoint === 'taxonomies' ? (
+              <RelatedTaxonomies data={data as AnnotationPage<CoreDataTaxonomy>} />
+            ) : undefined}
           </Accordion.Content>
         </Accordion.Item>
       ))}

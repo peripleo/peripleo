@@ -19,7 +19,7 @@ export const RelatedPeople = (props: RelatedPeopleProps) => {
   ) : (
     <ul className="p-3 pt-1 pb-4">
       {people.map(a => (
-        <li className="flex items-center">
+        <li key={a.id} className="flex items-center">
           <UserCircle className="h-4 w-4 mr-1.5" /> {a.body.title}
         </li>
       ))}

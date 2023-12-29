@@ -1,16 +1,16 @@
+import { AnnotationPage } from '@peripleo/peripleo';
 import { Thumbnail } from '@samvera/clover-iiif/primitives';
+import { CoreDataMedia } from 'src/model';
 
 interface RelatedMediaProps {
 
-  data: any;
+  data: AnnotationPage<CoreDataMedia>;
 
 }
 
 export const RelatedMedia = (props: RelatedMediaProps) => {
 
   const { data } = props;
-
-  console.log(data);
 
   return (
     <div className="p-3 pb-4 grid grid-cols-3 gap-1">
