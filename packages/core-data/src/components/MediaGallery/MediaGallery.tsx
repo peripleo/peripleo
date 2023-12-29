@@ -22,6 +22,13 @@ export const MediaGallery = (props: MediaGalleryProps) => {
           <Dialog.Title className="dialog-title flex items-center">
             <Image className="h-4 w-4 mr-1.5" /> Media & Documents
           </Dialog.Title>
+
+          <div className="pt-6 pb-2">
+            {Boolean(props.defaultItem) && (
+              <img src={props.defaultItem.content_iiif_url} />
+            )}
+          </div>
+
           <Dialog.Close asChild>
             <button className="dialog-close rounded-full">
               <X className="h-7 w-7 p-1.5" />
