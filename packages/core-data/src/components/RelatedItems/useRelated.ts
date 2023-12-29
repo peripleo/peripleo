@@ -1,5 +1,7 @@
+import { Annotation, AnnotationPage } from '@peripleo/peripleo';
 import { useEffect, useState } from 'react';
 import { useRuntimeConfig } from '../../CoreDataConfig';
+import { CoreDataAnnotation } from 'src/model';
 
 export interface RelatedItemsData {
 
@@ -9,7 +11,7 @@ export interface RelatedItemsData {
 
   default_open?: boolean;
 
-  data?: any;
+  data?: AnnotationPage<CoreDataAnnotation>;
 
   error?: Error;
 
@@ -31,9 +33,6 @@ export const useRelated = (recordId: string) => {
   useEffect(() => {
     branding.related.map(conf => fetchOne(conf.endpoint)
       .then(data => {
-        console.log('endpoint: ' + conf.endpoint);
-        console.log(data);
-
         setState(state => state.map(t => t.endpoint === conf.endpoint ? ({ ...t, data }) : t));
       })
       .catch(error => {

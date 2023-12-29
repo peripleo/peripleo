@@ -1,5 +1,7 @@
+import { AnnotationPage } from '@peripleo/peripleo';
 import * as Accordion from '@radix-ui/react-accordion';
 import { AlertCircle, ChevronDown } from 'lucide-react';
+import { CoreDataMedia, CoreDataPerson} from '../../model';
 import { ThreeDots } from '../LoadAnimations';
 import { RelatedItemsData } from './useRelated';
 import { RelatedMedia, RelatedPeople } from './sections';
@@ -15,8 +17,6 @@ interface RelatedItemsListProps {
 }
 
 export const RelatedItemsList = (props: RelatedItemsListProps) => {
-
-  console.log(props);
 
   return props.items.length > 0 && (
     <Accordion.Root type="multiple">
@@ -42,11 +42,11 @@ export const RelatedItemsList = (props: RelatedItemsListProps) => {
             </Accordion.Trigger>
           </Accordion.Header>
 
-          <Accordion.Content className="accordion-content">
+          <Accordion.Content className="accordion-content text-sm leading-6">
             {conf.endpoint === 'media_contents' ? (
-              <RelatedMedia data={data} />
+              <RelatedMedia data={data as AnnotationPage<CoreDataMedia>} />
             ) : conf.endpoint === 'people' ? (
-              <RelatedPeople data={data} />
+              <RelatedPeople data={data as AnnotationPage<CoreDataPerson>} />
             ) : (
               <div className="text-sm px-3 pt-2 pb-4 text-muted">
                 Lorem Ipsum

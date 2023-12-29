@@ -1,3 +1,4 @@
+export * from './CoreDataAnnotation';
 export * from './CoreDataMedia';
 export * from './CoreDataOrganization';
 export * from './CoreDataPerson';
