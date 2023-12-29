@@ -10,7 +10,7 @@ export interface CoreDataProperties extends PlaceFeatureProperties {
 
 }
 
-export interface CoreDataPlace extends Place {
+export interface CoreDataPlaceFeature extends Place {
 
   user_defined?: { [key: string]: UserDefinedField }
 
@@ -24,7 +24,7 @@ export interface UserDefinedField {
 
 }
 
-export const toFeature = (place: CoreDataPlace, recordId: string) => {
+export const toFeature = (place: CoreDataPlaceFeature, recordId: string) => {
   const f = _toFeature<CoreDataProperties>(place);
   return {
     ...f,

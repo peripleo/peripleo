@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Image, X } from 'lucide-react';
 import { Link, useCurrentRoute, useSelectionState } from '@peripleo/peripleo';
 import { RelatedItemsList, useRelated } from '../../components';
-import { CoreDataPlace, UserDefinedField, toFeature } from '../../model';
+import { CoreDataPlaceFeature, UserDefinedField, toFeature } from '../../model';
 import { useRuntimeConfig } from '../../CoreDataConfig';
 
 export const SiteDetails = () => {
@@ -13,7 +13,7 @@ export const SiteDetails = () => {
 
   const [, recordId] = route.split('/').filter(Boolean);
 
-  const [site, setSite] = useState<CoreDataPlace>();
+  const [site, setSite] = useState<CoreDataPlaceFeature>();
 
   const [headerImage, setHeaderImage] = useState<{ url: string, title: string }>();
 

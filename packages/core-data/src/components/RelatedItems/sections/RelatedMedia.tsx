@@ -1,4 +1,4 @@
-import { Thumbnail } from '@samvera/clover-iiif/primitives'
+import { Thumbnail } from '@samvera/clover-iiif/primitives';
 
 interface RelatedMediaProps {
 

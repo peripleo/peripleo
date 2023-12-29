@@ -2,7 +2,7 @@ import * as Accordion from '@radix-ui/react-accordion';
 import { AlertCircle, ChevronDown } from 'lucide-react';
 import { ThreeDots } from '../LoadAnimations';
 import { RelatedItemsData } from './useRelated';
-import { RelatedMedia } from './sections/RelatedMedia';
+import { RelatedMedia, RelatedPeople } from './sections';
 
 import './RelatedItemsList.css';
 
@@ -45,6 +45,8 @@ export const RelatedItemsList = (props: RelatedItemsListProps) => {
           <Accordion.Content className="accordion-content">
             {conf.endpoint === 'media_contents' ? (
               <RelatedMedia data={data} />
+            ) : conf.endpoint === 'people' ? (
+              <RelatedPeople data={data} />
             ) : (
               <div className="text-sm px-3 pt-2 pb-4 text-muted">
                 Lorem Ipsum

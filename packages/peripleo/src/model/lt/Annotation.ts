@@ -6,7 +6,7 @@ export interface Annotation<T extends unknown> {
 
   created: string;
 
-  motivation: 'describing';
+  motivation: 'describing' | 'linking';
 
   body: T;
 
@@ -14,7 +14,9 @@ export interface Annotation<T extends unknown> {
 
     id: string;
 
-    title: string;
+    name: string;
+
+    type?: string;
 
   }
 

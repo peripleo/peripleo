@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Map, PulsingSelectionMarker, Tooltip, Zoom } from '@peripleo/peripleo/maplibre';
 import { AppHeader, SearchResultsMapLayer, SearchResultTooltip, TypeSenseSearch } from './components';
-import {  CoreDataProperties } from './model/CoreData';
+import {  CoreDataProperties } from './model/lp/CoreDataPlaceFeature';
 import { Search, SiteDetails } from './pages';
 import { useRuntimeConfig } from './CoreDataConfig';
 import { 
