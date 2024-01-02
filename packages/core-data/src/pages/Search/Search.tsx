@@ -26,7 +26,7 @@ export const Search = () => {
       const [minX, minY, maxX, maxY] = bbox(features);
       
       map.fitBounds([[minX, minY], [maxX, maxY]], { 
-        padding: 100,
+        padding: { top: 100, bottom: 100, left: 380, right: 120 },
         maxZoom: 14
       });
     }
