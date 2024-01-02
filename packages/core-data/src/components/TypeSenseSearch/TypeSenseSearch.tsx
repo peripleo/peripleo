@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useContext, useMemo } from 'react';
+import { ReactNode, createContext, useContext, useEffect, useMemo } from 'react';
 import TypesenseInstantsearchAdapter from 'typesense-instantsearch-adapter';
 import { history } from 'instantsearch.js/es/lib/routers';
 import { CoreDataConfig, useRuntimeConfig } from '../../CoreDataConfig';
@@ -81,6 +81,10 @@ interface PersistentSearchStateContextValue {
 
   searchBox: ReturnType<typeof _useSearchBox>;
 
+  observe: (callback: ((hits: TypeSenseSearchResult[]) => void)) => void;
+
+  unobserve: (callback: ((hits: TypeSenseSearchResult[]) => void)) => void;
+
 }
 
 const PersistentSearchStateContext = createContext<PersistentSearchStateContextValue>(undefined);
@@ -94,7 +98,7 @@ const PersistentSearchState = (props: { children: ReactNode }) => {
 
   const searchBox = _useSearchBox();
 
-  const { cachedHits, geoSearch } = useProgressiveSearch();
+  const { cachedHits, geoSearch, observe, unobserve } = useProgressiveSearch();
 
   // For some reason, 'hits' in useInfiniteHits gets set to zero
   // as soon as this hook in used. Only 'currentPageHits' gets filled.
@@ -109,7 +113,9 @@ const PersistentSearchState = (props: { children: ReactNode }) => {
       cachedHits, 
       facets: attributesToRender, 
       geoSearch,
-      searchBox
+      searchBox,
+      observe,
+      unobserve
     }}>
 
       {props.children}
@@ -167,4 +173,16 @@ export const useSearchBox = () => {
 export const useGeoSearch = () => {
   const { geoSearch } = useContext(PersistentSearchStateContext);
   return geoSearch;
+}
+
+export const useSearchCompleted = (callback: ((hits: TypeSenseSearchResult[]) => void), deps: any[]) => {
+  const { observe, unobserve } = useContext(PersistentSearchStateContext);
+
+  useEffect(() => {
+    observe(callback);
+
+    return () => {
+      unobserve(callback);
+    }
+  }, deps);
 }

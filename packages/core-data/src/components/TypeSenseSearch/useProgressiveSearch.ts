@@ -1,8 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useInfiniteHits, useGeoSearch as _useGeoSearch } from 'react-instantsearch';
-import { useMap } from '@peripleo/peripleo/maplibre';
 import { dequal } from 'dequal/lite';
-import bbox from '@turf/bbox';
 import type { TypeSenseSearchResult } from './TypeSenseSearchResult';
 
 const createCachedHits = (hits: TypeSenseSearchResult[]) => {
@@ -19,6 +17,8 @@ const createCachedHits = (hits: TypeSenseSearchResult[]) => {
 
 }
 
+type OnCompleteCallback = (results: TypeSenseSearchResult[]) => void;
+
 export const useProgressiveSearch = () => {
 
   const infiniteHits = useInfiniteHits();
@@ -29,7 +29,15 @@ export const useProgressiveSearch = () => {
 
   const lastSearchState = useRef<any>();
 
-  const map = useMap();
+  const callbacks = useRef<OnCompleteCallback[]>([]);
+
+  const observe = useCallback((callback: OnCompleteCallback) => {
+    callbacks.current = [...callbacks.current, callback];
+  }, []);
+
+  const unobserve = useCallback((callback: OnCompleteCallback) => {
+    callbacks.current = callbacks.current.filter(c => c !== callback)
+  }, []);
 
   const hasStateChanged = (a: any, b: any, ignorePageNo?: boolean) => {
     if (ignorePageNo && a)
@@ -57,22 +65,10 @@ export const useProgressiveSearch = () => {
     if (!isLastPage && infiniteHits.showMore) {
       setTimeout(() => infiniteHits.showMore(), 25);
     } else {
-      const hasHits = cachedHits.hits.length > 0 && results.hits.length > 0;
-      const isBoundsFilterActive = geoSearch.isRefinedWithMap();
-
-      if (map && hasHits && hasStateChanged(results._state, lastSearchState.current) && !isBoundsFilterActive) {      
-        const features = {
-          type: 'FeatureCollection',
-          features: cachedHits.hits
-            // For some reason, 0/0 points throw turf off :-(
-            .filter(h => 'geometry' in h && (h.coordinates[0] !== 0 || h.coordinates[1] !== 0))
-        };
-
-        const [minX, minY, maxX, maxY] = bbox(features);
-        
-        map.fitBounds([[minX, minY], [maxX, maxY]], { 
-          padding: 100,
-          maxZoom: 14
+      if (hasStateChanged(results._state, lastSearchState.current)) {
+        callbacks.current.forEach(callback => {
+          const merged = cachedHits.merge(results.hits as unknown as TypeSenseSearchResult[]);
+          callback(merged.hits);
         });
       }
     }
@@ -80,6 +76,6 @@ export const useProgressiveSearch = () => {
     lastSearchState.current = results._state;
   }, [infiniteHits.results]);
 
-  return { cachedHits: cachedHits.hits, geoSearch };
+  return { cachedHits: cachedHits.hits, geoSearch, observe, unobserve };
 
 }
