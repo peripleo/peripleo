@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { StylePropertyExpression } from 'maplibre-gl';
-import { useMap } from '../../../maplibre/map';
+import { useMap } from '../../map';
 import { useSelectionValue } from '../../../state';
-import { Marker } from './Marker';
+import { PulsingMarker } from './PulsingMarker';
 
 const EMPTY_GEOJSON = { type: 'FeatureCollection', features: [] };
 
@@ -30,7 +30,7 @@ export const PulsingSelectionMarker = (props: SelectionCircleProps) => {
     const onLoad = () => {
       map.addImage(
         'selection-pulse', 
-        Marker(props.size * 2, rgb, duration, map), 
+        PulsingMarker(props.size * 2, rgb, duration, map), 
         { pixelRatio: 2 });
 
       map.addSource('pulsing-selection-marker-source', {

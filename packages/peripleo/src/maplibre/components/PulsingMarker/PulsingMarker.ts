@@ -4,7 +4,7 @@ import { Map } from 'maplibre-gl';
  * Modified from the open example at
  * https://docs.mapbox.com/mapbox-gl-js/example/add-image-animated/
  */
-export const Marker = (size: number, rgb: [number, number, number], duration: number, map: Map) => ({
+export const PulsingMarker = (size: number, rgb: [number, number, number], duration: number, map: Map) => ({
 
   width: size,
 

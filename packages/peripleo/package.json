@@ -54,6 +54,7 @@
     "@turf/bbox": "^6.5.0",
     "chroma-js": "^2.4.2",
     "maplibre-gl": "^3.6.2",
+    "nanoid": "^5.0.4",
     "react-draggable": "^4.4.5",
     "react-resizable": "^3.0.5"
   }

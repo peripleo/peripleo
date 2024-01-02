@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
-import { useMap } from '@peripleo/peripleo/maplibre';
+import { useMap, usePulsingMarker } from '@peripleo/peripleo/maplibre';
 import bbox from '@turf/bbox';
 import { CoreDataPlaceFeature, toFeature } from '../../model';
+import { POINT_STYLE, FILL_STYLE, STROKE_STYLE } from '../../layerStyles';
 
 interface SiteDetailsLayerProps {
 
@@ -9,27 +10,13 @@ interface SiteDetailsLayerProps {
 
 }
 
-const FILL_STYLE = {
-  'type': 'fill',
-  'paint': {
-    'fill-color': '#ff623b',
-    'fill-opacity': 0.2
-  }
-}
-
-const STROKE_STYLE = {
-  'type': 'line',
-  'paint': {
-    'line-color': '#ff623b',
-    'line-opacity': 0.6
-  }
-}
-
 export const SiteDetailsLayer = (props: SiteDetailsLayerProps) => {
 
   const { place } = props;
 
   const map = useMap();
+
+  const marker = usePulsingMarker(100);
 
   useEffect(() => {
     // @ts-ignore
@@ -45,19 +32,38 @@ export const SiteDetailsLayer = (props: SiteDetailsLayerProps) => {
       data: geom
     });
 
+    // @ts-ignore
     map.addLayer({
       id: `layer-${recordId}-fill`,
       ...FILL_STYLE,
-      // @ts-ignore
-      source: `source-${recordId}`
+      source: `source-${recordId}`,
+      filter: ['!=', '$type', 'Point']
     });
 
+    // @ts-ignore
     map.addLayer({
       id: `layer-${recordId}-line`,
       ...STROKE_STYLE,
-      // @ts-ignore
+      source: `source-${recordId}`,
+      filter: ['!=', '$type', 'Point']
+    });
+
+    // @ts-ignore
+    map.addLayer({
+      id: `layer-${recordId}-halo`,
+      ...marker,
+      filter: ['==', '$type', 'Point'],
       source: `source-${recordId}`
     });
+
+    // @ts-ignore
+    map.addLayer({
+      id: `layer-${recordId}-point`,
+      ...POINT_STYLE,
+      filter: ['==', '$type', 'Point'],
+      source: `source-${recordId}`
+    });
+
 
     // Zoom to bounds
     const [minX, minY, maxX, maxY] = bbox(geom);
@@ -70,6 +76,8 @@ export const SiteDetailsLayer = (props: SiteDetailsLayerProps) => {
     return () => {
       map.removeLayer(`layer-${recordId}-line`);
       map.removeLayer(`layer-${recordId}-fill`);
+      map.removeLayer(`layer-${recordId}-halo`);
+      map.removeLayer(`layer-${recordId}-point`);
 
       map.removeSource(`source-${recordId}`);
     }

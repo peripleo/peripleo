@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { FeatureCollection } from '@peripleo/peripleo';
-import { toFeature, useCachedHits } from '../TypeSenseSearch';
 import { useMap } from '@peripleo/peripleo/maplibre';
+import { toFeature, useCachedHits } from '../TypeSenseSearch';
+import { POINT_STYLE } from '../../layerStyles';
 
 type SearchResultsMapLayerProps = { 
 
@@ -15,27 +16,6 @@ const toGeoJSON = (hits: any[]): FeatureCollection => ({
   type: 'FeatureCollection',
   features: hits.map(hit => toFeature(hit)) 
 });
-
-const searchResultLayerStyle = {
-  'type': 'circle',
-  'paint': {
-    'circle-radius': [
-      'interpolate', 
-      ['linear'],
-      ['number', ['get','point_count'], 1 ],
-      0, 4, 
-      10, 14
-    ],
-    'circle-stroke-width': 1,
-    'circle-color': [
-      'case',
-      ['boolean', ['feature-state', 'hover'], false],
-      '#3b62ff',
-      '#ff623b'
-    ],
-    'circle-stroke-color': '#8d260c'
-  }
-};
 
 export const SearchResultsMapLayer = (props: SearchResultsMapLayerProps) => {
 
@@ -76,7 +56,7 @@ export const SearchResultsMapLayer = (props: SearchResultsMapLayerProps) => {
         });
 
         map.addLayer({
-          ...searchResultLayerStyle,
+          ...POINT_STYLE,
           id: props.id,
           // @ts-ignore
           source: sourceId,
