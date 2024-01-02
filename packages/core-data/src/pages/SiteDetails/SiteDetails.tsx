@@ -52,7 +52,7 @@ export const SiteDetails = () => {
   }, [related]);
 
   const relatedPlaces = useMemo(() => {
-    const places = related.find(i => i.endpoint === 'places' && i.data?.items?.length > 0);
+    const places = related.find(i => i.endpoint === 'places' && i.data);
     return places ? places.data.items.map(a => a.body as CoreDataPlace) : undefined;
   }, [related]);
 
