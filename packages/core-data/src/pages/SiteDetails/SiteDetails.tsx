@@ -53,7 +53,7 @@ export const SiteDetails = () => {
 
   const relatedPlaces = useMemo(() => {
     const places = related.find(i => i.endpoint === 'places' && i.data?.items?.length > 0);
-    return places ? places.data.items.map(a => a.body as CoreDataPlace) : [];
+    return places ? places.data.items.map(a => a.body as CoreDataPlace) : undefined;
   }, [related]);
 
   return (

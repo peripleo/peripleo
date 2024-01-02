@@ -11,7 +11,7 @@ interface SiteDetailsLayerProps {
 
   place: CoreDataPlaceFeature;
 
-  related: CoreDataPlace[];
+  related?: CoreDataPlace[];
 
 }
 
@@ -33,30 +33,41 @@ export const SiteDetailsLayer = (props: SiteDetailsLayerProps) => {
 
   const [related, setRelated] = useState<FeatureCollection>();
 
-  useEffect(() => {
-    const [minX, minY, maxX, maxY] = bbox(geometry);
-    
-    map.fitBounds([[minX, minY], [maxX, maxY]], { 
-      padding: 100,
-      maxZoom: 14
-    });
-  }, []);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    if (props.related.length > 0) {
+    if (loaded) {
+      const all = related
+        ? { type: 'FeatureCollection', features: [...geometry.features, ...related.features]}
+        : geometry;
+
+      const [minX, minY, maxX, maxY] = bbox(all);
+      
+      map.fitBounds([[minX, minY], [maxX, maxY]], { 
+        padding: 100,
+        maxZoom: 14
+      });
+    }
+  }, [loaded, related]);
+
+  useEffect(() => {
+    if (props.related) {
       const urls = props.related.map(r =>
         `${core_data.url}/core_data/public/places/${r.record_id}?project_ids=${core_data.project_ids.join(',')}`);
 
       Promise.all(urls.map(url => fetch(url).then(res => res.json())))
         .then(places => {
           const features = places.map(p => toFeature(p, p.record_id));
+
           setRelated({
             type: 'FeatureCollection',
             features
           });
+
+          setLoaded(true);
         });
     }
-  }, [props.related.map(r => r.id).join()]);
+  }, [props.related?.map(r => r.id).join()]);
 
   return (
     <>
