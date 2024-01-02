@@ -5,7 +5,9 @@ import { useMap } from '@peripleo/peripleo/maplibre';
 
 type SearchResultsMapLayerProps = { 
 
-  id: string
+  id: string;
+
+  visible: boolean;
 
 }; 
 
@@ -54,6 +56,15 @@ export const SearchResultsMapLayer = (props: SearchResultsMapLayerProps) => {
 
   useEffect(() => {
     if (mapLoaded) {
+      const layerIds = new Set(map.getStyle().layers.map(l => l.id));
+
+      if (layerIds.has(props.id))
+        map.setLayoutProperty(props.id, 'visibility', props.visible ? 'visible' : 'none');
+    }
+  }, [props.visible, mapLoaded]);
+
+  useEffect(() => {
+    if (mapLoaded) {
       if (!sourceId) {
         const sourceId = `${props.id}-source`;
 
@@ -69,6 +80,9 @@ export const SearchResultsMapLayer = (props: SearchResultsMapLayerProps) => {
           id: props.id,
           // @ts-ignore
           source: sourceId,
+          layout: {
+            visibility: props.visible ? 'visible' : 'none'
+          },
           metadata: {
             interactive: true,
           }

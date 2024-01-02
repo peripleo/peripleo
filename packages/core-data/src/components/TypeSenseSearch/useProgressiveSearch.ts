@@ -69,6 +69,7 @@ export const useProgressiveSearch = () => {
         };
 
         const [minX, minY, maxX, maxY] = bbox(features);
+        
         map.fitBounds([[minX, minY], [maxX, maxY]], { 
           padding: 100,
           maxZoom: 14

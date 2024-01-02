@@ -4,6 +4,7 @@ import { Link, useCurrentRoute, useSelectionState } from '@peripleo/peripleo';
 import { RelatedItemsList, useRelated } from '../../components';
 import { CoreDataPlaceFeature, MediaAnnotation, UserDefinedField, toFeature } from '../../model';
 import { useRuntimeConfig } from '../../CoreDataConfig';
+import { SiteDetailsLayer } from './SiteDetailsLayer';
 
 export const SiteDetails = () => {
 
@@ -103,6 +104,10 @@ export const SiteDetails = () => {
           </>
         )}
       </aside>
+
+      {site && (
+        <SiteDetailsLayer place={site} />
+      )}
     </>
   )
 
