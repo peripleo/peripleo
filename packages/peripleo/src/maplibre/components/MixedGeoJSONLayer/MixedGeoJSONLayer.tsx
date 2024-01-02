@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { useMap } from '../../map';
-import { FeatureCollection } from '@/model';
-import { AddLayerObject, StylePropertyExpression } from 'maplibre-gl';
+import { Feature, FeatureCluster, FeatureCollection } from '@/model';
+import { AddLayerObject } from 'maplibre-gl';
+import { Tooltip } from '../Tooltip';
 
 interface MixedGeoJSONLayerProps {
 
@@ -14,6 +15,8 @@ interface MixedGeoJSONLayerProps {
   strokeStyle: Object;
 
   pointStyle: Object;
+
+  tooltip?(target: Feature | FeatureCluster, event: MouseEvent): ReactNode;
 
 }
 
@@ -61,6 +64,10 @@ export const MixedGeoJSONLayer = (props: MixedGeoJSONLayerProps) => {
     }
   }, []);
 
-  return null;
+  return props.tooltip ? (
+    <Tooltip 
+      layerId={[`layer-${id}-point`, `layer-${id}-fill`]} 
+      content={props.tooltip} />
+  ) : null;
 
 }

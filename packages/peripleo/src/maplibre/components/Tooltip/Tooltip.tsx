@@ -6,7 +6,7 @@ import { Feature, FeatureCluster } from '../../../model';
 
 interface TooltipProps {
 
-  layerId: string;
+  layerId: string | string[];
 
   content(target: Feature | FeatureCluster, event: MouseEvent): ReactNode;
 
@@ -26,6 +26,8 @@ export const Tooltip = (props: TooltipProps) => {
 
   const map = useMap();
 
+  const layerIds = new Set(Array.isArray(props.layerId) ? props.layerId : [props.layerId]);
+
   const el = useRef<HTMLDivElement>(null);
   
   const [hovered, setHovered] = useState<Hovered | undefined>();
@@ -34,7 +36,7 @@ export const Tooltip = (props: TooltipProps) => {
     const map = event.target;
 
     const features = map.queryRenderedFeatures(event.point)
-      .filter(({ layer }) => layer.id === props.layerId);
+      .filter(({ layer }) => layerIds.has(layer.id));
 
     if (features.length > 0) {
       const { id, type, source, properties, geometry } = features[0];

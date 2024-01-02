@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { FeatureCollection } from '@peripleo/peripleo';
 import bbox from '@turf/bbox';
-import { MixedGeoJSONLayer, PulsingMarkerLayer, useMap } from '@peripleo/peripleo/maplibre';
+import { MixedGeoJSONLayer, PulsingMarkerLayer, Tooltip, useMap } from '@peripleo/peripleo/maplibre';
 import { CoreDataPlace, CoreDataPlaceFeature, toFeature } from '../../model';
 import { POINT_STYLE, FILL_STYLE, STROKE_STYLE } from '../../layerStyles';
 import { useRuntimeConfig } from '../../CoreDataConfig';
+import { SiteDetailsTooltip } from './SiteDetailsTooltip';
 
 interface SiteDetailsLayerProps {
 
@@ -48,9 +49,11 @@ export const SiteDetailsLayer = (props: SiteDetailsLayerProps) => {
 
       Promise.all(urls.map(url => fetch(url).then(res => res.json())))
         .then(places => {
-          // TODO how to handle color coding?
           const features = places.map(p => toFeature(p, p.record_id));
-          console.log('features', features);
+          setRelated({
+            type: 'FeatureCollection',
+            features
+          });
         });
     }
   }, [props.related.map(r => r.id).join()]);
@@ -61,12 +64,27 @@ export const SiteDetailsLayer = (props: SiteDetailsLayerProps) => {
         id="current" 
         data={geometry} />
 
+      {related && (
+        <MixedGeoJSONLayer
+          id={`${recordId}-related`} 
+          fillStyle={FILL_STYLE}
+          strokeStyle={STROKE_STYLE}
+          pointStyle={POINT_STYLE}
+          data={related}
+          tooltip={(target) => (
+            <SiteDetailsTooltip target={target} />
+          )} />
+      )}
+
       <MixedGeoJSONLayer
         id={recordId} 
         data={geometry} 
         fillStyle={FILL_STYLE} 
         strokeStyle={STROKE_STYLE} 
-        pointStyle={POINT_STYLE} />
+        pointStyle={POINT_STYLE} 
+        tooltip={(target) => (
+          <SiteDetailsTooltip target={target} />
+        )} />
     </>
   );
 
