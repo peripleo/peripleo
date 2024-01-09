@@ -2,7 +2,7 @@ import { Feature } from '@peripleo/peripleo';
 
 export interface TypeSenseSearchResult {
 
-  id: string;
+  uuid: string;
 
   record_id: string;
 
@@ -16,7 +16,7 @@ export interface TypeSenseSearchResult {
 
   geometry: {
 
-    type: 'Point',
+    type: 'Point' | 'GeometryCollection',
 
     coordinates: [ number, number ];
 
@@ -25,13 +25,14 @@ export interface TypeSenseSearchResult {
 }
 
 export const toFeature = (result: TypeSenseSearchResult): Feature => ({
-  id: result.record_id,
+  id: parseInt(result.record_id),
   type: 'Feature',
   properties: {
+    uuid: result.uuid,     
+    record_id: result.record_id,
     name: result.name,
-    names: result.names, 
-    record_id: result.record_id, 
+    names: result.names,
     type: result.type
   },
   geometry: result.geometry
-})
+} as Feature);

@@ -15,8 +15,7 @@ export const useFeatureRadioState = (property: string) => {
         map.setFeatureState({ source: sel.source, id: sel.feature.id }, { [property]: false });
 
       if (feature) {
-        const src = source || findSourceForFeature(map, feature.id.toString());
-
+        const src = source || findSourceForFeature(map, feature.id as number);
         if (src) {
           map.setFeatureState({ source: src, id: feature.id }, { [property]: true });
           return { source: src, feature };

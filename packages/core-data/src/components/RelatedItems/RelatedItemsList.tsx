@@ -16,8 +16,6 @@ import './RelatedItemsList.css';
 
 interface RelatedItemsListProps {
 
-  recordId: string;
-
   items: RelatedItemsData[];
 
 }

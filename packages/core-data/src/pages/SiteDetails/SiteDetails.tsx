@@ -18,7 +18,7 @@ export const SiteDetails = () => {
 
   const { core_data } = useRuntimeConfig();
 
-  const [, recordId] = route.split('/').filter(Boolean);
+  const [, uuid] = route.split('/').filter(Boolean);
 
   const [site, setSite] = useState<CoreDataPlaceFeature>();
 
@@ -26,25 +26,25 @@ export const SiteDetails = () => {
 
   const userDefined: UserDefinedField[]= site?.user_defined ? Object.values(site.user_defined) : [];
 
-  const related = useRelated(recordId);
+  const related = useRelated(uuid);
 
   useEffect(() => {
     const url = 
-      `${core_data.url}/core_data/public/places/${recordId}?project_ids=${core_data.project_ids.join(',')}`;
+      `${core_data.url}/core_data/public/places/${uuid}?project_ids=${core_data.project_ids.join(',')}`;
 
     fetch(url)
       .then(res => res.json())
       .then(place => {
         setSite(place);
 
-        const feature = toFeature(place, recordId);
+        const feature = toFeature(place, place.record_id);
         setSelected(feature);
       });
 
     return () => {
       setSelected(undefined);
     } 
-  }, [recordId]);
+  }, [uuid]);
 
   const firstImage = useMemo(() => {
     const images = related.find(i => i.endpoint === 'media_contents' && i.data?.items?.length > 0);
@@ -97,9 +97,7 @@ export const SiteDetails = () => {
             </ol>
           </div>
 
-          <RelatedItemsList 
-            recordId={recordId} 
-            items={related} />
+          <RelatedItemsList items={related} />
         </>
       )}
 

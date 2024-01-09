@@ -2,9 +2,10 @@ import { FixedSizeList } from 'react-window';
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Link, useHoverState } from '@peripleo/peripleo';
 import { Highlight } from 'react-instantsearch';
-import { useCachedHits } from '../TypeSenseSearch';
+import { toFeature, useCachedHits } from '../TypeSenseSearch';
 
 import './SearchResultsList.css';
+
 
 interface HitComponentProps {
 
@@ -24,10 +25,10 @@ const HitComponent = (props: HitComponentProps) => {
     <div 
       className={props.isHovered ? `bg-teal-700/30 ${cls}` : cls}>
       <Link 
-        to={`/site/${hit.record_id}`}>
+        to={`/site/${hit.uuid}`}>
         <Highlight hit={hit} attribute="name" />
         <p className="text-muted text-xs line-clamp-1">
-          <Highlight hit={hit} attribute={"names"} /> {hit.record_id}
+          <Highlight hit={hit} attribute={"names"} /> {hit.uuid}
         </p>
       </Link>
     </div>
@@ -42,17 +43,22 @@ export const SearchResultsList = () => {
 
   const Row = ({ index, style}) => {
     const hit = hits[index];
+    const id = parseInt(hit.record_id);
     
     return (
       <div 
         style={style} 
-        // @ts-ignore
-        onPointerEnter={() => setHover(hover => hover?.id == hit.record_id 
-          ? hover : {...hit, id: hit.record_id, properties: { id: hit.record_id }})}
-        onPointerLeave={() => setHover(undefined)}>
+        onPointerEnter={() => { 
+          console.log('enter', id, 'hovered: ', hover?.id);
+          setHover(hover => hover?.id === id ? hover : toFeature(hit))
+        }}
+        onPointerLeave={() => { 
+          console.log('leave');
+          setHover(undefined)
+        }}>
         <HitComponent 
           hit={hit} 
-          isHovered={hover?.id == hit?.record_id} />
+          isHovered={hover?.id === parseInt(hit?.record_id)} />
       </div>
     )
   }

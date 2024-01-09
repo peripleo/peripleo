@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { FeatureCollection } from '@peripleo/peripleo';
 import bbox from '@turf/bbox';
-import { MixedGeoJSONLayer, PulsingMarkerLayer, Tooltip, useMap } from '@peripleo/peripleo/maplibre';
+import { MixedGeoJSONLayer, PulsingMarkerLayer, useMap } from '@peripleo/peripleo/maplibre';
 import { CoreDataPlace, CoreDataPlaceFeature, toFeature } from '../../model';
 import { POINT_STYLE, FILL_STYLE, STROKE_STYLE } from '../../layerStyles';
 import { useRuntimeConfig } from '../../CoreDataConfig';
@@ -19,12 +19,13 @@ export const SiteDetailsLayer = (props: SiteDetailsLayerProps) => {
 
   const { place } = props;
 
-  // @ts-ignore
-  const recordId: string = place.record_id;
+  const { id } = place;
+
+  console.log('cdpf', place);
 
   const geometry: FeatureCollection = {
     type: 'FeatureCollection',
-    features: [toFeature(place, recordId)]
+    features: [toFeature(place, record_id)]
   };
 
   const { core_data } = useRuntimeConfig();
@@ -53,11 +54,11 @@ export const SiteDetailsLayer = (props: SiteDetailsLayerProps) => {
   useEffect(() => {
     if (props.related) {
       const urls = props.related.map(r =>
-        `${core_data.url}/core_data/public/places/${r.record_id}?project_ids=${core_data.project_ids.join(',')}`);
+        `${core_data.url}/core_data/public/places/${r.uuid}?project_ids=${core_data.project_ids.join(',')}`);
 
       Promise.all(urls.map(url => fetch(url).then(res => res.json())))
         .then(places => {
-          const features = places.map(p => toFeature(p, p.record_id));
+          const features = places.map(p => toFeature(p, p.uuid));
 
           setRelated({
             type: 'FeatureCollection',

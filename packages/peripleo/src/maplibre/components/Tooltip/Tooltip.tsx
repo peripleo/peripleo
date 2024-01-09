@@ -51,21 +51,20 @@ export const Tooltip = (props: TooltipProps) => {
             // console.warn(error);
           } else {
             const clusteredFeatures = results.map(r => ({ 
-              id: r.id,
               type: r.type, 
               properties: r.properties, 
               geometry: r.geometry 
             }) as Feature);
 
-            setHovered({ 
-              target: { clusterId: id.toString(), features: clusteredFeatures }, 
+            setHovered({
+              target: { clusterId: id as number, features: clusteredFeatures }, 
               event: event.originalEvent
             });
           }
         });
       } else {
         setHovered({ 
-          target: { id: id.toString(), type, properties, geometry } as Feature, 
+          target: { type, properties, geometry } as Feature, 
           event: event.originalEvent
         });
       }

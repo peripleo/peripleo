@@ -54,7 +54,7 @@ export const Map = (props: MapProps) => {
 
   const onMouseMove = (evt: MapMouseEvent) => {
     const feature = getFeature(evt);
-  
+
     isExternalChange.current = false;
     setMapHover(evt.target, feature);
   }
@@ -95,8 +95,11 @@ export const Map = (props: MapProps) => {
   useLayoutEffect(() => {
     if (!map)
       return; 
+      
+    console.log('sync down', isExternalChange.current);
 
     if (isExternalChange.current) {
+
       // sync external update downwards
       if (hover)
         findMapFeature(map, hover.id).then(f => setMapHover(map, f));

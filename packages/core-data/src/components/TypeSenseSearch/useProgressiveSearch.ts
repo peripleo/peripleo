@@ -5,11 +5,11 @@ import type { TypeSenseSearchResult } from './TypeSenseSearchResult';
 
 const createCachedHits = (hits: TypeSenseSearchResult[]) => {
 
-  const ids = new Set(hits.map(h => h.record_id));
+  const ids = new Set(hits.map(h => h.uuid));
 
   // De-duplication: drop all hits that are already in the list, append the rest
   const merge = (toMerge: TypeSenseSearchResult[]) => {
-    const toAppend = toMerge.filter(h => !ids.has(h.record_id));
+    const toAppend = toMerge.filter(h => !ids.has(h.uuid));
     return createCachedHits([...hits, ...toAppend]);
   }
 

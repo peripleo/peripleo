@@ -24,14 +24,14 @@ export interface UserDefinedField {
 
 }
 
-export const toFeature = (place: CoreDataPlaceFeature, recordId: string) => {
+export const toFeature = (place: CoreDataPlaceFeature, id: string) => {
   const f = _toFeature<CoreDataProperties>(place);
   return {
     ...f,
-    id: recordId,
+    id,
     properties: {
       ...f.properties,
-      id: recordId
+      id
     }
   }
 }

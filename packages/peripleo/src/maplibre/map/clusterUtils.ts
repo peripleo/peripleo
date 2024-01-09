@@ -3,7 +3,7 @@ import { GeoJSONSource, Map, MapGeoJSONFeature } from 'maplibre-gl';
 
 /** Tests if a feature is included in the given cluster feature **/
 export const isFeatureInCluster = (
-  featureId: string, 
+  featureId: number, 
   cluster: MapGeoJSONFeature, 
   source: GeoJSONSource
 ): Promise<boolean> => new Promise(resolve => {
@@ -13,7 +13,7 @@ export const isFeatureInCluster = (
         console.error(error);
         resolve(false);
       } else {
-        resolve(Boolean(features.find(f => f.id.toString() === featureId)));
+        resolve(Boolean(features.find(f => f.id === featureId)));
       }
     });
   } else {
@@ -26,7 +26,7 @@ export const isFeatureInCluster = (
  * that contains the given feature ID.
  */
 export const findClusterForFeature = (
-  featureId: string, 
+  featureId: number, 
   clusters: MapGeoJSONFeature[], 
   source: GeoJSONSource
 ): Promise<MapGeoJSONFeature | undefined> => clusters.reduce((promise, cluster) =>
@@ -68,7 +68,7 @@ export const listFeaturesInCluster = (
 /**
  * Helper: finds the source for a given feature ID.
  */
-export const findSourceForFeature = (map: Map, featureId: string) => {
+export const findSourceForFeature = (map: Map, featureId: number) => {
   const interactiveLayers = map.getStyle().layers
     .filter(l => 'interactive' in (l.metadata as object || {}));
 
@@ -79,7 +79,7 @@ export const findSourceForFeature = (map: Map, featureId: string) => {
     // @ts-ignore
     const { source } = layer;
 
-    const sourceFeatures = new Set(map.querySourceFeatures(source).map(f => f.id.toString()));
+    const sourceFeatures = new Set(map.querySourceFeatures(source).map(f => f.id));
     return sourceFeatures.has(featureId) ? source as string : undefined;
   }, undefined as string);
 
@@ -93,8 +93,10 @@ export const findSourceForFeature = (map: Map, featureId: string) => {
  */
 export const findMapFeature = (
   map: Map, 
-  featureId?: string
+  featureId?: number
 ): Promise<MapGeoJSONFeature | undefined> => {
+  console.log('searching feature', featureId);
+
   if (!featureId)
     return Promise.resolve(undefined);
 
@@ -112,7 +114,7 @@ export const findMapFeature = (
     const sourceId = layer.source as string;
     const source = map.getSource(sourceId);
 
-    const found = map.querySourceFeatures(sourceId).find(f => f.id.toString() === featureId);
+    const found = map.querySourceFeatures(sourceId).find(f => f.id === featureId);
     if (found) {
       return found;
     } else if (!found && 'getClusterLeaves' in source) {

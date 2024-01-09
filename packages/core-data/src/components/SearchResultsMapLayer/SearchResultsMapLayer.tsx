@@ -70,10 +70,20 @@ export const SearchResultsMapLayer = (props: SearchResultsMapLayerProps) => {
 
         setSourceId(sourceId);
       } else {
-        const geojson = toGeoJSON(hits);
+        const located = hits
+          .filter(h => h.geometry && h.geometry.type !== 'GeometryCollection');
+
+        if (located.length < hits.length)
+          console.warn(`Received ${hits.length - located.length} unlocated results`);
+
+        // toGeoJSON(located).features.forEach(f => {
+        //   console.log(f);
+        //   // @ts-ignore
+        //   map.getSource(sourceId).setData({ type: 'FeatureCollection', features: [ f ]});
+        // })
 
         // @ts-ignore
-        map.getSource(sourceId).setData(geojson);
+        map.getSource(sourceId).setData(toGeoJSON(located));
       }
     }
   }, [id, hits, mapLoaded, sourceId, toGeoJSON]);

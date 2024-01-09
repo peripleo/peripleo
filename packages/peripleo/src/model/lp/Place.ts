@@ -16,6 +16,8 @@ export interface Place<T extends PlaceProperties = PlaceProperties>{
 
 export interface PlaceProperties {
 
+  id: string;
+
   ccode: string[];
 
   title: string;
@@ -36,11 +38,12 @@ export interface Name {
 
 }
 
-export const toFeature =  <T extends PlaceFeatureProperties>(place: Place) =>({
-  id: place['@id'],
+export const toFeature =  <T extends PlaceFeatureProperties>(place: Place, id: number) =>({
+  id,
   type: 'Feature',
   properties: {
     ...place.properties,
+    id: place['@id'],
     names: place.names
   },
   geometry: place.geometry
