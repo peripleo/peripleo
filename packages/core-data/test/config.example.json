@@ -11,7 +11,7 @@
     ]
   },
   "layers": [
-    { "name": "US States", "format": "topojson", "url": "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json" }
+    { "name": "US States", "format": "geojson", "url": "gz_2010_us_040_00_20m.json", "description": "Data from the United States Census Bureau. https://eric.clst.org/tech/usgeojson/" }
   ],
   "typesense": {
     "host": "your_typescript_instance.typesense.net",
