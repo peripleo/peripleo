@@ -1,4 +1,5 @@
 import { 
+  Feature,
   Place,
   PlaceFeatureProperties,
   toFeature as _toFeature
@@ -11,6 +12,8 @@ export interface CoreDataProperties extends PlaceFeatureProperties {
 }
 
 export interface CoreDataPlaceFeature extends Place {
+  
+  record_id: string;
 
   user_defined?: { [key: string]: UserDefinedField }
 
@@ -24,14 +27,14 @@ export interface UserDefinedField {
 
 }
 
-export const toFeature = (place: CoreDataPlaceFeature, id: string) => {
-  const f = _toFeature<CoreDataProperties>(place);
+export const toFeature = (place: CoreDataPlaceFeature, uuid: string): Feature<CoreDataProperties> => {
+  const f = _toFeature<CoreDataProperties>(place, parseInt(place.record_id));
   return {
     ...f,
-    id,
     properties: {
       ...f.properties,
-      id
+      record_id: place.record_id,
+      uuid
     }
   }
 }

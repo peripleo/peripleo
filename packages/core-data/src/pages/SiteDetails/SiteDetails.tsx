@@ -8,6 +8,7 @@ import {
   CoreDataMedia, 
   CoreDataPlace, 
   CoreDataPlaceFeature, 
+  CoreDataProperties, 
   UserDefinedField, 
   toFeature 
 } from '../../model';
@@ -22,7 +23,7 @@ export const SiteDetails = () => {
 
   const [site, setSite] = useState<CoreDataPlaceFeature>();
 
-  const { setSelected } = useSelectionState();
+  const { setSelected } = useSelectionState<CoreDataProperties>();
 
   const userDefined: UserDefinedField[]= site?.user_defined ? Object.values(site.user_defined) : [];
 
@@ -34,10 +35,21 @@ export const SiteDetails = () => {
 
     fetch(url)
       .then(res => res.json())
-      .then(place => {
+      .then(data => {
+        const place = {
+          ...data,
+          properties: {
+            ...data.properties,
+            record_id: data.record_id,
+            uuid
+          }
+        };
+
         setSite(place);
 
-        const feature = toFeature(place, place.record_id);
+        console.log('site', place);
+
+        const feature = toFeature(place, uuid);
         setSelected(feature);
       });
 
@@ -103,6 +115,7 @@ export const SiteDetails = () => {
 
       {site && (
         <SiteDetailsLayer 
+          uuid={uuid}
           place={site} 
           related={relatedPlaces} />
       )}

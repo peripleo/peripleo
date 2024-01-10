@@ -48,14 +48,8 @@ export const SearchResultsList = () => {
     return (
       <div 
         style={style} 
-        onPointerEnter={() => { 
-          console.log('enter', id, 'hovered: ', hover?.id);
-          setHover(hover => hover?.id === id ? hover : toFeature(hit))
-        }}
-        onPointerLeave={() => { 
-          console.log('leave');
-          setHover(undefined)
-        }}>
+        onPointerEnter={() => setHover(hover => hover?.id === id ? hover : toFeature(hit))}
+        onPointerLeave={() => setHover(undefined)}>
         <HitComponent 
           hit={hit} 
           isHovered={hover?.id === parseInt(hit?.record_id)} />

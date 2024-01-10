@@ -95,8 +95,6 @@ export const findMapFeature = (
   map: Map, 
   featureId?: number
 ): Promise<MapGeoJSONFeature | undefined> => {
-  console.log('searching feature', featureId);
-
   if (!featureId)
     return Promise.resolve(undefined);
 

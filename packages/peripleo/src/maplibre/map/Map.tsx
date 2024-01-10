@@ -95,8 +95,6 @@ export const Map = (props: MapProps) => {
   useLayoutEffect(() => {
     if (!map)
       return; 
-      
-    console.log('sync down', isExternalChange.current);
 
     if (isExternalChange.current) {
 

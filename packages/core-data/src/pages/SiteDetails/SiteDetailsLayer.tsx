@@ -9,6 +9,8 @@ import { SiteDetailsTooltip } from './SiteDetailsTooltip';
 
 interface SiteDetailsLayerProps {
 
+  uuid: string;
+
   place: CoreDataPlaceFeature;
 
   related?: CoreDataPlace[];
@@ -19,13 +21,9 @@ export const SiteDetailsLayer = (props: SiteDetailsLayerProps) => {
 
   const { place } = props;
 
-  const { id } = place;
-
-  console.log('cdpf', place);
-
   const geometry: FeatureCollection = {
     type: 'FeatureCollection',
-    features: [toFeature(place, record_id)]
+    features: [toFeature(place, parseInt(place.record_id))]
   };
 
   const { core_data } = useRuntimeConfig();
@@ -54,7 +52,7 @@ export const SiteDetailsLayer = (props: SiteDetailsLayerProps) => {
   useEffect(() => {
     if (props.related) {
       const urls = props.related.map(r =>
-        `${core_data.url}/core_data/public/places/${r.uuid}?project_ids=${core_data.project_ids.join(',')}`);
+        `${core_data.url}/core_data/public/places/${props.uuid}?project_ids=${core_data.project_ids.join(',')}`);
 
       Promise.all(urls.map(url => fetch(url).then(res => res.json())))
         .then(places => {
@@ -78,7 +76,7 @@ export const SiteDetailsLayer = (props: SiteDetailsLayerProps) => {
 
       {related && (
         <MixedGeoJSONLayer
-          id={`${recordId}-related`} 
+          id={`${place.record_id}-related`} 
           fillStyle={FILL_STYLE}
           strokeStyle={STROKE_STYLE}
           pointStyle={POINT_STYLE}
@@ -89,7 +87,7 @@ export const SiteDetailsLayer = (props: SiteDetailsLayerProps) => {
       )}
 
       <MixedGeoJSONLayer
-        id={recordId} 
+        id={place.record_id} 
         data={geometry} 
         fillStyle={FILL_STYLE} 
         strokeStyle={STROKE_STYLE} 

@@ -24,7 +24,7 @@ export const App = () => {
 
   useEffect(() => {
     if (selected?.id)
-      navigate(`/site/${selected.id}`);
+      navigate(`/site/${selected.properties.uuid}`);
   }, [selected?.id]);
 
   return (
