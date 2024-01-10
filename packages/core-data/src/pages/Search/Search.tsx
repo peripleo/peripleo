@@ -1,5 +1,6 @@
 import { useMap } from '@peripleo/peripleo/maplibre';
 import bbox from '@turf/bbox';
+import { toFeature } from '../../components/TypeSenseSearch';
 import { 
   SearchBox, 
   SearchFilterSettings, 
@@ -16,16 +17,9 @@ export const Search = () => {
 
   useSearchCompleted(hits => {
     if (map && hits.length > 0 && !isRefinedWithMap()) {
-      const features = {
-        type: 'FeatureCollection',
-        features: hits
-          // For some reason, 0/0 points throw turf off :-(
-          .filter(h => 'geometry' in h && (h.coordinates[0] !== 0 || h.coordinates[1] !== 0))
-      };
+      const features = hits.map(hit => toFeature(hit));
 
-      const [minX, minY, maxX, maxY] = bbox(features);
-
-      console.log({ minX, minY, maxX, maxY });
+      const [minX, minY, maxX, maxY] = bbox({ type: 'FeatureCollection', features });
       
       map.fitBounds([[minX, minY], [maxX, maxY]], { 
         padding: { top: 100, bottom: 100, left: 380, right: 120 },

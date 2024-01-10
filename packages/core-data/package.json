@@ -23,6 +23,7 @@
     "vitest": "^1.1.1"
   },
   "dependencies": {
+    "@mapbox/geojson-rewind": "^0.5.2",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-popover": "^1.0.7",

@@ -34,5 +34,8 @@ export const toFeature = (result: TypeSenseSearchResult): Feature => ({
     names: result.names,
     type: result.type
   },
-  geometry: result.geometry
+  geometry: {
+    type: 'Point',
+    coordinates: result.coordinates.slice().reverse()
+  }
 } as Feature);

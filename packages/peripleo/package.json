@@ -37,11 +37,11 @@
   },
   "devDependencies": {
     "@types/chroma-js": "^2.4.3",
-    "@types/react": "^18.2.46",
+    "@types/react": "^18.2.47",
     "@types/react-dom": "^18.2.18",
     "@types/react-resizable": "^3.0.7",
     "@vitejs/plugin-react": "^4.2.1",
-    "vite": "^5.0.10"
+    "vite": "^5.0.11"
   },
   "peerDependencies": {
     "react": "^18.2.0",

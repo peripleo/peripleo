@@ -67,23 +67,11 @@ export const SearchResultsMapLayer = (props: SearchResultsMapLayerProps) => {
             interactive: true,
           }
         });
-
+    
         setSourceId(sourceId);
       } else {
-        const located = hits
-          .filter(h => h.geometry && h.geometry.type !== 'GeometryCollection');
-
-        if (located.length < hits.length)
-          console.warn(`Received ${hits.length - located.length} unlocated results`);
-
-        // toGeoJSON(located).features.forEach(f => {
-        //   console.log(f);
-        //   // @ts-ignore
-        //   map.getSource(sourceId).setData({ type: 'FeatureCollection', features: [ f ]});
-        // })
-
         // @ts-ignore
-        map.getSource(sourceId).setData(toGeoJSON(located));
+        map.getSource(sourceId).setData(toGeoJSON(hits));
       }
     }
   }, [id, hits, mapLoaded, sourceId, toGeoJSON]);

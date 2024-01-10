@@ -46,9 +46,7 @@ export const SiteDetails = () => {
         };
 
         setSite(place);
-
-        console.log('site', place);
-
+        
         const feature = toFeature(place, uuid);
         setSelected(feature);
       });

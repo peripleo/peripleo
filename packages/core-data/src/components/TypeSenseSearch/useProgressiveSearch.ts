@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useInfiniteHits, useGeoSearch as _useGeoSearch } from 'react-instantsearch';
 import { dequal } from 'dequal/lite';
 import type { TypeSenseSearchResult } from './TypeSenseSearchResult';
+import { normalizeResults } from './normalizeResults';
 
 const createCachedHits = (hits: TypeSenseSearchResult[]) => {
 
@@ -55,11 +56,13 @@ export const useProgressiveSearch = () => {
     const isFirstPage = results.page === 0;
     const isLastPage = results.page + 1 >= results.nbPages;
 
+    const hits = normalizeResults(results.hits as unknown as TypeSenseSearchResult[])
+
     // Add to cache and load next page
     if (isFirstPage && hasStateChanged(results._state, lastSearchState.current, true)) {
-      setCachedHits(() => createCachedHits(results.hits as unknown as TypeSenseSearchResult[]));
+      setCachedHits(() => createCachedHits(hits));
     } else {
-      setCachedHits(({ merge }) => merge(results.hits as unknown as TypeSenseSearchResult[]));
+      setCachedHits(({ merge }) => merge(hits));
     }
 
     if (!isLastPage && infiniteHits.showMore) {
@@ -67,7 +70,7 @@ export const useProgressiveSearch = () => {
     } else {
       if (hasStateChanged(results._state, lastSearchState.current)) {
         callbacks.current.forEach(callback => {
-          const merged = cachedHits.merge(results.hits as unknown as TypeSenseSearchResult[]);
+          const merged = cachedHits.merge(hits);
           callback(merged.hits);
         });
       }
