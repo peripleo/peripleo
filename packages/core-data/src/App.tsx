@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Map, Tooltip, Zoom } from '@peripleo/peripleo/maplibre';
+import { LayerSwitcher, Map, MixedGeoJSONLayer, Tooltip, Zoom } from '@peripleo/peripleo/maplibre';
 import { AppHeader, SearchResultsMapLayer, SearchResultTooltip } from './components';
 import {  CoreDataProperties } from './model/lp/CoreDataPlaceFeature';
 import { Search, SiteDetails } from './pages';
@@ -12,11 +12,13 @@ import {
   useSelectionValue 
 } from '@peripleo/peripleo';
 
+import { POINT_STYLE, FILL_STYLE, STROKE_STYLE } from './layerStyles';
+
 import '@peripleo/peripleo/default-theme';
 
 export const App = () => {
 
-  const { branding } = useRuntimeConfig();
+  const { branding, layers } = useRuntimeConfig();
 
   const selected = useSelectionValue<CoreDataProperties>();
   
@@ -42,6 +44,19 @@ export const App = () => {
           style={branding.map_style}>
           <Controls position="topright">
             <Zoom />
+            
+            <LayerSwitcher names={layers.map(l => l.name)}>
+              {layers.map(l => (
+                <MixedGeoJSONLayer 
+                  key={l.name} 
+                  id={l.name}
+                  data={l.url} 
+                  fillStyle={FILL_STYLE} 
+                  strokeStyle={STROKE_STYLE} 
+                  pointStyle={POINT_STYLE} 
+                  />
+              ))}
+            </LayerSwitcher>
           </Controls>
 
           <SearchResultsMapLayer

@@ -10,6 +10,9 @@
       { "endpoint": "taxonomies", "ui_label": "Taxonomies", "default_open": false }
     ]
   },
+  "layers": [
+    { "name": "US States", "format": "topojson", "url": "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json" }
+  ],
   "typesense": {
     "host": "your_typescript_instance.typesense.net",
     "port": 443,

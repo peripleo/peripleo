@@ -8,7 +8,7 @@ interface MixedGeoJSONLayerProps {
 
   id: string;
 
-  data: FeatureCollection;
+  data: FeatureCollection | string;
 
   fillStyle: Object;
 
@@ -27,6 +27,8 @@ export const MixedGeoJSONLayer = (props: MixedGeoJSONLayerProps) => {
   const map = useMap();
 
   useEffect(() => {
+    console.log('data', data);
+    
     map.addSource(`source-${id}`, {
       type: 'geojson',
       data

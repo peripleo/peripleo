@@ -21,9 +21,11 @@ export const SiteDetailsLayer = (props: SiteDetailsLayerProps) => {
 
   const { place } = props;
 
+  console.log('place', place);
+
   const geometry: FeatureCollection = {
     type: 'FeatureCollection',
-    features: [toFeature(place, parseInt(place.record_id))]
+    features: [toFeature(place, '')]
   };
 
   const { core_data } = useRuntimeConfig();

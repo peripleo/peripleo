@@ -16,9 +16,19 @@ export interface CoreDataConfig {
 
       default_open?: boolean;
 
-    }[]
+    }[];
 
   }
+
+  layers: {
+
+    name: string;
+
+    format: 'topojson' | 'geojson',
+
+    url: string;
+
+  }[];
 
   typesense: {
     
@@ -50,6 +60,7 @@ export interface CoreDataConfig {
 
 export const normalize = (config: CoreDataConfig) => ({
   ...config,
+  layers: config.layers || [],
   core_data: {
     ...config.core_data,
 
