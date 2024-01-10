@@ -6,6 +6,8 @@ interface LayerSwitcherProps {
 
   title?: string;
 
+  className?: string;
+
   children: ReactNode;
 
   names: string[];
@@ -44,7 +46,12 @@ export const LayerSwitcher = (props: LayerSwitcherProps) => {
         </DropdownMenu.Trigger>
 
         <DropdownMenu.Portal>
-          <DropdownMenu.Content side="left" sideOffset={8} className="dropdown-content">
+          <DropdownMenu.Content 
+            align="start"
+            side="left"
+            sideOffset={8} 
+            className="dropdown-content">
+            
             <DropdownMenu.Label className="dropdown-label">
               {props.title || 'Layers'}
             </DropdownMenu.Label>
@@ -67,7 +74,7 @@ export const LayerSwitcher = (props: LayerSwitcherProps) => {
                   <span className="dropdown-indicator"><Circle size={20} weight="bold" /></span>
                 )}
 
-                {name}
+                <span>{name}</span>
               </DropdownMenu.CheckboxItem>
             ))}
           </DropdownMenu.Content>

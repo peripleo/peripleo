@@ -85,7 +85,8 @@ button.round {
   pointer-events: auto;
 }
 
-.p6o-control-btn {
+.p6o-control-btn,
+button.p6o-control-btn {
   align-items: center;
   background-color: var(--p6o-control-bg);
   border-radius: 50%;

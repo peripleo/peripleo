@@ -99,7 +99,7 @@ export const SearchFilterSettings = () => {
           sideOffset={20}
           align="start"
           alignOffset={-5}
-          className="bg-white/80 backdrop-blur z-20 shadow-md rounded-md w-72 max-w-lg p-4 outline-none">
+          className="bg-white/80 max-h-[90vh] overflow-y-auto backdrop-blur z-20 shadow-md rounded-md w-72 max-w-lg p-4 outline-none">
 
           <div>
             <h1 className="w-full items-center font-medium text-black">
