@@ -19,16 +19,17 @@ const HitComponent = (props: HitComponentProps) => {
 
   const { hit } = props;
 
-  const cls = "py-2 px-3 h-[5.5em] border-b flex flex-col justify-start";
+  const cls = "h-[5.5em] border-b flex flex-col justify-start";
 
   return (
     <div 
       className={props.isHovered ? `bg-teal-700/30 ${cls}` : cls}>
       <Link 
+        className="py-2 px-3 flex-grow"
         to={`/site/${hit.uuid}`}>
-        <Highlight hit={hit} attribute="name" />
+        <Highlight hit={hit} attribute="name" className="line-clamp-2" />
         <p className="text-muted text-xs line-clamp-1">
-          <Highlight hit={hit} attribute={"names"} /> {hit.uuid}
+          <Highlight hit={hit} attribute={"names"} />
         </p>
       </Link>
     </div>
