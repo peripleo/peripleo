@@ -44,19 +44,21 @@ export const App = () => {
           style={branding.map_style}>
           <Controls position="topright">
             <Zoom />
-            
-            <LayerSwitcher names={layers.map(l => l.name)}>
-              {layers.map(l => (
-                <MixedGeoJSONLayer 
-                  key={l.name} 
-                  id={l.name}
-                  data={l.url} 
-                  fillStyle={FILL_STYLE} 
-                  strokeStyle={STROKE_STYLE} 
-                  pointStyle={POINT_STYLE} 
-                  />
-              ))}
-            </LayerSwitcher>
+
+            {layers?.length > 0 && (            
+              <LayerSwitcher names={layers.map(l => l.name)}>
+                {layers.map(l => (
+                  <MixedGeoJSONLayer 
+                    key={l.name} 
+                    id={l.name}
+                    data={l.url} 
+                    fillStyle={FILL_STYLE} 
+                    strokeStyle={STROKE_STYLE} 
+                    pointStyle={POINT_STYLE} 
+                    />
+                ))}
+              </LayerSwitcher>
+            )}
           </Controls>
 
           <SearchResultsMapLayer
