@@ -7,11 +7,13 @@ import {
 
 export interface CoreDataProperties extends PlaceFeatureProperties {
 
-  id: string;
+  record_id: string;
+
+  uuid: string;
 
 }
 
-export interface CoreDataPlaceFeature extends Place {
+export interface CoreDataPlaceFeature extends Place<CoreDataProperties> {
   
   record_id: string;
 

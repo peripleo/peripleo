@@ -21,11 +21,9 @@ export const SiteDetailsLayer = (props: SiteDetailsLayerProps) => {
 
   const { place } = props;
 
-  console.log('place', place);
-
   const geometry: FeatureCollection = {
     type: 'FeatureCollection',
-    features: [toFeature(place, '')]
+    features: [toFeature(place, place.properties.uuid)]
   };
 
   const { core_data } = useRuntimeConfig();
