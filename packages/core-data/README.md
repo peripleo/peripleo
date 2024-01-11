@@ -47,7 +47,7 @@ Configuration covers the following aspects:
 ### TypeSense Server
 
 The Core Data client uses the [TypeSense InstantSearch adapter](https://github.com/typesense/typesense-instantsearch-adapter). You need to provide the following
-properties in the config file:
+properties in the `typesense` block of the config file:
 
 - `typesense.host` - URL to your TypeSense host, __without__ protocol prefix (http/https), __required__ 
 - `typesense.api_key` - your TypeSense API key, __required__
@@ -59,15 +59,28 @@ properties in the config file:
 
 ### Core Data API
 
-TODO
+Configure access to the Core Data API.
+
+- `core_data.url` - base URL
+- `core_data.project_ids` - a list of project IDs
 
 ### Branding
 
-TODO
+Work in progress!
+
+The `branding` block provides various configuration options to influence visual appearance.
+
+- `branding.title` - page title, displayed in the top-left of the header
+- `related` - the list of __Related__ (people, places, organizations, etc.) blocks, displayed in the detail view. The order in the config file 
+  determines the order in the interface. Each item in the list is an object with the following properties:
+  - `endpoint` - the path segment for this "related" category on the Core Data API, e.g. "media_contents", "people", etc.
+  - `ui_label` - the label to use for this category in the interface
+  - `default_open` - `true` if the accordion section for this category should be open by default
 
 ### Map Layers
 
-TODO
+Configure one or more base map layers, and (optionally) static data overlays. If more than one layer is configured, the Core Data client
+will render a layer switcher control in the interface.
 
 
 
