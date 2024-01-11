@@ -30,11 +30,11 @@ Configuration covers the following aspects:
   ],
   "typesense": {
     "host": "your_typescript_instance.typesense.net",
-    "port": 443,
-    "protocol": "https",
     "api_key": "your_typesense_api_key",
     "index_name": "your_index_name",
     "query_by": "title",
+    "port": 443,
+    "protocol": "https",
     "limit": 100
   },
   "core_data": {
@@ -46,7 +46,16 @@ Configuration covers the following aspects:
 
 ### TypeSense Server
 
-TODO
+The Core Data client uses the [TypeSense InstantSearch adapter](https://github.com/typesense/typesense-instantsearch-adapter). You need to provide the following
+properties in the config file:
+
+- `typesense.host` - URL to your TypeSense host, __without__ protocol prefix (http/https), __required__ 
+- `typesense.api_key` - your TypeSense API key, __required__
+- `typesense.index_name` - name of your index on the TypeSense host, __required__
+- `typesense.query_by` - fields to query in your index, __required__
+- `typesense.port` - defaults to `443` (HTTPS)
+- `typesense.protocol` - defaults to `https` 
+- `typesense.limit` - response page size limit, defaults to 250
 
 ### Core Data API
 

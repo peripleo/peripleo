@@ -61,6 +61,11 @@ export interface CoreDataConfig {
 export const normalize = (config: CoreDataConfig) => ({
   ...config,
   layers: config.layers || [],
+  typesense: {
+    ...config.typesense,
+    host: config.typesense.host || 443,
+    protocol: config.typesense.protocol || 'https'
+  },
   core_data: {
     ...config.core_data,
 
