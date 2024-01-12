@@ -24,7 +24,7 @@ export const MediaGallery = (props: MediaGalleryProps) => {
             <Image className="h-4 w-4 mr-1.5" /> Media & Documents
           </Dialog.Title>
 
-          <div className="pt-6 pb-2">
+          <div className="pt-6 pb-2 flex justify-center items-center text-sm w-full text-muted min-h-20">
             {Boolean(props.defaultItem) && (
               <Viewer iiifContent={props.defaultItem.manifest_url} />
             )}
