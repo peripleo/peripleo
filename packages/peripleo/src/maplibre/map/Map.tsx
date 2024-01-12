@@ -133,26 +133,48 @@ export const Map = (props: MapProps) => {
     if (props.disableScrollZoom)
       map.scrollZoom.disable();
 
+    map.on('click', onClick);
+    map.on('mousemove', onMouseMove);
+
+    const log = () => {
+      console.log('style loaded');
+    }
+
+    // map.on('styledata', log);
+
     setMap(map);
 
     return () => {
+      // map.off('styledata', log);
       map.off('click', onClick);
       map.off('mousemove', onMouseMove);
     }
   }, []);
 
   useEffect(() => {
-    if (!map?.getStyle()) return;
+    const style = map?.getStyle();
+    if (!style) return;
 
-    // TOOD: retain all non-vector sources
+    // Retain (and re-add) all non-vectortile sources
+    const retainedSources = Object.entries(style.sources)
+      .filter(([_, source]) => source.type !== 'vector' && source.type !== 'raster-dem');
 
-    // TODO: retain all layers linked to retained sources
+    const retainedSourceNames = new Set(retainedSources.map(([name,]) => name));
 
-    // Note: this wipes all data source/layer, too!
+    const retainedLayers = style.layers
+      .filter(layer => 'source' in layer && retainedSourceNames.has(layer.source));
+
+    // Change map style. Warning: this erases all data source/layer, too!
     map.setStyle(props.style);
 
-    // TODO: re-add
-
+    const onStyleLoaded = () => {
+      window.setTimeout(() => {
+        retainedSources.forEach(([id, source]) => map.addSource(id, source));
+        retainedLayers.forEach(layer => map.addLayer(layer));
+      }, 1)
+    }
+  
+    map.once('styledata', onStyleLoaded);
   }, [map, props.style]);
 
   return (
