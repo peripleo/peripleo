@@ -54,14 +54,12 @@ export const Map = (props: MapProps) => {
 
   const onMouseMove = (evt: MapMouseEvent) => {
     const feature = getFeature(evt);
-
     isExternalChange.current = false;
     setMapHover(evt.target, feature);
   }
 
   const onClick = (evt: MapMouseEvent) => {
     const feature = getFeature(evt, true);
-
     isExternalChange.current = false;
     setMapSelection(evt.target, feature, feature?.source);
   }
@@ -76,7 +74,7 @@ export const Map = (props: MapProps) => {
     } else if (feature.properties.cluster) {
       listFeaturesInCluster(map, feature)
         .then(resolvedFeatures => resolve(resolvedFeatures.length > 0 ? resolvedFeatures[0] : undefined))
-        .catch(error => {
+        .catch(() => {
           // Can happens if the cluster no longer exists at the time this method gets called.
           // Frequently the case during zooming.
         });
@@ -87,8 +85,7 @@ export const Map = (props: MapProps) => {
   });
 
   useLayoutEffect(() => {
-    if (!isExternalChange.current)
-      // sync hover state upwards
+    if (!isExternalChange.current) // sync hover state upwards
       resolveModelFeature(map, mapHover?.feature).then(setHover); 
   }, [map, mapHover]);
 
@@ -96,9 +93,7 @@ export const Map = (props: MapProps) => {
     if (!map)
       return; 
 
-    if (isExternalChange.current) {
-
-      // sync external update downwards
+    if (isExternalChange.current) { // sync external update downwards
       if (hover)
         findMapFeature(map, hover.id).then(f => setMapHover(map, f));
       else
@@ -109,8 +104,7 @@ export const Map = (props: MapProps) => {
   }, [map, hover]);
 
   useLayoutEffect(() => {
-    if (!isExternalChange.current)
-      // sync selection state upwards
+    if (!isExternalChange.current) // sync selection state upwards
       resolveModelFeature(map, mapSelection?.feature).then(setSelected);
   }, [map, mapSelection]);
 
@@ -118,12 +112,12 @@ export const Map = (props: MapProps) => {
     if (!map)
       return; 
 
-    if (isExternalChange.current)
-      // sync external update downwards
+    if (isExternalChange.current) { // sync external update downwards
       if (selected)
         findMapFeature(map, selected.id).then(f => setMapSelection(map, f));
       else
         setMapSelection(map, undefined);
+    }
 
     isExternalChange.current = true;
   }, [map, selected]);
@@ -139,9 +133,6 @@ export const Map = (props: MapProps) => {
     if (props.disableScrollZoom)
       map.scrollZoom.disable();
 
-    map.on('click', onClick);
-    map.on('mousemove', onMouseMove);
-
     setMap(map);
 
     return () => {
@@ -149,6 +140,20 @@ export const Map = (props: MapProps) => {
       map.off('mousemove', onMouseMove);
     }
   }, []);
+
+  useEffect(() => {
+    if (!map?.getStyle()) return;
+
+    // TOOD: retain all non-vector sources
+
+    // TODO: retain all layers linked to retained sources
+
+    // Note: this wipes all data source/layer, too!
+    map.setStyle(props.style);
+
+    // TODO: re-add
+
+  }, [map, props.style]);
 
   return (
     <div 
