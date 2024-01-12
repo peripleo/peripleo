@@ -1,5 +1,6 @@
 import { Image, X } from 'lucide-react';
 import * as Dialog from '@radix-ui/react-dialog';
+import Viewer from "@samvera/clover-iiif/viewer";
 import { CoreDataMedia } from 'src/model';
 
 import './MediaGallery.css';
@@ -25,7 +26,7 @@ export const MediaGallery = (props: MediaGalleryProps) => {
 
           <div className="pt-6 pb-2">
             {Boolean(props.defaultItem) && (
-              <img src={props.defaultItem.content_iiif_url} />
+              <Viewer iiifContent={props.defaultItem.manifest_url} />
             )}
           </div>
 

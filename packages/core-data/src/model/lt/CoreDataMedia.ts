@@ -15,6 +15,8 @@ export interface CoreDataMedia extends CoreDataAnnotation {
 
   content_url: string;
 
+  manifest_url: string;
+
 }
 
 export interface MediaAnnotation extends Annotation<CoreDataMedia> { } 
