@@ -48,9 +48,11 @@ export const App = () => {
             
           <Controls position="topright">
             <Zoom />
-            <LayerMenu 
-              onChangeBaselayer={setBaselayer} 
-              onChangeOverlays={setOverlays} />
+            {baselayers.length > 1 && (
+              <LayerMenu 
+                onChangeBaselayer={setBaselayer} 
+                onChangeOverlays={setOverlays} />
+            )}
           </Controls>
 
           {overlays.map(config => (

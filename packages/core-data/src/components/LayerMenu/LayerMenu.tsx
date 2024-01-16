@@ -67,7 +67,7 @@ export const LayerMenu = (props: LayerMenuProps) => {
                 <Dropdown.RadioItem 
                   key={b.name}
                   value={b.name}
-                  className="outline-none relative pl-7 pr-2 py-0.5 rounded-md cursor-pointer hover:bg-teal-700/10">
+                  className="outline-none relative pl-7 pr-2 pt-0.5 rounded-md cursor-pointer hover:bg-teal-700/10">
                   <Dropdown.ItemIndicator className="absolute -left-1 -top-0.5">
                     <Dot className="w-8 h-8" />
                   </Dropdown.ItemIndicator>
@@ -76,25 +76,29 @@ export const LayerMenu = (props: LayerMenuProps) => {
               ))}
             </Dropdown.RadioGroup>
 
-            <Dropdown.Separator className="w-full border-b my-2" />
+            {datalayers.length > 0 && (
+              <>
+                <Dropdown.Separator className="w-full border-b pt-0.5 my-2" />
 
-            <Dropdown.Label 
-              className="w-full font-medium text-sm text-muted">Overlays</Dropdown.Label>
+                <Dropdown.Label 
+                  className="w-full font-medium text-sm text-muted">Overlays</Dropdown.Label>
 
-            <div className="pt-1.5">
-              {datalayers.map(o => (
-                <Dropdown.CheckboxItem
-                  key={o.name}
-                  checked={selectedOverlays[o.name]}
-                  onCheckedChange={onToggleOverlay(o.name)}
-                  className="outline-none relative pl-7 pr-2 py-0.5 rounded-md cursor-pointer hover:bg-teal-700/10">
-                  <Dropdown.ItemIndicator className="absolute left-1 top-1.5">
-                    <Check className="w-4 h-4" />
-                  </Dropdown.ItemIndicator>
-                  {o.name}
-                </Dropdown.CheckboxItem>
-              ))}
-            </div>
+                <div className="pt-1.5">
+                  {datalayers.map(o => (
+                    <Dropdown.CheckboxItem
+                      key={o.name}
+                      checked={selectedOverlays[o.name]}
+                      onCheckedChange={onToggleOverlay(o.name)}
+                      className="outline-none relative pl-7 pr-2 py-0.5 rounded-md cursor-pointer hover:bg-teal-700/10">
+                      <Dropdown.ItemIndicator className="absolute left-1 top-1.5">
+                        <Check className="w-4 h-4" />
+                      </Dropdown.ItemIndicator>
+                      {o.name}
+                    </Dropdown.CheckboxItem>
+                  ))}
+                </div>
+              </>
+            )}
           </Dropdown.Content>
         </Dropdown.Portal>
       </Dropdown.Root>
