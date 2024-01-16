@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useMap } from '../../map';
+import { removeLayerIfExists, removeSourceIfExists, useMap } from '../../map';
 
 interface RasterOverlayLayerProps {
 
@@ -18,22 +18,26 @@ export const RasterOverlayLayer = (props: RasterOverlayLayerProps) => {
   const map = useMap();
 
   useEffect(() => {
-    map.addSource(`source-${id}`, {
-      type: 'raster',
-      tiles: [ url ],
-      tileSize: tilesize || 256
-    });
+    window.setTimeout(() => {
+      map.addSource(`source-${id}`, {
+        type: 'raster',
+        tiles: [ url ],
+        tileSize: tilesize || 256
+      });
 
-    map.addLayer({
-      id: `layer-${id}`,
-      type: 'raster',
-      source: `source-${id}`,
-      paint: {}
-    });
+      map.addLayer({
+        id: `layer-${id}`,
+        type: 'raster',
+        source: `source-${id}`,
+        paint: {
+          'raster-opacity': 1
+        }
+      });
+    }, 1);
 
     return () => {
-      map.removeLayer(`layer-${id}`);
-      map.removeSource(`source-${id}`);
+      removeLayerIfExists(map, `layer-${id}`);
+      removeSourceIfExists(map, `source-${id}`);
     }
   }, []);
 

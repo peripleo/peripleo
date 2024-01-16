@@ -122,3 +122,15 @@ export const findMapFeature = (
     }  
   }), Promise.resolve(undefined) as Promise<MapGeoJSONFeature | undefined>);
 }
+
+export const removeSourceIfExists = (map: Map, sourceId: string) => {
+  const source = map.getSource(sourceId);
+  if (source)
+    map.removeSource(sourceId);
+}
+
+export const removeLayerIfExists = (map: Map, layerId: string) => {
+  const layer = map.getStyle()?.layers.find(l => l.id === layerId);
+  if (layer)
+    map.removeLayer(layerId);
+}

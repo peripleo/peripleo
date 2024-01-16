@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Map, MapGeoJSONFeature } from 'maplibre-gl';
-import { findSourceForFeature } from './clusterUtils';
+import { findSourceForFeature } from './utils';
 
 export const useFeatureRadioState = (property: string) => {
 

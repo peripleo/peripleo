@@ -5,7 +5,7 @@ import { PopupContainer } from '../components/Popup';
 import { Feature } from '../../model';
 import { MapContext, useSelectionState, useHoverState } from '../../state';
 import { useFeatureRadioState } from './useFeatureRadioState';
-import { findMapFeature, listFeaturesInCluster } from './clusterUtils';
+import { findMapFeature, listFeaturesInCluster } from './utils';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
 
