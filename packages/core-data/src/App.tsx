@@ -3,7 +3,7 @@ import { LayerSwitcher, Map, MixedGeoJSONLayer, Tooltip, Zoom } from '@peripleo/
 import { AppHeader, SearchResultsMapLayer, SearchResultTooltip } from './components';
 import {  CoreDataProperties } from './model/lp/CoreDataPlaceFeature';
 import { Search, SiteDetails } from './pages';
-import { useRuntimeConfig } from './CoreDataConfig';
+import { toLayerStyle, useRuntimeConfig } from './CoreDataConfig';
 import { 
   Controls,
   Route,
@@ -16,15 +16,9 @@ import { POINT_STYLE, FILL_STYLE, STROKE_STYLE } from './layerStyles';
 
 import '@peripleo/peripleo/default-theme';
 
-// For testing only!
-const BASELAYERS = [
-  'https://api.maptiler.com/maps/basic-v2-light/style.json?key=fbcA5qW56ihtUHty5MRE',
-  'https://api.maptiler.com/maps/topo-v2/style.json?key=fbcA5qW56ihtUHty5MRE',
-];
-
 export const App = () => {
 
-  const { branding, layers } = useRuntimeConfig();
+  const { baselayers, datalayers } = useRuntimeConfig();
 
   const [baselayer, setBaselayer] = useState(0);
 
@@ -38,11 +32,8 @@ export const App = () => {
   }, [selected?.id]);
 
   const toggleBaseLayer = () => {
-    console.log('switching baselayer');
-    if (baselayer === 0)
-      setBaselayer(1);
-    else 
-      setBaselayer(0);
+    const next = (baselayer + 1) % baselayers.length;
+    setBaselayer(next);
   }
 
   return (
@@ -57,7 +48,7 @@ export const App = () => {
 
         <Map 
           className="flex-grow"
-          style={BASELAYERS[baselayer]}>
+          style={toLayerStyle(baselayers[baselayer], `baselayer-${baselayer}`)}>
           <Controls position="topright">
             <Zoom />
 
@@ -67,9 +58,9 @@ export const App = () => {
               Toggle base
             </button>
 
-            {layers?.length > 0 && (            
-              <LayerSwitcher names={layers.map(l => l.name)}>
-                {layers.map(l => (
+            {datalayers.length > 0 && (            
+              <LayerSwitcher names={datalayers.map(l => l.name)}>
+                {datalayers.map(l => (
                   <MixedGeoJSONLayer 
                     key={l.name} 
                     id={l.name}

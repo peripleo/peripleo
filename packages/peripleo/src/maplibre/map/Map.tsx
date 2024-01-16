@@ -136,16 +136,9 @@ export const Map = (props: MapProps) => {
     map.on('click', onClick);
     map.on('mousemove', onMouseMove);
 
-    const log = () => {
-      console.log('style loaded');
-    }
-
-    // map.on('styledata', log);
-
     setMap(map);
 
     return () => {
-      // map.off('styledata', log);
       map.off('click', onClick);
       map.off('mousemove', onMouseMove);
     }
@@ -156,8 +149,9 @@ export const Map = (props: MapProps) => {
     if (!style) return;
 
     // Retain (and re-add) all non-vectortile sources
+    const toRemove = new Set(['vector', 'raster', 'raster-dem']);
     const retainedSources = Object.entries(style.sources)
-      .filter(([_, source]) => source.type !== 'vector' && source.type !== 'raster-dem');
+      .filter(([_, source]) => !toRemove.has(source.type));
 
     const retainedSourceNames = new Set(retainedSources.map(([name,]) => name));
 
