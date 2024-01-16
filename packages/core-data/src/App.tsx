@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { LayerSwitcher, Map, Tooltip, Zoom } from '@peripleo/peripleo/maplibre';
+import { Map, Tooltip, Zoom } from '@peripleo/peripleo/maplibre';
 import { AppHeader, OverlayLayer, SearchResultsMapLayer, SearchResultTooltip } from './components';
 import {  CoreDataProperties } from './model/lp/CoreDataPlaceFeature';
 import { Search, SiteDetails } from './pages';
-import { toLayerStyle, useRuntimeConfig } from './CoreDataConfig';
+import { MapLayerConfig, toLayerStyle, useRuntimeConfig } from './CoreDataConfig';
 import { 
   Controls,
   Route,
@@ -13,12 +13,15 @@ import {
 } from '@peripleo/peripleo';
 
 import '@peripleo/peripleo/default-theme';
+import { LayerMenu } from './components/LayerMenu';
 
 export const App = () => {
 
-  const { baselayers, datalayers } = useRuntimeConfig();
+  const { baselayers } = useRuntimeConfig();
 
-  const [baselayer, setBaselayer] = useState(0);
+  const [baselayer, setBaselayer] = useState(baselayers[0]);
+
+  const [overlays, setOverlays] = useState<MapLayerConfig[]>([]);
 
   const selected = useSelectionValue<CoreDataProperties>();
   
@@ -28,11 +31,6 @@ export const App = () => {
     if (selected?.id)
       navigate(`/site/${selected.properties.uuid}`);
   }, [selected?.id]);
-
-  const toggleBaseLayer = () => {
-    const next = (baselayer + 1) % baselayers.length;
-    setBaselayer(next);
-  }
 
   return (
     <div className="w-full h-full flex flex-col font-sans">
@@ -46,24 +44,18 @@ export const App = () => {
 
         <Map 
           className="flex-grow"
-          style={toLayerStyle(baselayers[baselayer], `baselayer-${baselayer}`)}>
+          style={toLayerStyle(baselayer, baselayer.name)}>
+            
           <Controls position="topright">
             <Zoom />
-
-            <button 
-              onClick={toggleBaseLayer}
-              className="p6o-control p6o-control-button">
-              Toggle base
-            </button>
-
-            {datalayers.length > 0 && (            
-              <LayerSwitcher names={datalayers.map(l => l.name)}>
-                {datalayers.map(config => (
-                  <OverlayLayer key={config.name} config={config} />
-                ))}
-              </LayerSwitcher>
-            )}
+            <LayerMenu 
+              onChangeBaselayer={setBaselayer} 
+              onChangeOverlays={setOverlays} />
           </Controls>
+
+          {overlays.map(config => (
+            <OverlayLayer key={config.name} config={config} />
+          ))}
 
           <SearchResultsMapLayer
             id="searchresults" 

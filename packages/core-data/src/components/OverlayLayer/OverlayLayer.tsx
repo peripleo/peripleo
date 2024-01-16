@@ -6,7 +6,7 @@ import { POINT_STYLE, FILL_STYLE, STROKE_STYLE } from '../../layerStyles';
 interface OverlayLayerProps {
 
   config: MapLayerConfig;
-  
+
 }
 
 export const OverlayLayer = (props: OverlayLayerProps) => {
