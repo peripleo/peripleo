@@ -1,4 +1,7 @@
 export * from './AppHeader';
+export * from './LoadAnimations';
+export * from './MediaGallery';
+export * from './OverlayLayer';
 export * from './RelatedItems';
 export * from './SearchResultsMapLayer';
 export * from './SearchBox';

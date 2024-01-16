@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { LayerSwitcher, Map, MixedGeoJSONLayer, Tooltip, Zoom } from '@peripleo/peripleo/maplibre';
-import { AppHeader, SearchResultsMapLayer, SearchResultTooltip } from './components';
+import { LayerSwitcher, Map, Tooltip, Zoom } from '@peripleo/peripleo/maplibre';
+import { AppHeader, OverlayLayer, SearchResultsMapLayer, SearchResultTooltip } from './components';
 import {  CoreDataProperties } from './model/lp/CoreDataPlaceFeature';
 import { Search, SiteDetails } from './pages';
 import { toLayerStyle, useRuntimeConfig } from './CoreDataConfig';
@@ -11,8 +11,6 @@ import {
   useNavigate,
   useSelectionValue 
 } from '@peripleo/peripleo';
-
-import { POINT_STYLE, FILL_STYLE, STROKE_STYLE } from './layerStyles';
 
 import '@peripleo/peripleo/default-theme';
 
@@ -60,15 +58,8 @@ export const App = () => {
 
             {datalayers.length > 0 && (            
               <LayerSwitcher names={datalayers.map(l => l.name)}>
-                {datalayers.map(l => (
-                  <MixedGeoJSONLayer 
-                    key={l.name} 
-                    id={l.name}
-                    data={l.url} 
-                    fillStyle={FILL_STYLE} 
-                    strokeStyle={STROKE_STYLE} 
-                    pointStyle={POINT_STYLE} 
-                    />
+                {datalayers.map(config => (
+                  <OverlayLayer key={config.name} config={config} />
                 ))}
               </LayerSwitcher>
             )}
