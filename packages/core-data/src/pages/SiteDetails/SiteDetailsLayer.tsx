@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { FeatureCollection } from '@peripleo/peripleo';
 import bbox from '@turf/bbox';
 import { MixedGeoJSONLayer, PulsingMarkerLayer, useMap } from '@peripleo/peripleo/maplibre';
@@ -25,7 +25,7 @@ export const SiteDetailsLayer = (props: SiteDetailsLayerProps) => {
     features: [toFeature(props.place, props.place.properties.uuid)]
   } as FeatureCollection;
 
-  const related = {
+  const related = useMemo(() => ({
     type: 'FeatureCollection', 
     features: (props.related || []).map(p => ({
       id: parseInt(p.record_id),
@@ -36,7 +36,7 @@ export const SiteDetailsLayer = (props: SiteDetailsLayerProps) => {
       },
       geometry: p.geometry
     }))
-  } as FeatureCollection; 
+  } as FeatureCollection), [props.related]); 
 
   useEffect(() => {
     const allFeatures = { 
