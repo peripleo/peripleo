@@ -7,7 +7,7 @@
   "scripts": {
     "start": "vite",
     "test": "vitest",
-    "build": "vite build --mode production",
+    "build": "vite build --mode production && cp ./test/config.json ./dist/ && cp ./test/gz_2010_us_040_00_20m.json ./dist/gz_2010_us_040_00_20m.json",
     "preview": "vite preview"
   },
   "devDependencies": {

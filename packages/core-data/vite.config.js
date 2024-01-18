@@ -10,7 +10,7 @@ export default defineConfig(({ command, mode }) => ({
   build: {
     rollupOptions: {
       input: {
-        app: 'test/index.html',
+        app: './index.html',
       },
       output: {
         manualChunks: {
