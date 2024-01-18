@@ -21,6 +21,8 @@ export const Map = (props: MapProps) => {
 
   const { setMap } = context;
 
+  const baselayers = useRef<Set<string>>(new Set());
+
   // Hover state according to mouse move events
   const [mapHover, setMapHover] = useFeatureRadioState('hover');
 
@@ -122,6 +124,16 @@ export const Map = (props: MapProps) => {
     isExternalChange.current = true;
   }, [map, selected]);
 
+  const trackBaselayers = (map: MapLibre) => {
+    const { layers } = map.getStyle() || {};
+    if (!layers) {
+      console.warn('No base layers loaded');
+    } else {
+      const ids = layers.map(l => l.id);
+      baselayers.current = new Set(ids);
+    }
+  }
+
   useEffect(() => {
     const map = new MapLibre({
       container: ref.current,
@@ -130,11 +142,13 @@ export const Map = (props: MapProps) => {
       hash: 'map'
     });
 
-    if (props.disableScrollZoom)
-      map.scrollZoom.disable();
+    map.once('styledata', () => trackBaselayers(map));
 
     map.on('click', onClick);
     map.on('mousemove', onMouseMove);
+
+    if (props.disableScrollZoom)
+      map.scrollZoom.disable();
 
     setMap(map);
 
@@ -147,21 +161,25 @@ export const Map = (props: MapProps) => {
   useEffect(() => {
     const style = map?.getStyle();
     if (!style) return;
-
-    // Retain (and re-add) all non-vectortile sources
-    const toRemove = new Set(['vector', 'raster', 'raster-dem']);
-    const retainedSources = Object.entries(style.sources)
-      .filter(([_, source]) => !toRemove.has(source.type));
-
-    const retainedSourceNames = new Set(retainedSources.map(([name,]) => name));
-
+    
+    // Retain (and re-add) all layers that are tracked as baselayers
     const retainedLayers = style.layers
-      .filter(layer => 'source' in layer && retainedSourceNames.has(layer.source));
+      .filter(l => !baselayers.current.has(l.id));
 
-    // Change map style. Warning: this erases all data source/layer, too!
+    const retainedSourceIds = new Set(
+      retainedLayers
+        .map(l => 'source' in l && l.source)
+        .filter(Boolean));
+
+    const retainedSources = Object.entries(style.sources)
+      .filter(([id, _]) => retainedSourceIds.has(id));
+
+    // Change map style. Warning: this erases *all* sources and layers, (including data layers)
     map.setStyle(props.style);
 
     const onStyleLoaded = () => {
+      trackBaselayers(map);
+
       window.setTimeout(() => {
         retainedSources.forEach(([id, source]) => map.addSource(id, source));
         retainedLayers.forEach(layer => map.addLayer(layer));
