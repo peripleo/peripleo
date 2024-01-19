@@ -1,5 +1,5 @@
 import { useContext, useEffect, useLayoutEffect, useRef } from 'react';
-import { MapGeoJSONFeature, Map as MapLibre, MapMouseEvent, PointLike } from 'maplibre-gl';
+import { MapGeoJSONFeature, Map as MapLibre, MapMouseEvent, PointLike, StyleSpecification } from 'maplibre-gl';
 import { MapProps } from './MapProps';
 import { PopupContainer } from '../components/Popup';
 import { Feature } from '../../model';
@@ -162,10 +162,14 @@ export const Map = (props: MapProps) => {
     const style = map?.getStyle();
     if (!style) return;
     
-    // Retain (and re-add) all layers that are tracked as baselayers
+    // Retain all layers that are *not* tracked as baselayers
     const retainedLayers = style.layers
       .filter(l => !baselayers.current.has(l.id));
 
+    const retainedLayerIds = 
+      new Set(retainedLayers.map(l => l.id));
+
+    // Retain all sources *not* referenced by base layers
     const retainedSourceIds = new Set(
       retainedLayers
         .map(l => 'source' in l && l.source)
@@ -174,20 +178,23 @@ export const Map = (props: MapProps) => {
     const retainedSources = Object.entries(style.sources)
       .filter(([id, _]) => retainedSourceIds.has(id));
 
-    // Change map style. Warning: this erases *all* sources and layers, (including data layers)
-    map.setStyle(props.style);
+    // Updated style
+    const updated = {
+      ...style,
+      layers: [
+        ...props.style.layers,
+        ...style.layers.filter(l => retainedLayerIds.has(l.id))
+      ],
+      sources: Object.fromEntries([
+        ...Object.entries(props.style.sources),
+        ...retainedSources
+      ])
+    } as StyleSpecification;
 
-    const onStyleLoaded = () => {
-      trackBaselayers(map);
-
-      window.setTimeout(() => {
-        retainedSources.forEach(([id, source]) => map.addSource(id, source));
-        retainedLayers.forEach(layer => map.addLayer(layer));
-      }, 1)
-    }
-  
-    map.once('styledata', onStyleLoaded);
-  }, [map, props.style]);
+    // Track new style's layers as new base layers
+    baselayers.current = new Set((props.style as StyleSpecification).layers.map(l => l.id));
+    map.setStyle(updated);
+  }, [props.style]);
 
   return (
     <div 
