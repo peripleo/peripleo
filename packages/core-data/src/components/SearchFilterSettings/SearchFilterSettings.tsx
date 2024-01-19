@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { Settings2, X } from 'lucide-react';
 import * as Popover from '@radix-ui/react-popover';
@@ -9,11 +9,35 @@ import { RefinementList, useCurrentRefinements } from 'react-instantsearch';
 
 import './SearchFilterSettings.css';
 
+const decodeFacet = (key: string): { key: string, label: string, facet: boolean, uuid?: string } => {
+  if (key.startsWith('ey')) {
+    return { key, ...jwtDecode(key) };
+  } else if (key.includes('.ey')) {
+    return { key, ...jwtDecode(key.substring(key.indexOf('.ey') + 1)) };
+  } else {
+    return {
+      key,
+      label: key
+        .substring(0, key.lastIndexOf('_'))
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' '),
+      facet: true
+    }
+  }
+}
+
 export const SearchFilterSettings = () => {
 
   const [open, setOpen] = useState(false);
 
   const facets = useFacets();
+
+  const decoded = useMemo(() => facets.map(decodeFacet), [facets]);
+
+  useEffect(() => {
+    console.log(decoded);
+  }, [decoded.map(d => d.key).join()]);
 
   const map = useMap();
   
@@ -62,20 +86,6 @@ export const SearchFilterSettings = () => {
     }   
   }, [map, filterByMapBounds]);
 
-  // Simple formatting strategy: get rid of _facet and capitalize
-  const format = (attribute: string): string => {
-    if (attribute.startsWith('ey')) {
-      const payload = jwtDecode(attribute);
-      return 'label' in payload ? payload.label as string : attribute;
-    } else {
-      return attribute
-        .substring(0, attribute.lastIndexOf('_'))
-        .split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
-    }
-  }
-
   const filtersApplied = items.length + (filterByMapBounds ? 1 : 0);
 
   return (
@@ -121,11 +131,11 @@ export const SearchFilterSettings = () => {
             </div>
 
             <div>
-              {facets.map(facet => (
-                <div key={facet}>
-                  <h2 className="mt-5 font-semibold text-sm mb-2">{format(facet)}</h2>
+              {decoded.filter(f => f.facet).map(facet => (
+                <div key={facet.uuid || facet.key}>
+                  <h2 className="mt-5 font-semibold text-sm mb-2">{facet.label}</h2>
 
-                  <RefinementList attribute={facet} />
+                  <RefinementList attribute={facet.key} />
                 </div>
               ))}
             </div>
