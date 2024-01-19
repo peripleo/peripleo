@@ -161,39 +161,55 @@ export const Map = (props: MapProps) => {
   useEffect(() => {
     const style = map?.getStyle();
     if (!style) return;
-    
-    // Retain all layers that are *not* tracked as baselayers
-    const retainedLayers = style.layers
-      .filter(l => !baselayers.current.has(l.id));
 
-    const retainedLayerIds = 
-      new Set(retainedLayers.map(l => l.id));
+    const updateBaselayers = (next: StyleSpecification) => {
+      // Retain all current layers that are *not* tracked as baselayers
+      const retainedLayers = style.layers
+        .filter(l => !baselayers.current.has(l.id));
 
-    // Retain all sources *not* referenced by base layers
-    const retainedSourceIds = new Set(
-      retainedLayers
-        .map(l => 'source' in l && l.source)
-        .filter(Boolean));
+      const retainedLayerIds = 
+        new Set(retainedLayers.map(l => l.id));
 
-    const retainedSources = Object.entries(style.sources)
-      .filter(([id, _]) => retainedSourceIds.has(id));
+      // Retain all current sources *not* referenced by base layers
+      const retainedSourceIds = new Set(
+        retainedLayers
+          .map(l => 'source' in l && l.source)
+          .filter(Boolean));
 
-    // Updated style
-    const updated = {
-      ...style,
-      layers: [
-        ...props.style.layers,
-        ...style.layers.filter(l => retainedLayerIds.has(l.id))
-      ],
-      sources: Object.fromEntries([
-        ...Object.entries(props.style.sources),
-        ...retainedSources
-      ])
-    } as StyleSpecification;
+      const retainedSources = Object.entries(style.sources)
+        .filter(([id, _]) => retainedSourceIds.has(id));
 
-    // Track new style's layers as new base layers
-    baselayers.current = new Set((props.style as StyleSpecification).layers.map(l => l.id));
-    map.setStyle(updated);
+      // Updated style
+      const updated = {
+        ...style, // Current style
+        layers: [
+          // Next base layer
+          ...next.layers,
+          // Current layers to retain
+          ...style.layers.filter(l => retainedLayerIds.has(l.id))
+        ],
+        sources: Object.fromEntries([
+          // Next base layer sources
+          ...Object.entries(next.sources),
+          // Current sources to retain
+          ...retainedSources
+        ])
+      } as StyleSpecification;
+
+      // Track next style's layers as new base layers
+      baselayers.current = new Set(next.layers.map(l => l.id));
+      map.setStyle(updated);
+    }
+
+    if (typeof props.style === 'string') {
+      // Remote style spec
+      fetch(props.style)
+        .then(res => res.json())
+        .then(data => updateBaselayers(data as StyleSpecification));
+    } else {
+      // JSON style spec
+      updateBaselayers(props.style);
+    }
   }, [props.style]);
 
   return (
