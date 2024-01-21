@@ -1,5 +1,5 @@
 import { Map } from 'maplibre-gl';
-import { Feature } from '../../../model';
+import { Feature } from '../../../../peripleo/src/model';
 
 export interface PopupProps {
 

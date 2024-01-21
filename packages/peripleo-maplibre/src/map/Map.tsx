@@ -1,9 +1,8 @@
 import { useContext, useEffect, useLayoutEffect, useRef } from 'react';
+import { Feature, MapContext, useSelectionState, useHoverState } from '@peripleo/peripleo'; 
 import { MapGeoJSONFeature, Map as MapLibre, MapMouseEvent, PointLike, StyleSpecification } from 'maplibre-gl';
 import { MapProps } from './MapProps';
 import { PopupContainer } from '../components/Popup';
-import { Feature } from '../../model';
-import { MapContext, useSelectionState, useHoverState } from '../../state';
 import { useFeatureRadioState } from './useFeatureRadioState';
 import { findMapFeature, listFeaturesInCluster } from './utils';
 

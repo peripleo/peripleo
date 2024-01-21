@@ -1,5 +1,5 @@
 {
-  "name": "@peripleo/peripleo",
+  "name": "@peripleo/maplibre",
   "version": "0.3.0",
   "author": "Rainer Simon",
   "license": "BSD-3-Clause",
@@ -9,21 +9,12 @@
   "types": "./src/index.ts",
   "files": [
     "dist",
-    "src",
-    "default-theme"
+    "src"
   ],
   "exports": {
     ".": {
       "types": "./src/index.ts",
       "import": "./src/index.ts"
-    },
-    "./default-theme": "./default-theme/index.ts"
-  },
-  "typesVersions": {
-    "*": {
-      "default-theme": [
-        "./default-theme/index.ts"
-      ]
     }
   },
   "scripts": {

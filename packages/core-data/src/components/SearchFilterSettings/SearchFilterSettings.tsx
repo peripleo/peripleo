@@ -3,7 +3,7 @@ import { jwtDecode } from 'jwt-decode';
 import { Settings2, X } from 'lucide-react';
 import * as Popover from '@radix-ui/react-popover';
 import * as Switch from '@radix-ui/react-switch';
-import { useMap } from '@peripleo/peripleo/maplibre';
+import { useMap } from '@peripleo/maplibre';
 import { useFacets, useGeoSearch } from '../TypeSenseSearch';
 import { RefinementList, useCurrentRefinements } from 'react-instantsearch';
 

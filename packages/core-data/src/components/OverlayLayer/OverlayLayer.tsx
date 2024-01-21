@@ -1,4 +1,4 @@
-import { MixedGeoJSONLayer, RasterOverlayLayer } from '@peripleo/peripleo/maplibre';
+import { MixedGeoJSONLayer, RasterOverlayLayer } from '@peripleo/maplibre';
 import { MapLayerConfig } from '../../CoreDataConfig';
 
 import { POINT_STYLE, FILL_STYLE, STROKE_STYLE } from '../../layerStyles';

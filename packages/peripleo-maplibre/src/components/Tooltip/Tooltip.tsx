@@ -2,7 +2,7 @@ import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { GeoJSONSource,  MapMouseEvent } from 'maplibre-gl';
 import { useMap } from '../../map';
-import { Feature, FeatureCluster } from '../../../model';
+import { Feature, FeatureCluster } from '../../../../peripleo/src/model';
 
 interface TooltipProps {
 

@@ -1,4 +1,4 @@
-import { useMap } from '@peripleo/peripleo/maplibre';
+import { useMap } from '@peripleo/maplibre';
 import bbox from '@turf/bbox';
 import { toFeature } from '../../components/TypeSenseSearch';
 import { 

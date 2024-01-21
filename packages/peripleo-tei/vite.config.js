@@ -4,9 +4,6 @@ import react from '@vitejs/plugin-react';
 export default defineConfig(({ command, mode }) => ({
   base: '',
   plugins: [ react() ],
-  server: {
-    open: 'test/index.html'
-  },
   build: {
     rollupOptions: {
       input: {

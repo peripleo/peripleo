@@ -15,8 +15,7 @@
     "moduleResolution": "Node",
     "outDir": "dist",
     "paths": {
-      "@/maplibre": [".src/maplibre/*"],
-      "@/*": ["./src/*"],
+      "@/*": ["./src/*"]
     },
     "resolveJsonModule": true,
     "skipLibCheck": true,
@@ -24,7 +23,7 @@
     "strict": false,
     "target": "ESNext"
   },
-  "include": ["src"],
+  "include": ["src", "../peripleo-maplibre/src/maplibre", "../peripleo-maplibre/src/components", "../peripleo-maplibre/src/map", "../peripleo-maplibre/src/index.ts"],
   "exclude": [
     "node_modules",
     "dist"

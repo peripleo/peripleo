@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { FeatureCollection } from '@peripleo/peripleo';
-import { useMap } from '@peripleo/peripleo/maplibre';
+import { useMap } from '@peripleo/maplibre';
 import { toFeature, useCachedHits } from '../TypeSenseSearch';
 import { POINT_STYLE } from '../../layerStyles';
 

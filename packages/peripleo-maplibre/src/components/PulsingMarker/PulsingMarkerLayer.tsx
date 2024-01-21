@@ -1,4 +1,4 @@
-import { FeatureCollection } from '../../../model';
+import { FeatureCollection } from '../../../../peripleo/src/model';
 import { useMap } from '../../map';
 import { useEffect } from 'react';
 import { usePulsingMarker } from './usePulsingMarker';

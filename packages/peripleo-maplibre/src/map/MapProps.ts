@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { PopupProps } from '../components/Popup';
+import { PopupProps } from '../../components/Popup';
 import { StyleSpecification } from 'maplibre-gl';
 
 export interface MapProps {

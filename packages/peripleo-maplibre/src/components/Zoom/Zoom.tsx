@@ -1,5 +1,5 @@
 import { Minus, Plus } from '@phosphor-icons/react';
-import { useMap } from '../../../maplibre/map';
+import { useMap } from '../../map';
 
 import './Zoom.css';
 

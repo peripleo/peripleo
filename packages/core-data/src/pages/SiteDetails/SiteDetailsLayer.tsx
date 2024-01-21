@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { FeatureCollection } from '@peripleo/peripleo';
 import bbox from '@turf/bbox';
-import { MixedGeoJSONLayer, PulsingMarkerLayer, useMap } from '@peripleo/peripleo/maplibre';
+import { MixedGeoJSONLayer, PulsingMarkerLayer, useMap } from '@peripleo/maplibre';
 import { CoreDataPlace, CoreDataPlaceFeature, toFeature } from '../../model';
 import { POINT_STYLE, FILL_STYLE, STROKE_STYLE } from '../../layerStyles';
 import { SiteDetailsTooltip } from './SiteDetailsTooltip';
