@@ -1,4 +1,4 @@
-import { Bounds } from '../../Types';
+import { Bounds } from '@/Types';
 
 export interface SearchState<T extends unknown> {
   

@@ -1,5 +1,5 @@
 import bbox from '@turf/bbox';
-import { Item, Place, Trace, Store, Bounds } from '../../../Types';
+import { Item, Place, Trace, Store, Bounds } from '@/Types';
 
 // Shorthand
 const normalizeURL = (url: string) => url.replace('https', 'http');

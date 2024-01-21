@@ -14,6 +14,10 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "outDir": "dist",
+    "paths": {
+      "@/maplibre": [".src/maplibre/*"],
+      "@/*": ["./src/*"],
+    },
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "sourceMap": true,

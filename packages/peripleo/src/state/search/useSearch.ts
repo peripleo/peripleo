@@ -12,10 +12,10 @@ export const useSearch = <T extends unknown>() => {
   const refreshSearch = () =>
     runSearch({ ...search.args });
 
-  const changeSearchQuery = (query: string) => 
+  const setQuery = (query: string) => 
     runSearch({ ...search.args, query });
 
-  const clearSearchQuery = () => 
+  const clearQuery = () => 
     runSearch({ ...search.args, query: undefined });
 
   const setFilter = (filter: Filter) => {
@@ -51,14 +51,14 @@ export const useSearch = <T extends unknown>() => {
     });
 
   return {
-    changeSearchQuery,
     clearFilter,
-    clearSearchQuery,
+    clearQuery,
     getFilter,
     refreshSearch,
     search: search as SearchState<T>,
     setActiveAggregation,
     setFilter,
+    setQuery,
     setSearch
   };
 

@@ -13,6 +13,8 @@
     "test": "npm run test --workspaces"
   },
   "workspaces": [
-    "./packages/peripleo"
+    "./packages/peripleo",
+    "./packages/peripleo-tei",
+    "./packages/core-data"
   ]
 }

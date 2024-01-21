@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap');
+
+@import './dropdown/index.css';
+@import './popover/index.css';
+
+:root {
+  --p6o-border-radius: 12px;
+
+  --p6o-control-bg: #fafafa;
+  --p6o-control-bg-hover: #fff;
+  --p6o-control-border: 1px solid rgba(0, 0, 0, .2);
+  --p6o-control-shadow: 0 0 8px rgba(0, 0, 0, .3);
+  --p6o-red: #ea0000;
+
+  --p6o-flex-gap: 6px;
+
+  --p6o-section-bg-light: #ededed;
+  --p6o-section-border-light: rgba(0, 0, 0, .1);
+
+  --p6o-text-color: #303030;
+  --p6o-text-color-light: #767676;
+}
+
+html, body {
+  color: var(--p6o-text-color);
+  font-family: Roboto, Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  font-size: 1.125em;
+  font-weight: 500;
+  margin: 0.4em 0;
+  padding: 0;
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+}
+
+fieldset label {
+  padding: 2px 0;
+}
+
+fieldset .field-error {
+  color: var(--p6o-red);
+  font-weight: 500;
+  margin-top: 0.5em;
+}
+
+input {
+  border-radius: 3px;
+  color: var(--p6o-text-color);
+  font-family: Roboto, Arial, Helvetica, sans-serif;
+  padding: 5px;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: background-color 150ms;
+}
+
+button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+button.round {
+  border-radius: 9999px;
+  aspect-ratio: 1 / 1;
+}
+
+.p6o-controls-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--p6o-flex-gap);
+  padding: 20px;
+}
+
+.p6o-control {
+  color: var(--p6o-text-color);
+  pointer-events: auto;
+}
+
+.p6o-control-btn,
+button.p6o-control-btn {
+  align-items: center;
+  background-color: var(--p6o-control-bg);
+  border-radius: 50%;
+  border: var(--p6o-control-border);
+  box-shadow: var(--p6o-control-shadow);
+  cursor: pointer;
+  display: flex;
+  height: 40px;
+  justify-content: center;
+  transition: all 150ms;
+  width: 40px;
+}
+
+.p6o-control-btn:hover {
+  background-color: var(--p6o-control-bg-hover);
+}
+
+.p6o-draggable-panel {
+  background-color: #fff;
+  border-radius: var(--p6o-border-radius);
+  box-shadow: var(--p6o-control-shadow);
+}
+
+.p6o-draggable-panel header {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5px 15px;
+}

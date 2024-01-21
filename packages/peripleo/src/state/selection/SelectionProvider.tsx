@@ -1,42 +1,34 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
-import { Feature } from 'src/peripleo/Types';
+import { Feature } from '../../model';
 
-export type SelectionContextState = [
+export type SelectionContextValue = {
 
-  Feature | undefined,
+  selected: Feature | undefined,
 
-  (selection?: Feature) => void
+  setSelected: React.Dispatch<React.SetStateAction<Feature>>
 
-]
+}
 
-export const SelectionContext = createContext<SelectionContextState>([undefined, undefined]);
+export const SelectionContext = createContext<SelectionContextValue>(undefined);
 
 export const SelectionProvider = (props: { children: ReactNode }) => {
 
-  const [selection, _setSelection] = useState<Feature | undefined>(undefined);
-
-  const setSelection = (f?: Feature) => {
-    if (f) {
-      const id = f.id || f.properties.id;
-      _setSelection(({ ...f, id }));
-    } else {
-      _setSelection(undefined);
-    }
-  }
+  const [selected, setSelected] = useState<Feature | undefined>(undefined);
 
   return (
-    <SelectionContext.Provider value={[selection, setSelection]}>
+    <SelectionContext.Provider value={{ selected, setSelected }}>
       {props.children}
     </SelectionContext.Provider>
   )
 
 }
 
-export const useSelectionState = () => {
-  return useContext(SelectionContext);
+export const useSelectionState = <T extends { id: string } = { id: string }>() => {
+  const { selected, setSelected } = useContext(SelectionContext);
+  return { selected: selected as Feature<T>, setSelected };
 }
 
-export const useSelectionValue = () => {
-  const [ selection, ] = useContext(SelectionContext);
-  return selection;
+export const useSelectionValue = <T extends { id: string } = { id: string }>() => {
+  const { selected } = useContext(SelectionContext);
+  return selected as Feature<T>;
 }

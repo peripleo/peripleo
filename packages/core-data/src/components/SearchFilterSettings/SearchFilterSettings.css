@@ -1,0 +1,11 @@
+.ais-RefinementList-item .ais-RefinementList-label {
+  display: flex;
+  font-size: 0.875rem;
+  gap: 0.5em;
+}
+
+.ais-RefinementList-item .ais-RefinementList-count {
+  color: #0005119e;
+  flex-grow: 1;
+  text-align: right;
+}

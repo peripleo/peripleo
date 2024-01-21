@@ -1,7 +1,7 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
-import { Place, Trace, Store } from '../../../Types';
+import { Place, Trace, Store } from '@/Types';
 import { createLocalStore } from './createBrowserStore';
-import { useSearch } from '../../search';
+import { useSearch } from '../../../state/search';
 
 const BrowserStoreContext = createContext<Store<unknown>>(null);
 
