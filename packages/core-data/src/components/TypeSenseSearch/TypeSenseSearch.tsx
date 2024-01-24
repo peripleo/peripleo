@@ -4,13 +4,13 @@ import { history } from 'instantsearch.js/es/lib/routers';
 import { CoreDataConfig, useRuntimeConfig } from '../../CoreDataConfig';
 import { RefinementListProxy } from './RefinementListProxy';
 import { TypeSenseSearchResult } from './TypeSenseSearchResult';
+import { useProgressiveSearch } from './useProgressiveSearch';
 import { 
   InstantSearch, 
   useDynamicWidgets,
   useGeoSearch as _useGeoSearch,
   useSearchBox as _useSearchBox,
 } from 'react-instantsearch'; 
-import { useProgressiveSearch } from './useProgressiveSearch';
 
 const createTypesenseAdapter = (config: CoreDataConfig) => 
   new TypesenseInstantsearchAdapter({

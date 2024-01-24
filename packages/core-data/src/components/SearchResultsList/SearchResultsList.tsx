@@ -6,7 +6,6 @@ import { toFeature, useCachedHits } from '../TypeSenseSearch';
 
 import './SearchResultsList.css';
 
-
 interface HitComponentProps {
 
   hit: any;
