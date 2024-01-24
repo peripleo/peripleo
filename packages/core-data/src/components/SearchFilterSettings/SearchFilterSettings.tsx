@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
-import { Settings2, X } from 'lucide-react';
+import { PackagePlus, Settings2, X } from 'lucide-react';
 import * as Popover from '@radix-ui/react-popover';
 import * as Switch from '@radix-ui/react-switch';
 import { useMap } from '@peripleo/maplibre';
@@ -9,20 +9,57 @@ import { RefinementList, useCurrentRefinements } from 'react-instantsearch';
 
 import './SearchFilterSettings.css';
 
-const decodeFacet = (key: string): { key: string, label: string, facet: boolean, uuid?: string } => {
+interface Facet {
+  
+  key: string;
+  
+  label: string;
+  
+  show: boolean;  
+  
+  uuid?: string;
+
+  isUserDefined: boolean;
+
+}
+
+const decodeFacet = (key: string): Facet => {
   if (key.startsWith('ey')) {
-    return { key, ...jwtDecode(key) };
+    const { label, facet, uuid } = jwtDecode<{ label: string, facet: boolean, uuid: string }>(key);
+    return { 
+      key, 
+      label,
+      show: facet,
+      uuid,
+      isUserDefined: true
+    };
   } else if (key.includes('.ey')) {
-    return { key, ...jwtDecode(key.substring(key.indexOf('.ey') + 1)) };
+    const { 
+      label, 
+      facet, 
+      uuid 
+    } = jwtDecode<{ label: string, facet: boolean, uuid: string }>(key.substring(key.indexOf('.ey') + 1));
+    
+    return { 
+      key, 
+      label,
+      show: facet,
+      uuid,
+      isUserDefined: true
+    };
   } else {
+    const label = key
+      .substring(key.lastIndexOf('.') + 1)
+      .split(/[\s_]+/)
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+
+    // Not a user-defined JWT facet
     return {
       key,
-      label: key
-        .substring(0, key.lastIndexOf('_'))
-        .split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' '),
-      facet: true
+      label,
+      show: true,
+      isUserDefined: false
     }
   }
 }
@@ -131,9 +168,19 @@ export const SearchFilterSettings = () => {
             </div>
 
             <div>
-              {decoded.filter(f => f.facet).map(facet => (
+              {decoded.filter(f => f.show).map(facet => (
                 <div key={facet.uuid || facet.key}>
-                  <h2 className="mt-5 font-semibold text-sm mb-2">{facet.label}</h2>
+                  <h2 className="mt-5 font-semibold text-sm mb-2 flex items-center">
+                    <span title={facet.key}>
+                      {facet.label}
+                    </span>
+
+                    {facet.isUserDefined && (
+                      <span title="User-defined field">
+                        <PackagePlus className="ml-1 h-4 w-4" />
+                      </span>
+                    )}
+                  </h2>
 
                   <RefinementList attribute={facet.key} />
                 </div>
