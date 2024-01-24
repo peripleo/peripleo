@@ -26,7 +26,13 @@ export const MediaGallery = (props: MediaGalleryProps) => {
 
           <div className="pt-6 pb-2 text-sm w-full text-muted min-h-20">
             {Boolean(props.defaultItem) && (
-              <Viewer iiifContent={props.defaultItem.manifest_url} />
+              <Viewer 
+                iiifContent={props.defaultItem.manifest_url} 
+                options={{
+                  informationPanel: {
+                    open: false
+                  }
+                }}/>
             )}
           </div>
 
