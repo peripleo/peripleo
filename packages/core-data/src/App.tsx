@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Map, Tooltip, Zoom } from '@peripleo/maplibre';
-import { AppHeader, OverlayLayer, SearchResultsMapLayer, SearchResultTooltip } from './components';
-import {  CoreDataProperties } from './model/lp/CoreDataPlaceFeature';
+import { AppHeader, LayerMenu, OverlayLayer, SearchResultsMapLayer, SearchResultTooltip } from './components';
+import { CoreDataProperties } from './model/lp/CoreDataPlaceFeature';
 import { Search, SiteDetails } from './pages';
 import { MapLayerConfig, toLayerStyle, useRuntimeConfig } from './CoreDataConfig';
 import { 
@@ -13,7 +13,7 @@ import {
 } from '@peripleo/peripleo';
 
 import '@peripleo/peripleo/default-theme';
-import { LayerMenu } from './components/LayerMenu';
+
 
 export const App = () => {
 

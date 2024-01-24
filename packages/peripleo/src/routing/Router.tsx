@@ -60,6 +60,24 @@ export const Router = (props: { children: ReactNode }) => {
     history.pushState(null, null, serializeHash(urlState));
   }, [urlState]);
 
+  useEffect(() => {
+    const onHashChange = (evt: HashChangeEvent) => {
+      const { oldURL, newURL } = evt;
+
+      const from = parseHash(new URL(oldURL).hash);
+      const to = parseHash(new URL(newURL).hash);
+
+      if (to.route !== from.route)
+        setUrlState(to);      
+    }
+
+    window.addEventListener('hashchange', onHashChange);
+
+    return () => {
+      window.removeEventListener('hashchange', onHashChange);
+    }
+  }, []);
+
   return (
     <RouterContext.Provider value={{ urlState, setUrlState }}>
       {props.children}

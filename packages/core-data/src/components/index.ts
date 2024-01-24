@@ -1,4 +1,5 @@
 export * from './AppHeader';
+export * from './LayerMenu';
 export * from './LoadAnimations';
 export * from './MediaGallery';
 export * from './OverlayLayer';
