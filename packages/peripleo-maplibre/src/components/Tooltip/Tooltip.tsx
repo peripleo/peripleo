@@ -4,17 +4,17 @@ import { GeoJSONSource,  MapMouseEvent } from 'maplibre-gl';
 import { useMap } from '../../map';
 import { Feature, FeatureCluster } from '../../../../peripleo/src/model';
 
-interface TooltipProps {
+interface TooltipProps <T extends { [key: string]: any }>{
 
   layerId: string | string[];
 
-  content(target: Feature | FeatureCluster, event: MouseEvent): ReactNode;
+  content(target: Feature<T> | FeatureCluster<T>, event: MouseEvent): ReactNode;
 
 }
 
-interface Hovered { 
+interface Hovered <T extends { [key: string]: any }>{ 
   
-  target: Feature | FeatureCluster;
+  target: Feature<T> | FeatureCluster<T>;
   
   event: MouseEvent; 
   
@@ -22,7 +22,7 @@ interface Hovered {
 
 const DEFAULT_OFFSET = 10;
 
-export const Tooltip = (props: TooltipProps) => {
+export const Tooltip = <T extends { [key: string]: any }>(props: TooltipProps<T>) => {
 
   const map = useMap();
 
@@ -30,7 +30,7 @@ export const Tooltip = (props: TooltipProps) => {
 
   const el = useRef<HTMLDivElement>(null);
   
-  const [hovered, setHovered] = useState<Hovered | undefined>();
+  const [hovered, setHovered] = useState<Hovered<T> | undefined>();
 
   const onMouseMove = (event: MapMouseEvent) => {
     const map = event.target;
@@ -54,7 +54,7 @@ export const Tooltip = (props: TooltipProps) => {
               type: r.type, 
               properties: r.properties, 
               geometry: r.geometry 
-            }) as Feature);
+            }) as Feature<T>);
 
             setHovered({
               target: { clusterId: id as number, features: clusteredFeatures }, 
@@ -64,7 +64,7 @@ export const Tooltip = (props: TooltipProps) => {
         });
       } else {
         setHovered({ 
-          target: { type, properties, geometry } as Feature, 
+          target: { type, properties, geometry } as Feature<T>, 
           event: event.originalEvent
         });
       }

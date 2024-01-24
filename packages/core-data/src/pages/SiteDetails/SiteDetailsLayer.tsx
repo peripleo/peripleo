@@ -2,7 +2,7 @@ import { useEffect, useMemo } from 'react';
 import { FeatureCollection } from '@peripleo/peripleo';
 import bbox from '@turf/bbox';
 import { MixedGeoJSONLayer, PulsingMarkerLayer, useMap } from '@peripleo/maplibre';
-import { CoreDataPlace, CoreDataPlaceFeature, toFeature } from '../../model';
+import { CoreDataPlace, CoreDataPlaceFeature, CoreDataProperties, toFeature } from '../../model';
 import { POINT_STYLE, FILL_STYLE, STROKE_STYLE } from '../../layerStyles';
 import { SiteDetailsTooltip } from './SiteDetailsTooltip';
 
@@ -23,7 +23,7 @@ export const SiteDetailsLayer = (props: SiteDetailsLayerProps) => {
   const place = {
     type: 'FeatureCollection',
     features: [toFeature(props.place, props.place.properties.uuid)]
-  } as FeatureCollection;
+  } as FeatureCollection<CoreDataProperties>;
 
   const related = useMemo(() => ({
     type: 'FeatureCollection', 
@@ -36,7 +36,7 @@ export const SiteDetailsLayer = (props: SiteDetailsLayerProps) => {
       },
       geometry: p.geometry
     }))
-  } as FeatureCollection), [props.related]); 
+  } as FeatureCollection<CoreDataPlace>), [props.related]); 
 
   useEffect(() => {
     const allFeatures = { 
@@ -61,6 +61,7 @@ export const SiteDetailsLayer = (props: SiteDetailsLayerProps) => {
       {props.related && (
         <MixedGeoJSONLayer
           id={`${props.place.record_id}-related`} 
+          interactive
           fillStyle={FILL_STYLE}
           strokeStyle={STROKE_STYLE}
           pointStyle={POINT_STYLE}

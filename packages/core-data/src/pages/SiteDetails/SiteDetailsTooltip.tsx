@@ -1,9 +1,9 @@
-import { Feature } from '@peripleo/peripleo';
-import { CoreDataPlace } from 'src/model';
+import { Feature, FeatureCluster } from '@peripleo/peripleo';
+import { CoreDataPlace, CoreDataProperties } from 'src/model';
 
 interface SiteDetailsTooltipProps {
 
-  target: Feature<CoreDataPlace>;
+  target: Feature<CoreDataPlace> | Feature<CoreDataProperties> | FeatureCluster<CoreDataPlace> | FeatureCluster<CoreDataProperties>;
   
 }
 
