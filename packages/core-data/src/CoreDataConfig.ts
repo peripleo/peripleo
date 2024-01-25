@@ -38,6 +38,8 @@ export interface CoreDataConfig {
 
     limit?: number;
 
+    facets?: FacetConfig;
+
   }
 
   core_data: {
@@ -69,6 +71,12 @@ export interface MapLayerConfig {
   minzoom?: number;
 
   maxzoom?: number;
+
+}
+
+export interface FacetConfig {
+
+  exclude?: string[]
 
 }
 

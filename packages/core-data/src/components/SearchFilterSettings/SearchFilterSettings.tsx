@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { PackagePlus, Settings2, X } from 'lucide-react';
+import { RefinementList, useCurrentRefinements } from 'react-instantsearch';
 import * as Popover from '@radix-ui/react-popover';
 import * as Switch from '@radix-ui/react-switch';
 import { useMap } from '@peripleo/maplibre';
 import { useFacets, useGeoSearch } from '../TypeSenseSearch';
-import { RefinementList, useCurrentRefinements } from 'react-instantsearch';
+import { useRuntimeConfig } from '../../CoreDataConfig';
 
 import './SearchFilterSettings.css';
 
@@ -49,7 +50,8 @@ const decodeFacet = (key: string): Facet => {
     };
   } else {
     const label = key
-      .substring(key.lastIndexOf('.') + 1)
+      .replace('.', ': ')
+      .replace('_', ' ')
       .split(/[\s_]+/)
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
@@ -70,11 +72,14 @@ export const SearchFilterSettings = () => {
 
   const facets = useFacets();
 
-  const decoded = useMemo(() => facets.map(decodeFacet), [facets]);
+  const { typesense } = useRuntimeConfig();
 
-  useEffect(() => {
-    console.log(decoded);
-  }, [decoded.map(d => d.key).join()]);
+  const decodedFacets = useMemo(() => facets.map(decodeFacet), [facets]);
+
+  const displayedFacets = useMemo(() => {
+    const toExclude = new Set(typesense.facets?.exclude || []);
+    return decodedFacets.filter(f => !toExclude.has(f.key));
+  }, [decodedFacets]);
 
   const map = useMap();
   
@@ -168,7 +173,7 @@ export const SearchFilterSettings = () => {
             </div>
 
             <div>
-              {decoded.filter(f => f.show).map(facet => (
+              {displayedFacets.filter(f => f.show).map(facet => (
                 <div key={facet.uuid || facet.key}>
                   <h2 className="mt-5 font-semibold text-sm mb-2 flex items-center">
                     <span title={facet.key}>

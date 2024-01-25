@@ -51,7 +51,13 @@
     "api_key": "your_typesense_api_key",
     "index_name": "your_index_name",
     "query_by": "title",
-    "limit": 100
+    "limit": 100,
+    "facets": {
+      "exclude": [
+        "list_of_facets",
+        "to_exclude"
+      ]
+    }
   },
   "core_data": {
     "url": "https://core-data-api.example.com",
