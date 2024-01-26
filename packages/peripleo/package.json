@@ -1,9 +1,22 @@
 {
   "name": "@peripleo/peripleo",
   "version": "0.3.0",
+  "description": "React components for map-based search interfaces",
   "author": "Rainer Simon",
   "license": "BSD-3-Clause",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peripleo/peripleo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/peripleo/peripleo/issues"
+  },
+  "scripts": {
+    "start": "vite",
+    "build": "vite build --mode production",
+    "preview": "vite preview"
+  },
   "main": "./src/index.ts",
   "module": "./src/index.ts",
   "types": "./src/index.ts",
@@ -25,11 +38,6 @@
         "./default-theme/index.ts"
       ]
     }
-  },
-  "scripts": {
-    "start": "vite",
-    "build": "vite build --mode production",
-    "preview": "vite preview"
   },
   "devDependencies": {
     "@types/chroma-js": "^2.4.3",
