@@ -4,28 +4,23 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "declaration": true,
+    "declarationDir": "types",
     "declarationMap": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "incremental": false,
     "isolatedModules": false,
     "jsx": "react-jsx",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "module": "ESNext",
-    "moduleResolution": "Node",
+    "moduleResolution": "node",
+    "noEmit": true,
     "outDir": "dist",
-    "paths": {
-      "@/*": ["./src/*"]
-    },
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "sourceMap": true,
-    "strict": false,
-    "target": "ESNext"
+    "target": "ESNext",
+    "useDefineForClassFields": true
   },
-  "include": ["src", "../peripleo-maplibre/src/maplibre", "../peripleo-maplibre/src/components", "../peripleo-maplibre/src/map", "../peripleo-maplibre/src/index.ts"],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }],
 }

@@ -2,6 +2,8 @@ import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import react from '@vitejs/plugin-react';
 
+import * as packageJson from './package.json';
+
 export default defineConfig(() => ({
   base: '',
   plugins: [
@@ -20,8 +22,15 @@ export default defineConfig(() => ({
       fileName: (format) => `peripleo-maplibre.${format}.js`
     },
     rollupOptions: {
+      external: [
+        ...Object.keys(packageJson.peerDependencies)
+      ],
       output: {
-        assetFileNames: 'peripleo-maplibre.[ext]'
+        preserveModules: true,
+        assetFileNames: 'peripleo-maplibre.[ext]',
+        globals: {
+          react: 'React'
+        }
       }
     }
   }

@@ -2,6 +2,8 @@ import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import react from '@vitejs/plugin-react';
 
+import * as packageJson from './package.json';
+
 export default defineConfig(({ command, mode }) => ({
   plugins: [
     react(),
@@ -19,8 +21,15 @@ export default defineConfig(({ command, mode }) => ({
       fileName: (format) => `peripleo.${format}.js`
     },
     rollupOptions: {
+      external: [
+        ...Object.keys(packageJson.peerDependencies)
+      ],
       output: {
-        assetFileNames: 'peripleo.[ext]'
+        preserveModules: true,
+        assetFileNames: 'peripleo.[ext]',
+        globals: {
+          react: 'React'
+        }
       }
     }
   }
