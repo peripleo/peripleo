@@ -1,12 +1,17 @@
 import { defineConfig } from 'vite';
+import dts from 'vite-plugin-dts';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig(({ command, mode }) => ({
   base: '',
-  plugins: [ react() ],
-  server: {
-    open: 'test/index.html'
-  },
+  plugins: [
+    react(),
+    dts({ 
+      insertTypesEntry: true,
+      include: ['./src/'],
+      entryRoot: './src'
+    })
+  ],
   build: {
     sourcemap: true,
     lib: {
