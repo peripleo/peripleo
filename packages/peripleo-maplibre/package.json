@@ -14,7 +14,7 @@
   },
   "scripts": {
     "start": "vite",
-    "build": "vite build --mode production",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "main": "./dist/peripleo-maplibre.es.js",
@@ -27,7 +27,8 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/peripleo-maplibre.es.js"
-    }
+    },
+    "./peripleo-maplibre.css": "./dist/peripleo-maplibre.css"
   },
   "devDependencies": {
     "@types/chroma-js": "^2.4.3",

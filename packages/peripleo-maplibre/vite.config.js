@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import react from '@vitejs/plugin-react';
 
-export default defineConfig(({ command, mode }) => ({
+export default defineConfig(() => ({
   base: '',
   plugins: [
     react(),
@@ -18,6 +18,11 @@ export default defineConfig(({ command, mode }) => ({
       entry: './src/index.ts',
       formats: ['es'],
       fileName: (format) => `peripleo-maplibre.${format}.js`
+    },
+    rollupOptions: {
+      output: {
+        assetFileNames: 'peripleo-maplibre.[ext]'
+      }
     }
   }
 }));
