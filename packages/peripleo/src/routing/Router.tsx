@@ -78,6 +78,7 @@ export const Router = (props: { children: ReactNode }) => {
     }
   }, []);
 
+
   return (
     <RouterContext.Provider value={{ urlState, setUrlState }}>
       {props.children}

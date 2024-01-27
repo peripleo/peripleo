@@ -76,7 +76,9 @@ export interface MapLayerConfig {
 
 export interface FacetConfig {
 
-  exclude?: string[]
+  include?: string[];
+
+  exclude?: string[];
 
 }
 

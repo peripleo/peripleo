@@ -12,8 +12,8 @@ import {
   useSelectionValue 
 } from '@peripleo/peripleo';
 
+import '@peripleo/maplibre/peripleo-maplibre.css';
 import '@peripleo/peripleo/default-theme';
-
 
 export const App = () => {
 

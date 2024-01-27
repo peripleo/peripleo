@@ -45,7 +45,7 @@ export const SiteDetailsLayer = (props: SiteDetailsLayerProps) => {
     };
 
     const [minX, minY, maxX, maxY] = bbox(allFeatures);
-
+    
     map.fitBounds([[minX, minY], [maxX, maxY]], { 
       padding: { top: 100, bottom: 100, left: 380, right: 120 },
       maxZoom: 14

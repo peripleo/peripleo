@@ -20,7 +20,7 @@ export const Search = () => {
       const features = hits.map(hit => toFeature(hit));
 
       const [minX, minY, maxX, maxY] = bbox({ type: 'FeatureCollection', features });
-      
+
       map.fitBounds([[minX, minY], [maxX, maxY]], { 
         padding: { top: 100, bottom: 100, left: 380, right: 120 },
         maxZoom: 14

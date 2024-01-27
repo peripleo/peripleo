@@ -7,7 +7,7 @@ import * as Switch from '@radix-ui/react-switch';
 import { useMap } from '@peripleo/maplibre';
 import { useFacets, useGeoSearch } from '../TypeSenseSearch';
 import { useRuntimeConfig } from '../../CoreDataConfig';
-import { parseFacet } from './parseFacets';
+import { filterFacets, parseFacet } from './facetUtils';
 
 import './SearchFilterSettings.css';
 
@@ -15,17 +15,19 @@ export const SearchFilterSettings = () => {
 
   const [open, setOpen] = useState(false);
 
-  const facets = useFacets();
-
   const { typesense } = useRuntimeConfig();
 
-  const decodedFacets = useMemo(() => facets.map(parseFacet), [facets]);
+  const facets = useFacets();
 
-  const displayedFacets = useMemo(() => {
-    const toExclude = new Set(typesense.facets?.exclude || []);
-    return decodedFacets.filter(f => !toExclude.has(f.value));
-  }, [decodedFacets]);
+  const filteredFacets = useMemo(() => {
+    const include = typesense.facets?.include;
+    const exclude = typesense.facets?.exclude;
 
+    return filterFacets(facets, { include, exclude });
+  }, [typesense, facets]);
+
+  const decodedFacets = useMemo(() => filteredFacets.map(parseFacet), [filteredFacets]);
+  
   const map = useMap();
   
   const { refine, clearMapRefinement, isRefinedWithMap} = useGeoSearch();
@@ -118,7 +120,7 @@ export const SearchFilterSettings = () => {
             </div>
 
             <div>
-              {displayedFacets.filter(f => f.show).map(facet => (
+              {decodedFacets.filter(f => f.show).map(facet => (
                 <div key={facet.value}>
                   <h2 className="mt-5 font-semibold text-sm mb-2 flex items-center">
                     <span title={facet.value}>
