@@ -7,64 +7,9 @@ import * as Switch from '@radix-ui/react-switch';
 import { useMap } from '@peripleo/maplibre';
 import { useFacets, useGeoSearch } from '../TypeSenseSearch';
 import { useRuntimeConfig } from '../../CoreDataConfig';
+import { parseFacet } from './parseFacets';
 
 import './SearchFilterSettings.css';
-
-interface Facet {
-  
-  key: string;
-  
-  label: string;
-  
-  show: boolean;  
-  
-  uuid?: string;
-
-  isUserDefined: boolean;
-
-}
-
-const decodeFacet = (key: string): Facet => {
-  if (key.startsWith('ey')) {
-    const { label, facet, uuid } = jwtDecode<{ label: string, facet: boolean, uuid: string }>(key);
-    return { 
-      key, 
-      label,
-      show: facet,
-      uuid,
-      isUserDefined: true
-    };
-  } else if (key.includes('.ey')) {
-    const { 
-      label, 
-      facet, 
-      uuid 
-    } = jwtDecode<{ label: string, facet: boolean, uuid: string }>(key.substring(key.indexOf('.ey') + 1));
-    
-    return { 
-      key, 
-      label,
-      show: facet,
-      uuid,
-      isUserDefined: true
-    };
-  } else {
-    const label = key
-      .replace('.', ': ')
-      .replace('_', ' ')
-      .split(/[\s_]+/)
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
-
-    // Not a user-defined JWT facet
-    return {
-      key,
-      label,
-      show: true,
-      isUserDefined: false
-    }
-  }
-}
 
 export const SearchFilterSettings = () => {
 
@@ -74,11 +19,11 @@ export const SearchFilterSettings = () => {
 
   const { typesense } = useRuntimeConfig();
 
-  const decodedFacets = useMemo(() => facets.map(decodeFacet), [facets]);
+  const decodedFacets = useMemo(() => facets.map(parseFacet), [facets]);
 
   const displayedFacets = useMemo(() => {
     const toExclude = new Set(typesense.facets?.exclude || []);
-    return decodedFacets.filter(f => !toExclude.has(f.key));
+    return decodedFacets.filter(f => !toExclude.has(f.value));
   }, [decodedFacets]);
 
   const map = useMap();
@@ -174,10 +119,10 @@ export const SearchFilterSettings = () => {
 
             <div>
               {displayedFacets.filter(f => f.show).map(facet => (
-                <div key={facet.uuid || facet.key}>
+                <div key={facet.value}>
                   <h2 className="mt-5 font-semibold text-sm mb-2 flex items-center">
-                    <span title={facet.key}>
-                      {facet.label}
+                    <span title={facet.value}>
+                      {facet.displayLabel}
                     </span>
 
                     {facet.isUserDefined && (
@@ -187,7 +132,7 @@ export const SearchFilterSettings = () => {
                     )}
                   </h2>
 
-                  <RefinementList attribute={facet.key} />
+                  <RefinementList attribute={facet.value} />
                 </div>
               ))}
             </div>
