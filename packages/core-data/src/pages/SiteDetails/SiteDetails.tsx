@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Image, X } from 'lucide-react';
 import { Link, useCurrentRoute, useSelectionState } from '@peripleo/peripleo';
 import { RelatedItemsList, useRelated } from '../../components';
@@ -14,6 +14,8 @@ import {
 } from '../../model';
 
 export const SiteDetails = () => {
+  
+  const el = useRef<HTMLElement>();
 
   const route = useCurrentRoute();
 
@@ -46,6 +48,8 @@ export const SiteDetails = () => {
         };
 
         setSite(place);
+
+        el.current.scrollTop = 0;
         
         const feature = toFeature(place, uuid);
         setSelected(feature);
@@ -67,8 +71,10 @@ export const SiteDetails = () => {
   }, [related]);
 
   return (
-    <aside className="flex flex-col absolute z-10 h-full w-[280px] bg-white/80 backdrop-blur 
-      shadow overflow-y-auto">
+    <aside
+      ref={el} 
+      className="flex flex-col absolute z-10 h-full w-[280px] bg-white/80 backdrop-blur 
+        shadow overflow-y-auto">
       <Link 
         className="absolute top-2 right-2 p-1.5 rounded-full z-10 bg-slate-200/60 hover:bg-slate-200 focus:outline-2 focus:outline-offset-2 focus:outline-teal-700"
         to="/">

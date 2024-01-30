@@ -1,4 +1,4 @@
-import { AnnotationPage } from '@peripleo/peripleo';
+import { AnnotationPage, Link } from '@peripleo/peripleo';
 import { MapPin } from 'lucide-react';
 import { CoreDataPlace } from '../../../model';
 
@@ -19,8 +19,12 @@ export const RelatedPlaces = (props: RelatedPlacesProps) => {
   ) : (
     <ul className="p-3 pt-1 pb-4">
       {places.map(a => (
-        <li key={a.id} className="flex items-center">
-          <MapPin className="h-4 w-4 mr-1.5" /> {a.body.title}
+        <li key={a.id} className="overflow-hidden">
+          <Link 
+            className="whitespace-nowrap text-ellipsis"
+            to={`/site/${a.body.uuid}`}>
+            <MapPin className="h-4 w-4 mr-0.5 inline-block mb-0.5" /> {a.body.title}
+          </Link>
         </li>
       ))}
     </ul>
