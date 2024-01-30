@@ -70,7 +70,7 @@ export const MixedGeoJSONLayer = <T extends { [key: string]: any }>(props: Mixed
 
       map.removeSource(`source-${id}`);
     }
-  }, []);
+  }, [data]);
 
   return props.tooltip ? (
     <Tooltip
