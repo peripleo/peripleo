@@ -17,7 +17,7 @@ export interface RelatedItemsData {
 
 }
 
-export const useRelated = (recordId: string) => {
+export const useRelated = (uuid: string) => {
 
   const { branding, core_data } = useRuntimeConfig();
 
@@ -25,7 +25,7 @@ export const useRelated = (recordId: string) => {
 
   const fetchOne = (endpoint: string) => {
     const url = 
-      `${core_data.url}/core_data/public/places/${recordId}/${endpoint}?project_ids=${core_data.project_ids.join(',')}`;
+      `${core_data.url}/core_data/public/places/${uuid}/${endpoint}?project_ids=${core_data.project_ids.join(',')}`;
 
     return fetch(url).then(res => res.json());
   }
@@ -36,12 +36,12 @@ export const useRelated = (recordId: string) => {
         setState(state => state.map(t => t.endpoint === conf.endpoint ? ({ ...t, data }) : t));
       })
       .catch(error => {
-        console.warn(`No results for ${recordId}/${conf.endpoint}`);
+        console.warn(`No results for ${uuid}/${conf.endpoint}`);
 
         setState(state => state.map(t => t.endpoint === conf.endpoint ? ({ ...t, error }) : t));
       })
     );
-  }, []);
+  }, [uuid]);
 
   return state;
 

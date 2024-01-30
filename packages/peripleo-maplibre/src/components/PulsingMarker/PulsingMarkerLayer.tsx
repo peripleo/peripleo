@@ -39,7 +39,7 @@ export const PulsingMarkerLayer = (props: PulsingMarkerLayerProps) => {
       map.removeLayer(`layer-${id}-pulse`);
       map.removeSource(`source-${id}-pulse`);
     }
-  }, []);
+  }, [data]);
 
   return null;
 

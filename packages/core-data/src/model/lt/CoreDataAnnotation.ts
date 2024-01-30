@@ -4,6 +4,8 @@ export interface CoreDataAnnotation {
 
   record_id: string;
 
+  uuid: string;
+
   title: string;
 
   user_defined: {

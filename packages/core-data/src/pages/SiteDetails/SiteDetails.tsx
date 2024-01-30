@@ -25,7 +25,7 @@ export const SiteDetails = () => {
 
   const { setSelected } = useSelectionState<CoreDataProperties>();
 
-  const userDefined: UserDefinedField[]= site?.user_defined ? Object.values(site.user_defined) : [];
+  const userDefined: UserDefinedField[] = site?.user_defined ? Object.values(site.user_defined) : [];
 
   const related = useRelated(uuid);
 
@@ -113,6 +113,7 @@ export const SiteDetails = () => {
 
       {site && (
         <SiteDetailsLayer 
+          key={uuid}
           uuid={uuid}
           place={site} 
           related={relatedPlaces} />

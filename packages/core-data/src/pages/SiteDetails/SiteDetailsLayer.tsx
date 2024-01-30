@@ -33,6 +33,7 @@ export const SiteDetailsLayer = (props: SiteDetailsLayerProps) => {
       properties: {
         title: p.title,
         record_id: p.record_id,
+        uuid: p.uuid
       },
       geometry: p.geometry
     }))
@@ -50,11 +51,12 @@ export const SiteDetailsLayer = (props: SiteDetailsLayerProps) => {
       padding: { top: 100, bottom: 100, left: 380, right: 120 },
       maxZoom: 14
     });
-  }, [related]);
+  }, [props.uuid, related]);
 
   return (
     <>
       <PulsingMarkerLayer 
+        key={props.uuid}
         id="current" 
         data={place} />
 
@@ -73,6 +75,7 @@ export const SiteDetailsLayer = (props: SiteDetailsLayerProps) => {
 
       <MixedGeoJSONLayer
         id={props.place.record_id} 
+        interactive
         data={place} 
         fillStyle={FILL_STYLE} 
         strokeStyle={STROKE_STYLE} 

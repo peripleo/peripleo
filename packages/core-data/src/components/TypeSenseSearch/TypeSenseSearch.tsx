@@ -118,10 +118,10 @@ const PersistentSearchState = (props: { children: ReactNode }) => {
       unobserve
     }}>
 
-      {props.children}
+    {props.children}
 
-      {/* This ensures dynamic attribute refinements stay persistent */}
-      {attributesToRender.map(facet => (<RefinementListProxy key={facet} attribute={facet} />))}
+    {/* This ensures dynamic attribute refinements stay persistent */}
+    {attributesToRender.map(facet => (<RefinementListProxy key={facet} attribute={facet} />))}
     </PersistentSearchStateContext.Provider>
   )
 
