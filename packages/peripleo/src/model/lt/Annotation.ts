@@ -1,22 +1,22 @@
-export interface Annotation<T extends unknown> {
+export type Annotation<T extends unknown> = {
 
-  type: 'Annotation'
+  type: 'Annotation',
 
-  id: string;
+  id: string,
 
-  created: string;
+  created: string,
 
-  motivation: 'describing' | 'linking';
+  motivation: 'describing' | 'linking',
 
-  body: T;
+  body: T,
 
   target: {
 
-    id: string;
+    id: string,
 
-    name: string;
+    name: string,
 
-    type?: string;
+    type?: string
 
   }
 

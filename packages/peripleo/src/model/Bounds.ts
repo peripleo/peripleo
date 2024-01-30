@@ -1,11 +1,11 @@
-export interface Bounds {
+export type Bounds = {
 
-  minLon: number;
+  minLon: number,
 
-  minLat: number;
+  minLat: number,
 
-  maxLon: number;
+  maxLon: number,
 
-  maxLat: number;
+  maxLat: number
 
 }

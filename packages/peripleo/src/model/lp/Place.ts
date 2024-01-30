@@ -14,27 +14,27 @@ export interface Place<T extends PlaceProperties = PlaceProperties>{
 
 }
 
-export interface PlaceProperties {
+export type PlaceProperties = {
 
-  id: string;
+  id: string,
 
-  ccode: string[];
+  ccode: string[],
 
-  title: string;
+  title: string,
 
-  [key: string]: any;
-
-}
-
-export interface PlaceFeatureProperties extends PlaceProperties {
-
-  names: Name[];
+  [key: string]: any
 
 }
 
-export interface Name {
+export type PlaceFeatureProperties = PlaceProperties & {
 
-  toponym: string;
+  names: Name[]
+
+}
+
+export type Name = {
+
+  toponym: string
 
 }
 

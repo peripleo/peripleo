@@ -1,20 +1,20 @@
 import { Annotation } from './Annotation';
 
-export interface AnnotationPage<T extends unknown>  {
+export type AnnotationPage<T extends unknown> = {
 
-  '@context': 'http://www.w3.org/ns/anno.jsonld';
+  '@context': 'http://www.w3.org/ns/anno.jsonld',
 
-  id: string;
+  id: string,
 
-  type: 'AnnotationPage';
+  type: 'AnnotationPage',
 
   partOf: {
 
-    id: string;
+    id: string,
 
-    label: string;
+    label: string,
 
-    total: number;
+    total: number
 
   }
 

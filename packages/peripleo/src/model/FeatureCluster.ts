@@ -1,9 +1,9 @@
 import { Feature } from './Feature';
 
-export interface FeatureCluster<T extends { [key: string]: any } = {}> {
+export type FeatureCluster<T extends { [key: string]: any } = {}> = {
 
   clusterId: number,
 
-  features: Feature<T>[];
+  features: Feature<T>[]
 
 }

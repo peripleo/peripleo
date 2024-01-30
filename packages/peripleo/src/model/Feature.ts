@@ -1,4 +1,4 @@
-export interface Feature<T extends { [key: string]: any } = {}> {
+export type Feature<T extends { [key: string]: any } = {}> = {
 
   // Unfortunately, we need to require an (integer) number here, because this
   // is what mapLibre needs. Without mapLibre-compliant int IDs, there's no way
@@ -8,16 +8,16 @@ export interface Feature<T extends { [key: string]: any } = {}> {
 
   type: 'Feature',
 
-  properties: T;
+  properties: T,
 
-  geometry: FeatureGeometry;
+  geometry: FeatureGeometry
 
 }
 
-export interface FeatureGeometry {
+export type FeatureGeometry = {
 
   type: 'Point' | 'Polygon' | 'Polyline' | 'GeometryCollection',
 
-  coordinates: number[] | number[][] | number[][][];
+  coordinates: number[] | number[][] | number[][][]
 
 }
