@@ -26,7 +26,8 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/peripleo-maplibre.es.js"
+      "import": "./dist/peripleo-maplibre.es.js",
+      "require": "./dist/peripleo-maplibre.cjs.js"
     },
     "./peripleo-maplibre.css": "./dist/peripleo-maplibre.css"
   },

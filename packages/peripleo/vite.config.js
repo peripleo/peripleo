@@ -17,7 +17,7 @@ export default defineConfig(({ command, mode }) => ({
     sourcemap: true,
     lib: {
       entry: './src/index.ts',
-      formats: ['es'],
+      formats: ['es', 'cjs'],
       fileName: (format) => `peripleo.${format}.js`
     },
     rollupOptions: {

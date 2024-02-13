@@ -27,7 +27,8 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/peripleo.es.js"
+      "import": "./dist/peripleo.es.js",
+      "require": "./dist/peripleo.cjs.js"
     },
     "./peripleo.css": "./dist/peripleo.css",
     "./default-theme": "./default-theme/index.ts"

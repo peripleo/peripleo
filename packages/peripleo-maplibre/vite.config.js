@@ -19,7 +19,7 @@ export default defineConfig(() => ({
     sourcemap: true,
     lib: {
       entry: './src/index.ts',
-      formats: ['es'],
+      formats: ['es', 'cjs'],
       fileName: (format) => `peripleo-maplibre.${format}.js`
     },
     rollupOptions: {
