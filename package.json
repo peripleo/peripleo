@@ -1,6 +1,6 @@
 {
   "name": "@peripleo/monorepo",
-  "version": "0.3.1",
+  "version": "0.3.3",
   "description": "Peripleo monorepo",
   "author": "Rainer Simon",
   "repository": {
@@ -14,7 +14,6 @@
   },
   "workspaces": [
     "./packages/peripleo",
-    "./packages/peripleo-maplibre",
-    "./packages/core-data"
+    "./packages/peripleo-maplibre"
   ]
 }
