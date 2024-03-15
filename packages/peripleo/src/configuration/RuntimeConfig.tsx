@@ -6,6 +6,8 @@ interface RuntimeConfigProps<T extends unknown> {
 
   children: ReactNode;
 
+  path?: string;
+
   preprocess?(config: T): T; 
 
 }
@@ -14,8 +16,10 @@ export const RuntimeConfig = <T extends unknown>(props: RuntimeConfigProps<T>) =
 
   const [config, setConfig] = useState<T | undefined>();
 
+  const path = props.path || 'config.json';
+
   useEffect(() => {
-    fetch('config.json')
+    fetch(path)
       .then(res => res.json())
       .then(data => props.preprocess 
           ? setConfig(props.preprocess(data)) 

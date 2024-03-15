@@ -11,8 +11,13 @@ export const useFeatureRadioState = (property: string) => {
       return sel; // No change
     } else {
       // De-activate current active
-      if (sel)
-        map.setFeatureState({ source: sel.source, id: sel.feature.id }, { [property]: false });
+      if (sel) {
+        try {
+          map.setFeatureState({ source: sel.source, id: sel.feature.id }, { [property]: false });
+        } catch (_) {
+          // Note that the feature might have been removed meanwhile
+        }
+      }
 
       if (feature) {
         const src = source || findSourceForFeature(map, feature.id as number);
