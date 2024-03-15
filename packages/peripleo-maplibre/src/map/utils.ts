@@ -1,4 +1,4 @@
-import { Feature } from '@/model';
+import { Feature } from '@peripleo/peripleo';
 import { GeoJSONSource, Map, MapGeoJSONFeature } from 'maplibre-gl';
 
 /** Tests if a feature is included in the given cluster feature **/
@@ -69,7 +69,7 @@ export const listFeaturesInCluster = (
  * Helper: finds the source for a given feature ID.
  */
 export const findSourceForFeature = (map: Map, featureId: number) => {
-  const interactiveLayers = map.getStyle().layers
+  const interactiveLayers = (map.getStyle()?.layers || [])
     .filter(l => 'interactive' in (l.metadata as object || {}));
 
   const sourceId: string | undefined = interactiveLayers.reduce((sourceId, layer) => {
