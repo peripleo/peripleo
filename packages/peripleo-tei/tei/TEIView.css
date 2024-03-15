@@ -1,9 +1,0 @@
-.p6o-teiview-container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.p6o-teiview-container header {
-  flex-grow: 0;
-}
