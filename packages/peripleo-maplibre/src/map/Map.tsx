@@ -152,8 +152,12 @@ export const Map = (props: MapProps) => {
     setMap(map);
 
     return () => {
+      setMap(undefined);
+
       map.off('click', onClick);
       map.off('mousemove', onMouseMove);
+      
+      map.remove();
     }
   }, []);
 
