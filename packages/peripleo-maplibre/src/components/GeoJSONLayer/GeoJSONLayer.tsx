@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { Feature, FeatureCluster, FeatureCollection } from '@peripleo/peripleo';
-import { AddLayerObject } from 'maplibre-gl';
+import { AddLayerObject, SourceSpecification } from 'maplibre-gl';
 import { removeLayerIfExists, removeSourceIfExists, useMap } from '../../map';
 import { Tooltip } from '../Tooltip';
 import { 
@@ -12,6 +12,12 @@ import {
 interface GeoJSONLayerProps <T extends { [key: string]: any }>{
 
   cluster?: boolean;
+
+  clusterMaxZoom?: number;
+
+  clusterMinPoints?: number;
+  
+  clusterProperties?: unknown;
 
   clusterRadius?: number;
 
@@ -37,6 +43,8 @@ export const GeoJSONLayer = <T extends { [key: string]: any }>(props: GeoJSONLay
 
   const { id, data } = props;
 
+  const visible = props.visible === undefined ? true : props.visible;
+
   const fillStyle = props.fillStyle || DEFAULT_FILL_STYLE;
 
   const strokeStyle = props.strokeStyle || DEFAULT_STROKE_STYLE;
@@ -45,14 +53,47 @@ export const GeoJSONLayer = <T extends { [key: string]: any }>(props: GeoJSONLay
 
   const map = useMap();
 
+  const [mapLoaded, setMapLoaded] = useState(false);
+
   const [sourceId, setSourceId] = useState<string | undefined>();
 
   useEffect(() => {
+    if (map.loaded()) {
+      setMapLoaded(true);
+    } else {
+      const onLoad = () => setMapLoaded(true);
+      map.on('load', onLoad); 
+    }
+
+    return () => {
+      setMapLoaded(false);
+    }
+  }, [map]);
+
+  useEffect(() => {
+    if (mapLoaded) {
+      const layerIds = new Set(map.getStyle().layers.map(l => l.id));
+
+      if (layerIds.has(props.id))
+        map.setLayoutProperty(props.id, 'visibility', visible ? 'visible' : 'none');
+    }
+  }, [visible, mapLoaded]);
+
+  useEffect(() => {
+    if (!mapLoaded) return;
+
     const sourceId = `source-${id}`;
 
     map.addSource(sourceId, {
       type: 'geojson',
-      data
+      data,
+      // Note that mapLibre checks by key, and will fail if cluster args 
+      // are undefined. Therefore we need to add on demand.
+      ...(props.cluster && { cluster: true }),
+      ...(props.clusterRadius !== undefined && { clusterRadius: props.clusterRadius }),
+      ...(props.clusterMaxZoom !== undefined && { clusterMaxZoom: props.clusterMaxZoom }),
+      ...(props.clusterMinPoints !== undefined && { clusterMinPoints: props.clusterMinPoints }),
+      ...(props.clusterProperties !== undefined && { clusterProperties: props.clusterProperties }),
     });
 
     map.addLayer({
@@ -93,7 +134,7 @@ export const GeoJSONLayer = <T extends { [key: string]: any }>(props: GeoJSONLay
 
       removeSourceIfExists(map, sourceId);
     }
-  }, []);
+  }, [mapLoaded]);
 
   useEffect(() => {
     if (!sourceId) return;

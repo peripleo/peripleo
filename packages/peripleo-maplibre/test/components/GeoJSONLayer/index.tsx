@@ -14,17 +14,15 @@ const App = () => {
   const [current, setCurrent] = useState();
 
   useEffect(() => {
-    window.setTimeout(() => {
-      Promise.all([
-        fetch('fixtures/austria.geojson').then(res => res.json()),
-        fetch('fixtures/switzerland.geojson').then(res => res.json())
-      ]).then(([austria, switzerland]) => {
-        setAustria(austria);
-        setSwitzerland(switzerland);
+    Promise.all([
+      fetch('fixture_at.geojson').then(res => res.json()),
+      fetch('fixture_ch.geojson').then(res => res.json())
+    ]).then(([austria, switzerland]) => {
+      setAustria(austria);
+      setSwitzerland(switzerland);
 
-        setCurrent(austria);
-      })
-    }, 250);
+      setCurrent(austria);
+    });
   }, []);
 
   const toggle = () => {
