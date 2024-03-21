@@ -1,7 +1,7 @@
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { Feature, FeatureCluster, FeatureCollection } from '@peripleo/peripleo';
 import { AddLayerObject } from 'maplibre-gl';
-import { useMap } from '../../map';
+import { removeLayerIfExists, removeSourceIfExists, useMap } from '../../map';
 import { Tooltip } from '../Tooltip';
 import { 
   DEFAULT_FILL_STYLE, 
@@ -9,25 +9,31 @@ import {
   DEFAULT_STROKE_STYLE 
 } from './defaultStyles';
 
-interface MixedGeoJSONLayerProps <T extends { [key: string]: any }>{
+interface GeoJSONLayerProps <T extends { [key: string]: any }>{
 
-  id: string;
+  cluster?: boolean;
+
+  clusterRadius?: number;
 
   data: FeatureCollection<T> | string;
 
   fillStyle?: Object;
 
-  strokeStyle?: Object;
-
-  pointStyle?: Object;
+  id: string;
 
   interactive?: boolean;
 
+  pointStyle?: Object;
+
   tooltip?(target: Feature<T> | FeatureCluster<T>, event: MouseEvent): ReactNode;
+
+  strokeStyle?: Object;
+
+  visible?: boolean;
 
 }
 
-export const MixedGeoJSONLayer = <T extends { [key: string]: any }>(props: MixedGeoJSONLayerProps<T>) => {
+export const GeoJSONLayer = <T extends { [key: string]: any }>(props: GeoJSONLayerProps<T>) => {
 
   const { id, data } = props;
 
@@ -39,8 +45,12 @@ export const MixedGeoJSONLayer = <T extends { [key: string]: any }>(props: Mixed
 
   const map = useMap();
 
+  const [sourceId, setSourceId] = useState<string | undefined>();
+
   useEffect(() => {
-    map.addSource(`source-${id}`, {
+    const sourceId = `source-${id}`;
+
+    map.addSource(sourceId, {
       type: 'geojson',
       data
     });
@@ -72,16 +82,25 @@ export const MixedGeoJSONLayer = <T extends { [key: string]: any }>(props: Mixed
       }
     } as unknown as AddLayerObject);
 
+    setSourceId(sourceId);
+
     setTimeout(() => map.moveLayer(`layer-${id}-point`), 10);
 
     return () => {
-      map.removeLayer(`layer-${id}-point`);
-      map.removeLayer(`layer-${id}-line`);
-      map.removeLayer(`layer-${id}-fill`);
+      removeLayerIfExists(map, `layer-${id}-point`);
+      removeLayerIfExists(map, `layer-${id}-line`);
+      removeLayerIfExists(map, `layer-${id}-fill`);
 
-      map.removeSource(`source-${id}`);
+      removeSourceIfExists(map, sourceId);
     }
-  }, [data]);
+  }, []);
+
+  useEffect(() => {
+    if (!sourceId) return;
+
+    // @ts-ignore
+    map.getSource(sourceId).setData(data);
+  }, [sourceId, data]);
 
   return props.tooltip ? (
     <Tooltip
