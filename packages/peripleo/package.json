@@ -41,14 +41,14 @@
     }
   },
   "devDependencies": {
-    "@types/chroma-js": "^2.4.3",
-    "@types/react": "^18.2.48",
-    "@types/react-dom": "^18.2.18",
+    "@types/chroma-js": "^2.4.4",
+    "@types/react": "^18.2.67",
+    "@types/react-dom": "^18.2.22",
     "@types/react-resizable": "^3.0.7",
     "@vitejs/plugin-react": "^4.2.1",
-    "vite": "^5.0.12",
-    "vite-plugin-dts": "^3.7.2",
-    "vite-tsconfig-paths": "^4.3.1"
+    "vite": "^5.2.2",
+    "vite-plugin-dts": "^3.7.3",
+    "vite-tsconfig-paths": "^4.3.2"
   },
   "peerDependencies": {
     "react": "^18.2.0",
@@ -61,7 +61,7 @@
     "@turf/bbox": "^6.5.0",
     "chroma-js": "^2.4.2",
     "maplibre-gl": "^3.6.2",
-    "nanoid": "^5.0.4",
+    "nanoid": "^5.0.6",
     "react-draggable": "^4.4.6",
     "react-resizable": "^3.0.5"
   }
