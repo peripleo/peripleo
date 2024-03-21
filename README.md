@@ -1,3 +1,3 @@
-# Peripleo
+# Peripleo.JS
 
-React components and utilities for map-based search interfaces.
+An opinionated React library for building map interfaces. Work in progress.
