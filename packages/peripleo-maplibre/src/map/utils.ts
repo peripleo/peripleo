@@ -6,20 +6,17 @@ export const isFeatureInCluster = (
   featureId: number, 
   cluster: MapGeoJSONFeature, 
   source: GeoJSONSource
-): Promise<boolean> => new Promise(resolve => {
+): Promise<boolean> => {
   if (cluster.properties.cluster && source) {
-    source.getClusterLeaves(Number(cluster.id), Infinity, 0, (error, features) => {
-      if (error) {
-        console.error(error);
-        resolve(false);
-      } else {
-        resolve(Boolean(features.find(f => f.id === featureId)));
-      }
-    });
+    return source.getClusterLeaves(Number(cluster.id), Infinity, 0)
+      .then(features => {
+        return Boolean(features.find(f => f.id === featureId))
+      })
+      .catch(() => false);
   } else {
-    resolve(false);
+    return Promise.resolve(false);
   }
-});
+}
 
 /** 
  * From a list of clusters, this function finds the cluster
@@ -45,25 +42,19 @@ export const findClusterForFeature = (
 export const listFeaturesInCluster = (
   map: Map,
   cluster: MapGeoJSONFeature
-): Promise<Feature[]> => new Promise((resolve, reject) => {
+): Promise<Feature[]> => {
   const { source, properties } = cluster;
 
   const clusterSource = map.getSource(source) as GeoJSONSource;
-  clusterSource.getClusterLeaves(properties.cluster_id, Infinity, 0, (error, results) => {
-    if (error) {
-      reject(error);
-    } else {
-      const clusteredFeatures = results.map(r => ({ 
-        id: r.id,
-        type: r.type, 
-        properties: r.properties, 
-        geometry: r.geometry 
-      }) as Feature);
 
-      resolve(clusteredFeatures);
-    }
-  });
-});
+  return clusterSource.getClusterLeaves(properties.cluster_id, Infinity, 0)
+    .then(features => features.map(f => ({ 
+      id: f.id,
+      type: f.type, 
+      properties: f.properties, 
+      geometry: f.geometry 
+    }) as Feature));
+}
 
 /**
  * Helper: finds the source for a given feature ID.
