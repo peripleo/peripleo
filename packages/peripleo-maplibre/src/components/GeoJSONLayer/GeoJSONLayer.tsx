@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { Feature, FeatureCluster, FeatureCollection } from '@peripleo/peripleo';
-import { AddLayerObject, SourceSpecification } from 'maplibre-gl';
-import { removeLayerIfExists, removeSourceIfExists, useMap } from '../../map';
+import { AddLayerObject } from 'maplibre-gl';
+import { removeLayerIfExists, removeSourceIfExists, useLoadedMap } from '../../map';
 import { Tooltip } from '../Tooltip';
 import { 
   DEFAULT_FILL_STYLE, 
@@ -51,36 +51,21 @@ export const GeoJSONLayer = <T extends { [key: string]: any }>(props: GeoJSONLay
 
   const pointStyle = props.pointStyle || DEFAULT_POINT_STYLE;
 
-  const map = useMap();
-
-  const [mapLoaded, setMapLoaded] = useState(false);
+  const map = useLoadedMap();
 
   const [sourceId, setSourceId] = useState<string | undefined>();
 
   useEffect(() => {
-    if (map.loaded()) {
-      setMapLoaded(true);
-    } else {
-      const onLoad = () => setMapLoaded(true);
-      map.on('load', onLoad); 
-    }
-
-    return () => {
-      setMapLoaded(false);
-    }
-  }, [map]);
-
-  useEffect(() => {
-    if (mapLoaded) {
+    if (map) {
       const layerIds = new Set(map.getStyle().layers.map(l => l.id));
 
       if (layerIds.has(props.id))
         map.setLayoutProperty(props.id, 'visibility', visible ? 'visible' : 'none');
     }
-  }, [visible, mapLoaded]);
+  }, [visible, map]);
 
   useEffect(() => {
-    if (!mapLoaded) return;
+    if (!map) return;
 
     const sourceId = `source-${id}`;
 
@@ -134,7 +119,7 @@ export const GeoJSONLayer = <T extends { [key: string]: any }>(props: GeoJSONLay
 
       removeSourceIfExists(map, sourceId);
     }
-  }, [mapLoaded]);
+  }, [map]);
 
   useEffect(() => {
     if (!sourceId) return;

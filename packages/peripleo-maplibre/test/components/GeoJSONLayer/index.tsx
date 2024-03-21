@@ -38,8 +38,7 @@ const App = () => {
         className="toggle"
         onClick={toggle}>TOGGLE</button>
 
-      <Map 
-        className="flex-grow"
+      <Map
         style="https://api.maptiler.com/maps/voyager/style.json?key=RFavxpVJ82EHyrN2kxsF">
 
         {current && (
