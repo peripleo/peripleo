@@ -15,6 +15,9 @@ export default defineConfig(() => ({
       entryRoot: './src'
     })
   ],
+  server: {
+    open: '/test/index.html'
+  },
   build: {
     sourcemap: true,
     lib: {

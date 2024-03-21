@@ -1,8 +1,13 @@
 import { ReactNode, useEffect } from 'react';
-import { useMap } from '../../map';
 import { Feature, FeatureCluster, FeatureCollection } from '@peripleo/peripleo';
 import { AddLayerObject } from 'maplibre-gl';
+import { useMap } from '../../map';
 import { Tooltip } from '../Tooltip';
+import { 
+  DEFAULT_FILL_STYLE, 
+  DEFAULT_POINT_STYLE, 
+  DEFAULT_STROKE_STYLE 
+} from './defaultStyles';
 
 interface MixedGeoJSONLayerProps <T extends { [key: string]: any }>{
 
@@ -10,11 +15,11 @@ interface MixedGeoJSONLayerProps <T extends { [key: string]: any }>{
 
   data: FeatureCollection<T> | string;
 
-  fillStyle: Object;
+  fillStyle?: Object;
 
-  strokeStyle: Object;
+  strokeStyle?: Object;
 
-  pointStyle: Object;
+  pointStyle?: Object;
 
   interactive?: boolean;
 
@@ -26,6 +31,12 @@ export const MixedGeoJSONLayer = <T extends { [key: string]: any }>(props: Mixed
 
   const { id, data } = props;
 
+  const fillStyle = props.fillStyle || DEFAULT_FILL_STYLE;
+
+  const strokeStyle = props.strokeStyle || DEFAULT_STROKE_STYLE;
+
+  const pointStyle = props.pointStyle || DEFAULT_POINT_STYLE;
+
   const map = useMap();
 
   useEffect(() => {
@@ -36,7 +47,7 @@ export const MixedGeoJSONLayer = <T extends { [key: string]: any }>(props: Mixed
 
     map.addLayer({
       id: `layer-${id}-fill`,
-      ...props.fillStyle,
+      ...fillStyle,
       source: `source-${id}`,
       filter: ['!=', '$type', 'Point'],
       metadata: {
@@ -46,14 +57,14 @@ export const MixedGeoJSONLayer = <T extends { [key: string]: any }>(props: Mixed
 
     map.addLayer({
       id: `layer-${id}-line`,
-      ...props.strokeStyle,
+      ...strokeStyle,
       source: `source-${id}`,
       filter: ['!=', '$type', 'Point'],
     } as unknown as AddLayerObject);
 
     map.addLayer({
       id: `layer-${id}-point`,
-      ...props.pointStyle,
+      ...pointStyle,
       filter: ['==', '$type', 'Point'],
       source: `source-${id}`,
       metadata: {
