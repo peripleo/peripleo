@@ -59,6 +59,10 @@ export const Map = (props: MapProps) => {
     setMapHover(evt.target, feature);
   }
 
+  // If the mouse leaves the map, reset external change tracker
+  const onMouseOut = () =>
+    isExternalChange.current = true;
+
   const onClick = (evt: MapMouseEvent) => {
     const feature = getFeature(evt, true);
     isExternalChange.current = false;
@@ -145,6 +149,7 @@ export const Map = (props: MapProps) => {
 
     map.on('click', onClick);
     map.on('mousemove', onMouseMove);
+    map.on('mouseout', onMouseOut);
 
     if (props.disableScrollZoom)
       map.scrollZoom.disable();
@@ -156,6 +161,7 @@ export const Map = (props: MapProps) => {
 
       map.off('click', onClick);
       map.off('mousemove', onMouseMove);
+      map.off('mouseout', onMouseOut);
       
       map.remove();
     }
