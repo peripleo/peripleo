@@ -1,5 +1,5 @@
 import { FeatureCollection } from '../../../../peripleo/src/model';
-import { useMap } from '../../map';
+import { useLoadedMap } from '../../map';
 import { useEffect } from 'react';
 import { usePulsingMarker } from './usePulsingMarker';
 
@@ -17,13 +17,16 @@ export const PulsingMarkerLayer = (props: PulsingMarkerLayerProps) => {
 
   const { id, data } = props;
 
-  const map = useMap();
+  const map = useLoadedMap();
 
   const marker = usePulsingMarker(props.size || 100);
 
   useEffect(() => {
+    if (!map) return;
+    
     map.addSource(`source-${id}-pulse`, {
       type: 'geojson',
+      // @ts-ignore
       data
     });
 
@@ -39,7 +42,7 @@ export const PulsingMarkerLayer = (props: PulsingMarkerLayerProps) => {
       map.removeLayer(`layer-${id}-pulse`);
       map.removeSource(`source-${id}-pulse`);
     }
-  }, [data]);
+  }, [map, data]);
 
   return null;
 

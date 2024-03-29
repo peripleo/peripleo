@@ -138,35 +138,44 @@ export const Map = (props: MapProps) => {
   }
 
   useEffect(() => {
-    const map = new MapLibre({
+    const next = new MapLibre({
       container: ref.current,
       style: props.style,
       bounds: props.defaultBounds,
       hash: 'map'
     });
 
-    map.once('styledata', () => {
-      setLoaded(true);
-      trackBaselayers(map);
-    });
+    setMap(next);
 
-    map.on('click', onClick);
-    map.on('mousemove', onMouseMove);
-    map.on('mouseout', onMouseOut);
+    // Allow empty map
+    if (!props.style) setLoaded(true);
 
-    setMap(map);
+    next.once('load', () => setLoaded(true));
+    next.once('styledata', () => trackBaselayers(next));
+
+    next.on('click', onClick);
+    next.on('mousemove', onMouseMove);
+    next.on('mouseout', onMouseOut);
 
     if (props.disableScrollZoom)
-      map.scrollZoom.disable();
+      next.scrollZoom.disable();
 
     return () => {
       setMap(undefined);
 
-      map.off('click', onClick);
-      map.off('mousemove', onMouseMove);
-      map.off('mouseout', onMouseOut);
-      
-      map.remove();
+      next.off('click', onClick);
+      next.off('mousemove', onMouseMove);
+      next.off('mouseout', onMouseOut);
+
+      // This is mostly for React strict mode, during dev. If the 
+      // map unmounts instantly again, before it is even loaded,
+      // mapLibre will raise an exception because of a broken
+      // HTTP request (for the style). This logic defers removal
+      // until after the request completes, if necessary.
+      if (next.loaded() || !next.style)
+        next.remove();
+      else
+        next.on('load', () => next.remove())
     }
   }, []);
 

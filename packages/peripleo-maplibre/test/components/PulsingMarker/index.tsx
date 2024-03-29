@@ -9,7 +9,7 @@ const App = () => {
 
   return (
     <Map
-    style="https://api.maptiler.com/maps/voyager/style.json?key=RFavxpVJ82EHyrN2kxsF">
+      style="https://api.maptiler.com/maps/voyager/style.json?key=RFavxpVJ82EHyrN2kxsF">
 
     </Map>
   )
