@@ -18,7 +18,7 @@ export const Map = (props: MapProps) => {
 
   const map = context.map as MapLibre;
 
-  const { setMap } = context;
+  const { setMap, setLoaded } = context;
 
   const baselayers = useRef<Set<string>>(new Set());
 
@@ -145,16 +145,19 @@ export const Map = (props: MapProps) => {
       hash: 'map'
     });
 
-    map.once('styledata', () => trackBaselayers(map));
+    map.once('styledata', () => {
+      setLoaded(true);
+      trackBaselayers(map);
+    });
 
     map.on('click', onClick);
     map.on('mousemove', onMouseMove);
     map.on('mouseout', onMouseOut);
 
+    setMap(map);
+
     if (props.disableScrollZoom)
       map.scrollZoom.disable();
-
-    setMap(map);
 
     return () => {
       setMap(undefined);

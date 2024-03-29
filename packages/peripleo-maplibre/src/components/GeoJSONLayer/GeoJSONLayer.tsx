@@ -71,6 +71,7 @@ export const GeoJSONLayer = <T extends { [key: string]: any }>(props: GeoJSONLay
 
     map.addSource(sourceId, {
       type: 'geojson',
+      // @ts-ignore
       data,
       // Note that mapLibre checks by key, and will fail if cluster args 
       // are undefined. Therefore we need to add on demand.
