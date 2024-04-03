@@ -12,7 +12,7 @@ interface SymbolLayerProps <T extends { [key: string]: any }>{
 
   interactive?: boolean;
 
-  size: number;
+  size?: number;
 
   symbol?: string;
 
@@ -64,13 +64,15 @@ export const SymbolLayer = <T extends { [key: string]: any }>(props: SymbolLayer
       layout: {
         // @ts-ignore
         'icon-image': iconImage,
-        'icon-size': props.size,
+        'icon-size': props.size || 0.25,
         'icon-allow-overlap': true
       },
       metadata: {
         interactive: props.interactive
       }
     });
+
+    setSourceId(sourceId);
 
     return () => {
       removeLayerIfExists(map, `layer-${id}`);
