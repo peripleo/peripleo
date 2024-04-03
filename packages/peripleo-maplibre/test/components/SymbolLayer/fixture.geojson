@@ -1,0 +1,101 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Sparta",
+        "description": "Sparta was a prominent city-state (polis) of ancient Greece.",
+        "quote": "Sparta"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          22.4272985,
+          37.077905
+        ]
+      },
+      "id": 1
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Pylos",
+        "description": "An archaic through Roman settlement located at the Armatova hill, west of Agrapidochori in Ileia in the Peloponnese.",
+        "quote": "Pylos"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.518025,
+          37.899734
+        ]
+      },
+      "id": 2
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Taphos (island)",
+        "description": "An ancient place, cited: BAtlas 54 C4 Taphos Ins.",
+        "quote": "Taphians"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.77,
+          38.652
+        ]
+      },
+      "id": 3
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Ithaca (island)",
+        "description": "An ancient place, cited: BAtlas 54 C5 Ithaca Ins.",
+        "quote": "Ithaca"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.71,
+          38.34
+        ]
+      },
+      "id": 4
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Ithaca",
+        "description": "An ancient place, cited: BAtlas 54 C5 Ithaca",
+        "quote": "Ithaca"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.638399,
+          38.44193
+        ]
+      },
+      "id": 5
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Ilium/Troia",
+        "description": "An ancient city of northwest Anatolia with occupation ranging from the Bronze Age to the Roman period. Troy features as the central setting of Homer's Iliad.",
+        "quote": "Troy"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          26.23845862267349,
+          39.95743278441429
+        ]
+      },
+      "id": 6
+    }
+  ]
+}
