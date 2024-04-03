@@ -6,7 +6,8 @@
       "properties": {
         "title": "Sparta",
         "description": "Sparta was a prominent city-state (polis) of ancient Greece.",
-        "quote": "Sparta"
+        "quote": "Sparta",
+        "animal": "cat"
       },
       "geometry": {
         "type": "Point",
@@ -22,7 +23,8 @@
       "properties": {
         "title": "Pylos",
         "description": "An archaic through Roman settlement located at the Armatova hill, west of Agrapidochori in Ileia in the Peloponnese.",
-        "quote": "Pylos"
+        "quote": "Pylos",
+        "animal": "cat"
       },
       "geometry": {
         "type": "Point",
@@ -38,7 +40,8 @@
       "properties": {
         "title": "Taphos (island)",
         "description": "An ancient place, cited: BAtlas 54 C4 Taphos Ins.",
-        "quote": "Taphians"
+        "quote": "Taphians",
+        "animal": "cat"
       },
       "geometry": {
         "type": "Point",
@@ -54,7 +57,8 @@
       "properties": {
         "title": "Ithaca (island)",
         "description": "An ancient place, cited: BAtlas 54 C5 Ithaca Ins.",
-        "quote": "Ithaca"
+        "quote": "Ithaca",
+        "animal": "dog"
       },
       "geometry": {
         "type": "Point",
@@ -70,7 +74,8 @@
       "properties": {
         "title": "Ithaca",
         "description": "An ancient place, cited: BAtlas 54 C5 Ithaca",
-        "quote": "Ithaca"
+        "quote": "Ithaca",
+        "animal": "dog"
       },
       "geometry": {
         "type": "Point",
@@ -86,7 +91,8 @@
       "properties": {
         "title": "Ilium/Troia",
         "description": "An ancient city of northwest Anatolia with occupation ranging from the Bronze Age to the Roman period. Troy features as the central setting of Homer's Iliad.",
-        "quote": "Troy"
+        "quote": "Troy",
+        "animal": "dog"
       },
       "geometry": {
         "type": "Point",

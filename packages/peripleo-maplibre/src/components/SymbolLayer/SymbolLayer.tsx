@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import { Feature, FeatureCluster, FeatureCollection } from '@peripleo/peripleo';
 import { removeLayerIfExists, removeSourceIfExists, useLoadedMap } from '../../map';
 import { Tooltip } from '../Tooltip';
+import { useSymbols } from './useSymbols';
 
 interface SymbolLayerProps <T extends { [key: string]: any }>{
 
@@ -13,7 +14,15 @@ interface SymbolLayerProps <T extends { [key: string]: any }>{
 
   size: number;
 
-  symbol: string;
+  symbol?: string;
+
+  symbolsMap?: {
+
+    [id: string]: string;
+  
+  } 
+  
+  symbolsProperty?: string;
 
   tooltip?(target: Feature<T> | FeatureCluster<T>, event: MouseEvent): ReactNode;
 
@@ -25,49 +34,49 @@ interface SymbolLayerProps <T extends { [key: string]: any }>{
  */
 export const SymbolLayer = <T extends { [key: string]: any }>(props: SymbolLayerProps<T>) => {
 
-  const { data, id, symbol } = props;
+  const { data, id, symbolsProperty } = props;
 
   const [sourceId, setSourceId] = useState<string | undefined>();
 
   const map = useLoadedMap();
 
+  const symbols = useSymbols(map, props.symbol || props.symbolsMap);
+
   useEffect(() => {
-    if (!map) return;
+    if (!map || !symbols) return;
 
     const sourceId = `source-${id}`;
 
-    map.loadImage(symbol).then(image => {
-      map.addImage(`image-${id}`, image.data);
+    map.addSource(sourceId, {
+      type: 'geojson',
+      // @ts-ignore
+      data
+    });
 
-      map.addSource(sourceId, {
-        type: 'geojson',
+    const iconImage = Array.isArray(symbols)
+      ? ['get', symbolsProperty || 'symbol']
+      : symbols;
+
+    map.addLayer({
+      id: `layer-${id}`,
+      type: 'symbol',
+      source: sourceId,
+      layout: {
         // @ts-ignore
-        data
-      });
-
-      map.addLayer({
-        id: `layer-${id}`,
-        type: 'symbol',
-        source: sourceId,
-        layout: {
-          'icon-image': `image-${id}`,
-          'icon-size': props.size,
-          'icon-allow-overlap': true
-        },
-        metadata: {
-          interactive: props.interactive
-        }
-      });
+        'icon-image': iconImage,
+        'icon-size': props.size,
+        'icon-allow-overlap': true
+      },
+      metadata: {
+        interactive: props.interactive
+      }
     });
 
     return () => {
-      if (map.getImage(`image-${id}`))
-        map.removeImage(`image-${id}`);
-
       removeLayerIfExists(map, `layer-${id}`);
       removeSourceIfExists(map, `source-${id}`);
     }
-  }, [map, symbol]);
+  }, [map, symbols, symbolsProperty]);
 
   useEffect(() => {
     if (!sourceId) return;

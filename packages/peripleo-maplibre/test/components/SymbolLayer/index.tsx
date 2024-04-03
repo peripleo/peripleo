@@ -29,7 +29,11 @@ const App = () => {
           id="pleiades-places" 
           interactive={true}
           size={0.25}
-          symbol="https://upload.wikimedia.org/wikipedia/commons/7/7c/201408_cat.png"
+          symbolsMap={{
+            cat: "https://upload.wikimedia.org/wikipedia/commons/7/7c/201408_cat.png",
+            dog: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Saint_Bernard_%28PSF%29.png/256px-Saint_Bernard_%28PSF%29.png"
+          }}
+          symbolsProperty="animal"
           data={data} />
       )}
     </Map>
