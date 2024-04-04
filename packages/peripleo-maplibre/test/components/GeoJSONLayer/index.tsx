@@ -1,6 +1,7 @@
 import React, { useEffect, useState }from 'react';
 import ReactDOM from 'react-dom/client';
-import { Peripleo, Map, GeoJSONLayer } from '../../../src';
+import { Peripleo } from '@peripleo/peripleo';
+import { Map, GeoJSONLayer } from '../../../src';
 
 import '@peripleo/maplibre/peripleo-maplibre.css';
 import '@peripleo/peripleo/default-theme';
@@ -42,7 +43,9 @@ const App = () => {
         style="https://api.maptiler.com/maps/voyager/style.json?key=RFavxpVJ82EHyrN2kxsF">
 
         {current && (
-          <GeoJSONLayer id="borders" data={current} />
+          <GeoJSONLayer 
+            id="borders" 
+            data={current} />
         )}
       </Map>
     </>
