@@ -45,15 +45,21 @@ export const listFeaturesInCluster = (
 ): Promise<Feature[]> => {
   const { source, properties } = cluster;
 
+  // Under some weird timing conditions (right during load), mapLibre 
+  // sometimes returns undefined here!
   const clusterSource = map.getSource(source) as GeoJSONSource;
-
-  return clusterSource.getClusterLeaves(properties.cluster_id, Infinity, 0)
-    .then(features => features.map(f => ({ 
-      id: f.id,
-      type: f.type, 
-      properties: f.properties, 
-      geometry: f.geometry 
-    }) as Feature));
+  
+  if (clusterSource) {
+    return clusterSource.getClusterLeaves(properties.cluster_id, Infinity, 0)
+      .then(features => features.map(f => ({ 
+        id: f.id,
+        type: f.type, 
+        properties: f.properties, 
+        geometry: f.geometry 
+      }) as Feature));
+  } else {
+    return Promise.resolve([]);
+  }
 }
 
 /**
