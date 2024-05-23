@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import type { LngLatBounds } from 'maplibre-gl';
 import { useLoadedMap } from './useMap';
 
-export const useMapViewport = () => {
+export const useMapViewport = (current?: boolean) => {
 
   const map = useLoadedMap();
 
@@ -19,14 +19,24 @@ export const useMapViewport = () => {
       setBounds(bounds);
     }
 
-    map.on('dragend', onChangeViewport);
-    map.on('zoomend', onChangeViewport);
+    if (current) {
+      map.on('move', onChangeViewport);
+      map.on('zoom', onChangeViewport);
+    } else {
+      map.on('dragend', onChangeViewport);
+      map.on('zoomend', onChangeViewport);
+    }
   
     return () => {
-      map.off('dragend', onChangeViewport);
-      map.off('zoomend', onChangeViewport);
+      if (current) {
+        map.off('move', onChangeViewport);
+        map.off('zoom', onChangeViewport);
+      } else {
+        map.off('dragend', onChangeViewport);
+        map.off('zoomend', onChangeViewport);
+      }
     }
-  }, [map]);
+  }, [map, current]);
 
   return bounds;
 
