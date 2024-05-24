@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { Feature, FeatureCluster, FeatureCollection } from '@peripleo/peripleo';
-import { AddLayerObject } from 'maplibre-gl';
+import { AddLayerObject, Map } from 'maplibre-gl';
 import { removeLayerIfExists, removeSourceIfExists, useLoadedMap } from '../../map';
 import { Tooltip } from '../Tooltip';
 import { 
@@ -37,6 +37,15 @@ interface GeoJSONLayerProps <T extends { [key: string]: any }>{
 
   visible?: boolean;
 
+}
+
+const setStyle = (map: Map | undefined, layerId: string, style: any) => {
+  if (!map) return;
+    
+  Object
+    .entries(style.paint)
+    .forEach(([key, value]) => 
+      map.setPaintProperty(layerId, key, value));
 }
 
 export const GeoJSONLayer = <T extends { [key: string]: any }>(props: GeoJSONLayerProps<T>) => {
@@ -128,6 +137,18 @@ export const GeoJSONLayer = <T extends { [key: string]: any }>(props: GeoJSONLay
     // @ts-ignore
     map.getSource(sourceId).setData(data);
   }, [sourceId, data]);
+
+  useEffect(() => {
+    setStyle(map, `layer-${id}-fill`, props.fillStyle|| DEFAULT_FILL_STYLE)
+  }, [props.fillStyle]);
+
+  useEffect(() => {
+    setStyle(map, `layer-${id}-point`, props.pointStyle|| DEFAULT_POINT_STYLE)
+  }, [props.pointStyle]);
+
+  useEffect(() => {
+    setStyle(map, `layer-${id}-line`, props.strokeStyle|| DEFAULT_STROKE_STYLE)
+  }, [props.strokeStyle]);
 
   return props.tooltip ? (
     <Tooltip
