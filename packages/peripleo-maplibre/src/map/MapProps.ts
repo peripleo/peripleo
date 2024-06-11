@@ -1,7 +1,10 @@
 import { ReactNode } from 'react';
+import { AttributionControlOptions } from 'maplibre-gl';
 import { PopupProps } from '../components';
 
 export interface MapProps {
+
+  attributionControl?: false | AttributionControlOptions;
 
   className?: string;
 

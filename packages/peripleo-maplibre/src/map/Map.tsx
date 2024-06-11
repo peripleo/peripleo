@@ -139,6 +139,7 @@ export const Map = (props: MapProps) => {
 
   useEffect(() => {
     const next = new MapLibre({
+      attributionControl: props.attributionControl,
       container: ref.current,
       style: props.style,
       bounds: props.defaultBounds,
