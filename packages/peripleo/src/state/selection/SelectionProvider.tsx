@@ -25,10 +25,10 @@ export const SelectionProvider = (props: { children: ReactNode }) => {
 
 export const useSelectionState = <T extends { id: string } = { id: string }>() => {
   const { selected, setSelected } = useContext(SelectionContext);
-  return { selected: selected as Feature<T>, setSelected };
+  return { selected: selected as Feature<T> | Feature<T>[] | undefined, setSelected };
 }
 
 export const useSelectionValue = <T extends { id: string } = { id: string }>() => {
   const { selected } = useContext(SelectionContext);
-  return selected as Feature<T>;
+  return selected as Feature<T> | Feature<T>[] | undefined;
 }
