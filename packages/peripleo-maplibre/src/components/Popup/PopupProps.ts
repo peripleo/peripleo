@@ -1,11 +1,10 @@
-import { Map } from 'maplibre-gl';
-import { Feature } from '../../../../peripleo/src/model';
+import { Map, MapGeoJSONFeature } from 'maplibre-gl';
 
 export interface PopupProps {
 
   map: Map,
 
-  selected: Feature,
+  selected: MapGeoJSONFeature,
 
   onClose: () => void
 

@@ -120,10 +120,13 @@ export const Map = (props: MapProps) => {
       return; 
 
     if (isExternalChange.current) { // sync external update downwards
-      if (selected)
-        findMapFeature(map, selected.id).then(f => setMapSelection(map, f));
-      else
+      if (selected) {
+        // We don't support multi-selection downwards!
+        const first = Array.isArray(selected) ? selected[0] : selected;
+        findMapFeature(map, first.id).then(f => setMapSelection(map, f));
+      } else {
         setMapSelection(map, undefined);
+      }
     }
 
     isExternalChange.current = true;
@@ -247,7 +250,7 @@ export const Map = (props: MapProps) => {
           {props.popup && (
             <PopupContainer 
               map={map}
-              selected={selected}
+              selected={mapSelection?.feature}
               popup={props.popup} 
               onClose={() => setSelected(undefined)} />
           )}
