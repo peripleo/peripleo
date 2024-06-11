@@ -1,5 +1,5 @@
 import React, { useEffect, useState }from 'react';
-import { Peripleo, FeatureCollection, useHoverValue } from '@peripleo/peripleo';
+import { Peripleo, FeatureCollection } from '@peripleo/peripleo';
 import ReactDOM from 'react-dom/client';
 import { Map, SymbolLayer } from '../../../src';
 
@@ -10,15 +10,11 @@ const App = () => {
 
   const [data, setData] = useState<FeatureCollection | undefined>();
 
-  const hover = useHoverValue();
-
   useEffect(() => {
     fetch('fixture.geojson')
       .then(res => res.json())
       .then(data => setData(data));
   }, []);
-
-  useEffect(() => console.log('hover:', hover), [hover]);
 
   return (
     <Map
