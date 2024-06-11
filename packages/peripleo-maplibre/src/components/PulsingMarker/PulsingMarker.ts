@@ -11,6 +11,8 @@ export const PulsingMarker = (size: number, rgb: [number, number, number], durat
   height: size,
 
   data: new Uint8Array(size * size * 4),
+
+  startTime: performance.now(),
  
   // When the layer is added to the map,
   // get the rendering context for the map canvas.
@@ -22,7 +24,9 @@ export const PulsingMarker = (size: number, rgb: [number, number, number], durat
   },
   
   render: function () {
-    const t = (performance.now() % duration) / duration;
+    const currentTime = performance.now();
+    const elapsed = currentTime - this.startTime;
+    const t = (elapsed % duration) / duration;
     
     const radius = (size / 2) * 0.2;
     const outerRadius = (size / 2) * 0.7 * t + radius;
@@ -56,4 +60,5 @@ export const PulsingMarker = (size: number, rgb: [number, number, number], durat
     // Return `true` to let the map know that the image was updated.
     return true;
   }
+
 });
