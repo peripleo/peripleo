@@ -3,9 +3,9 @@ import { Feature } from '../../model';
 
 export type SelectionContextValue = {
 
-  selected: Feature | undefined,
+  selected: Feature | Feature[] | undefined,
 
-  setSelected: React.Dispatch<React.SetStateAction<Feature>>
+  setSelected: React.Dispatch<React.SetStateAction<Feature | Feature[]>>
 
 }
 
@@ -13,7 +13,7 @@ export const SelectionContext = createContext<SelectionContextValue>(undefined);
 
 export const SelectionProvider = (props: { children: ReactNode }) => {
 
-  const [selected, setSelected] = useState<Feature | undefined>(undefined);
+  const [selected, setSelected] = useState<Feature | Feature[] | undefined>(undefined);
 
   return (
     <SelectionContext.Provider value={{ selected, setSelected }}>

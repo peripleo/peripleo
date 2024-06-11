@@ -3,9 +3,9 @@ import { Feature } from '../../model';
 
 export type HoverContextValue = {
 
-  hover: Feature | undefined,
+  hover: Feature | Feature[] | undefined,
 
-  setHover: React.Dispatch<React.SetStateAction<Feature>>
+  setHover: React.Dispatch<React.SetStateAction<Feature | Feature[]>>
 
 }
 
@@ -13,7 +13,7 @@ export const HoverContext = createContext<HoverContextValue>(undefined);
 
 export const HoverProvider = (props: { children: ReactNode }) => {
 
-  const [hover, setHover] = useState<Feature | undefined>(undefined);
+  const [hover, setHover] = useState<Feature | Feature[] | undefined>(undefined);
 
   return (
     <HoverContext.Provider value={{ hover, setHover }}>

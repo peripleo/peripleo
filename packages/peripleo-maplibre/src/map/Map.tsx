@@ -73,12 +73,14 @@ export const Map = (props: MapProps) => {
   const resolveModelFeature = (
     map: MapLibre, 
     feature: MapGeoJSONFeature
-  ): Promise<Feature> => new Promise(resolve => {
+  ): Promise<Feature | Feature[] | undefined> => new Promise(resolve => {
     if (!feature) {
       resolve(undefined);
     } else if (feature.properties.cluster) {
       listFeaturesInCluster(map, feature)
-        .then(resolvedFeatures => resolve(resolvedFeatures.length > 0 ? resolvedFeatures[0] : undefined))
+        .then(resolvedFeatures => resolve(
+          resolvedFeatures.length === 1 ? resolvedFeatures[0] : 
+          resolvedFeatures.length > 1 ? resolvedFeatures : undefined))
         .catch(() => {
           // Can happens if the cluster no longer exists at the time this method gets called.
           // Frequently the case during zooming.
