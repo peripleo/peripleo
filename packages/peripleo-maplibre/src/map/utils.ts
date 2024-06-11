@@ -67,7 +67,7 @@ export const listFeaturesInCluster = (
  */
 export const findSourceForFeature = (map: Map, featureId: number) => {
   const interactiveLayers = (map.getStyle()?.layers || [])
-    .filter(l => 'interactive' in (l.metadata as object || {}));
+    .filter(l => (l.metadata as any || {}).interactive);
 
   const sourceId: string | undefined = interactiveLayers.reduce((sourceId, layer) => {
     if (sourceId) 
@@ -99,7 +99,7 @@ export const findMapFeature = (
   const layers = source
     ? map.getStyle().layers.filter(l => 'source' in l && l.source === source)
     // All interactive layers
-    : map.getStyle().layers.filter(l => 'interactive' in (l.metadata as object || {}));
+    : map.getStyle().layers.filter(l => (l.metadata as any || {}).interactive);
 
   return layers.reduce((promise, layer) => promise.then(result => {
     if (result)

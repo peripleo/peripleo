@@ -47,7 +47,7 @@ export const Map = (props: MapProps) => {
     ] as [PointLike, PointLike]: evt.point;
 
     const features = map.queryRenderedFeatures(query)
-      .filter(feature => 'interactive' in (feature.layer.metadata as object || {}));
+      .filter(feature => (feature.layer.metadata as any || {}).interactive);
 
     if (features.length > 0)
       return features[0];
