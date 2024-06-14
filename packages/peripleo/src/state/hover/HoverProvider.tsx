@@ -1,19 +1,20 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
 import { HoverState } from './HoverState';
+import { Feature } from 'src/model';
 
-export interface HoverContextValue<P, F, E> {
+export interface HoverContextValue<F extends Feature, M, E> {
 
-  hover?: HoverState<P, F, E>;
+  hover?: HoverState<F, M, E>;
 
-  setHover: React.Dispatch<React.SetStateAction<HoverState<P, F, E>>>;
+  setHover: React.Dispatch<React.SetStateAction<HoverState<F, M, E>>>;
 
 }
 
 export const HoverContext = createContext<HoverContextValue<any, any, any>>(undefined);
 
-export const HoverProvider = <P, F, E>(props: { children: ReactNode }) => {
+export const HoverProvider = <F extends Feature, M, E>(props: { children: ReactNode }) => {
 
-  const [hover, setHover] = useState<HoverState<P, F, E> | undefined>(undefined);
+  const [hover, setHover] = useState<HoverState<F, M, E> | undefined>(undefined);
 
   return (
     <HoverContext.Provider value={{ hover, setHover }}>
@@ -23,12 +24,12 @@ export const HoverProvider = <P, F, E>(props: { children: ReactNode }) => {
 
 }
 
-export const useHoverState = <P, F, E>() => {
+export const useHoverState = <F extends Feature, M, E>() => {
   const { hover, setHover } = useContext(HoverContext);
-  return { hover: hover as HoverState<P, F, E> | undefined, setHover: setHover as React.Dispatch<React.SetStateAction<HoverState<P, F, E> | undefined>> };
+  return { hover: hover as HoverState<F, M, E> | undefined, setHover: setHover as React.Dispatch<React.SetStateAction<HoverState<F, M, E> | undefined>> };
 }
 
-export const useHoverValue = <P, F, E>() => {
+export const useHoverValue = <F extends Feature, M, E>() => {
   const { hover } = useContext(HoverContext);
-  return hover as HoverState<P, F, E> | undefined;
+  return hover as HoverState<F, M, E> | undefined;
 }

@@ -1,10 +1,10 @@
 import { Feature } from '../../model';
 
-export interface SelectionState<P, F, E> {
+export interface SelectionState<F extends Feature, M, E> {
 
-  selected: Feature<P> | Feature<P>[];
+  selected: F | F[];
 
-  mapFeature?: F;
+  mapFeature?: M;
 
   mapEvent?: E;
 

@@ -1,10 +1,10 @@
 import { Feature } from '../../model';
 
-export interface HoverState<P, F, E> {
+export interface HoverState<F extends Feature, M, E> {
 
-  hovered: Feature<P> | Feature<P>[];
+  hovered: F | F[];
 
-  mapFeature?: F;
+  mapFeature?: M;
 
   mapEvent?: E;
 
