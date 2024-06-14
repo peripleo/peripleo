@@ -101,7 +101,11 @@ export const Map = (props: MapProps) => {
   useLayoutEffect(() => {
     if (!isExternalChange.current) // sync hover state upwards
       resolveModelFeature(map, mapHover?.feature)
-        .then(r => r ? setHover({ mapFeature: r.mapFeature, hovered: r.resolved }) : setHover(undefined)); 
+        .then(r => r ? setHover({ 
+          mapFeature: r.mapFeature, 
+          hovered: r.resolved, 
+          mapEvent: mapHover.event 
+        }) : setHover(undefined)); 
   }, [map, mapHover]);
 
   useLayoutEffect(() => {
@@ -124,7 +128,11 @@ export const Map = (props: MapProps) => {
   useLayoutEffect(() => {
     if (!isExternalChange.current) // sync selection state upwards
       resolveModelFeature(map, mapSelection?.feature)
-        .then(r => r ? setSelected({ mapFeature: r.mapFeature, selected: r.resolved }) : setSelected(undefined)); 
+        .then(r => r ? setSelected({ 
+          mapFeature: r.mapFeature, 
+          selected: r.resolved,
+          mapEvent: mapSelection.event
+        }) : setSelected(undefined)); 
   }, [map, mapSelection]);
 
   useLayoutEffect(() => {

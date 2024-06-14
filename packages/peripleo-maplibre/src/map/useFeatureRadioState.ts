@@ -30,7 +30,7 @@ export const useFeatureRadioState = (property: string) => {
   });
 
   return [selected, setSelected] as [
-    { source: string, feature: MapGeoJSONFeature }  | undefined,
+    { event?: MapMouseEvent, feature: MapGeoJSONFeature, source: string }  | undefined,
     (map: Map, event?: MapMouseEvent, feature?: MapGeoJSONFeature, source?: string) => void
   ];
 
