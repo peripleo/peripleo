@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useState } from 'react';
-import { Feature, FeatureCluster, FeatureCollection } from '@peripleo/peripleo';
+import { Feature, FeatureCollection } from '@peripleo/peripleo';
 import { AddLayerObject, Map } from 'maplibre-gl';
 import { removeLayerIfExists, removeSourceIfExists, useLoadedMap } from '../../map';
 import { Tooltip } from '../Tooltip';
@@ -31,7 +31,7 @@ interface GeoJSONLayerProps <T extends { [key: string]: any }>{
 
   pointStyle?: Object;
 
-  tooltip?(target: Feature<T> | FeatureCluster<T>, event: MouseEvent): ReactNode;
+  tooltip?(target: Feature<T>, event: MouseEvent): ReactNode;
 
   strokeStyle?: Object;
 

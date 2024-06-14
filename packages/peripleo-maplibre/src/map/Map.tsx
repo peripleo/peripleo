@@ -1,8 +1,9 @@
 import { useContext, useEffect, useLayoutEffect, useRef } from 'react';
-import { Feature, MapContext, useSelectionState, useHoverState } from '@peripleo/peripleo'; 
+import { Feature, MapContext, useSelectionState } from '@peripleo/peripleo'; 
 import { MapGeoJSONFeature, Map as MapLibre, MapMouseEvent, PointLike, StyleSpecification } from 'maplibre-gl';
 import { MapProps } from './MapProps';
 import { PopupContainer } from '../components/Popup';
+import { useHoverState } from '../hooks';
 import { useFeatureRadioState } from './useFeatureRadioState';
 import { findMapFeature, listFeaturesInCluster } from './utils';
 
@@ -56,7 +57,7 @@ export const Map = (props: MapProps) => {
   const onMouseMove = (evt: MapMouseEvent) => {
     const feature = getFeature(evt);
     isExternalChange.current = false;
-    setMapHover(evt.target, feature);
+    setMapHover(evt.target, evt, feature);
   }
 
   // If the mouse leaves the map, reset external change tracker
@@ -66,45 +67,55 @@ export const Map = (props: MapProps) => {
   const onClick = (evt: MapMouseEvent) => {
     const feature = getFeature(evt, true);
     isExternalChange.current = false;
-    setMapSelection(evt.target, feature, feature?.source);
+    setMapSelection(evt.target, evt, feature, feature?.source);
   }
 
   // Gets the domain-model Feature for the given MapGeoJSONFeature
   const resolveModelFeature = (
     map: MapLibre, 
     feature: MapGeoJSONFeature
-  ): Promise<Feature | Feature[] | undefined> => new Promise(resolve => {
+  ) => new Promise<{ mapFeature: MapGeoJSONFeature, resolved: Feature | Feature[] | undefined }>(resolve => {
     if (!feature) {
       resolve(undefined);
     } else if (feature.properties.cluster) {
       listFeaturesInCluster(map, feature)
-        .then(resolvedFeatures => resolve(
-          resolvedFeatures.length === 1 ? resolvedFeatures[0] : 
-          resolvedFeatures.length > 1 ? resolvedFeatures : undefined))
+        .then(resolvedFeatures => resolve({
+          mapFeature: feature,
+          resolved: 
+            resolvedFeatures.length === 1 ? resolvedFeatures[0] : 
+            resolvedFeatures.length > 1 ? resolvedFeatures : undefined
+        }))
         .catch(() => {
           // Can happens if the cluster no longer exists at the time this method gets called.
           // Frequently the case during zooming.
         });
     } else {
       const { id, type, properties, geometry } = feature;
-      resolve({ id, type, properties, geometry } as Feature);
+      resolve({
+        mapFeature: feature,
+        resolved: { id, type, properties, geometry } as Feature
+      });
     }
   });
 
   useLayoutEffect(() => {
     if (!isExternalChange.current) // sync hover state upwards
-      resolveModelFeature(map, mapHover?.feature).then(setHover); 
+      resolveModelFeature(map, mapHover?.feature)
+        .then(({ mapFeature, resolved }) => setHover({ mapFeature, hovered: resolved })); 
   }, [map, mapHover]);
 
   useLayoutEffect(() => {
     if (!map)
       return; 
 
-    if (isExternalChange.current) { // sync external update downwards
-      if (hover)
-        findMapFeature(map, hover.id).then(f => setMapHover(map, f));
-      else
-        setMapHover(map, undefined);
+    if (isExternalChange.current) { // sync external hover update downwards
+      if (hover) {
+        const first = Array.isArray(hover.hovered) ? hover.hovered[0] : hover.hovered;
+        if (first)
+          findMapFeature(map, first.id).then(f => setMapHover(map, undefined, f));
+      } else {
+        setMapHover(map);
+      }
     }
     
     isExternalChange.current = true;
@@ -112,7 +123,8 @@ export const Map = (props: MapProps) => {
 
   useLayoutEffect(() => {
     if (!isExternalChange.current) // sync selection state upwards
-      resolveModelFeature(map, mapSelection?.feature).then(setSelected);
+      resolveModelFeature(map, mapSelection?.feature)
+        .then(({ mapFeature, resolved }) => setSelected({ mapFeature, selected: resolved }))
   }, [map, mapSelection]);
 
   useLayoutEffect(() => {
@@ -122,8 +134,9 @@ export const Map = (props: MapProps) => {
     if (isExternalChange.current) { // sync external update downwards
       if (selected) {
         // We don't support multi-selection downwards!
-        const first = Array.isArray(selected) ? selected[0] : selected;
-        findMapFeature(map, first.id).then(f => setMapSelection(map, f));
+        const first = Array.isArray(selected.selected) ? selected.selected[0] : selected.selected;
+        if (first)
+          findMapFeature(map, first.id).then(f => setMapSelection(map, undefined, f));
       } else {
         setMapSelection(map, undefined);
       }

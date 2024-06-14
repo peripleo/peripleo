@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Map, MapGeoJSONFeature } from 'maplibre-gl';
+import { Map, MapGeoJSONFeature, MapMouseEvent } from 'maplibre-gl';
 import { findSourceForFeature } from './utils';
 
 export const useFeatureRadioState = (property: string) => {
 
-  const [selected, _setSelected] = useState<{ source: string, feature: MapGeoJSONFeature } | undefined>();
+  const [selected, _setSelected] = useState<{ event?: MapMouseEvent, feature: MapGeoJSONFeature, source: string } | undefined>();
   
-  const setSelected = (map: Map, feature?: MapGeoJSONFeature, source?: string) => _setSelected(sel => {
+  const setSelected = (map: Map, event: MapMouseEvent, feature?: MapGeoJSONFeature, source?: string) => _setSelected(sel => {
     if (feature?.id === sel?.feature?.id) {
       return sel; // No change
     } else {
@@ -23,7 +23,7 @@ export const useFeatureRadioState = (property: string) => {
         const src = source || findSourceForFeature(map, feature.id as number);
         if (src) {
           map.setFeatureState({ source: src, id: feature.id }, { [property]: true });
-          return { source: src, feature };
+          return { event, feature, source: src };
         }
       }
     }
@@ -31,7 +31,7 @@ export const useFeatureRadioState = (property: string) => {
 
   return [selected, setSelected] as [
     { source: string, feature: MapGeoJSONFeature }  | undefined,
-    (map: Map, feature?: MapGeoJSONFeature, source?: string) => void
+    (map: Map, event?: MapMouseEvent, feature?: MapGeoJSONFeature, source?: string) => void
   ];
 
 }

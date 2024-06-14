@@ -1,9 +1,6 @@
 export type Feature<T extends { [key: string]: any } = {}> = {
 
-  // Unfortunately, we need to require an (integer) number here, because this
-  // is what mapLibre needs. Without mapLibre-compliant int IDs, there's no way
-  // to get hover + selection working efficiently. More on this here:
-  // https://github.com/maplibre/maplibre-gl-js/issues/1043#issuecomment-1739141562
+  // Peripleo requires (integer) number here because of the vector tile spec!
   id: number,
 
   type: 'Feature',

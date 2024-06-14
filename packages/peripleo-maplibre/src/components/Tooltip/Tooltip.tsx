@@ -2,19 +2,19 @@ import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { GeoJSONSource,  MapMouseEvent } from 'maplibre-gl';
 import { useMap } from '../../map';
-import { Feature, FeatureCluster } from '../../../../peripleo/src/model';
+import { Feature } from '../../../../peripleo/src/model';
 
 interface TooltipProps <T extends { [key: string]: any }>{
 
   layerId: string | string[];
 
-  content(target: Feature<T> | FeatureCluster<T>, event: MouseEvent): ReactNode;
+  content(target: Feature<T>, event: MouseEvent): ReactNode;
 
 }
 
 interface Hovered <T extends { [key: string]: any }>{ 
   
-  target: Feature<T> | FeatureCluster<T>;
+  target: Feature<T>;
   
   event: MouseEvent; 
   
@@ -51,10 +51,12 @@ export const Tooltip = <T extends { [key: string]: any }>(props: TooltipProps<T>
             geometry: r.geometry 
           }) as Feature<T>);
 
+          /*
           setHovered({
             target: { clusterId: id as number, features: clusteredFeatures }, 
             event: event.originalEvent
           });
+          */
         }).catch(error => {
           // Usually happens if the cluster no longer exists at the time this method gets called.
           // Frequently the case while hovering during a zoom action.

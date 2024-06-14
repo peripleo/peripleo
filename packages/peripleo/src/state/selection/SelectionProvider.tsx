@@ -1,19 +1,20 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
 import { Feature } from '../../model';
+import { SelectionState } from './SelectionState';
 
-export type SelectionContextValue = {
+export type SelectionContextValue<P, F, E> = {
 
-  selected: Feature | Feature[] | undefined,
+  selected: SelectionState<P, F, E>;
 
-  setSelected: React.Dispatch<React.SetStateAction<Feature | Feature[]>>
+  setSelected: React.Dispatch<React.SetStateAction<SelectionState<P, F, E>>>
 
 }
 
-export const SelectionContext = createContext<SelectionContextValue>(undefined);
+export const SelectionContext = createContext<SelectionContextValue<any, any, any>>(undefined);
 
-export const SelectionProvider = (props: { children: ReactNode }) => {
+export const SelectionProvider = <P, F, E>(props: { children: ReactNode }) => {
 
-  const [selected, setSelected] = useState<Feature | Feature[] | undefined>(undefined);
+  const [selected, setSelected] = useState<SelectionState<P, F, E> | undefined>(undefined);
 
   return (
     <SelectionContext.Provider value={{ selected, setSelected }}>
@@ -23,12 +24,12 @@ export const SelectionProvider = (props: { children: ReactNode }) => {
 
 }
 
-export const useSelectionState = <T extends { id: string } = { id: string }>() => {
+export const useSelectionState = <P, F, E>() => {
   const { selected, setSelected } = useContext(SelectionContext);
-  return { selected: selected as Feature<T> | Feature<T>[] | undefined, setSelected };
+  return { selected: selected as SelectionState<P, F, E> | undefined, setSelected: setSelected as React.Dispatch<React.SetStateAction<SelectionState<P, F, E> | undefined>> };
 }
 
-export const useSelectionValue = <T extends { id: string } = { id: string }>() => {
+export const useSelectionValue = <P, F, E>() => {
   const { selected } = useContext(SelectionContext);
-  return selected as Feature<T> | Feature<T>[] | undefined;
+  return selected as SelectionState<P, F, E> | undefined;
 }
