@@ -3,12 +3,12 @@ import { Feature, FeatureCollection } from '@peripleo/peripleo';
 import { AddLayerObject, Map } from 'maplibre-gl';
 import { HoverState } from '../../hooks';
 import { removeLayerIfExists, removeSourceIfExists, useLoadedMap } from '../../map';
+import { HoverTooltip } from '../HoverTooltip';
 import { 
   DEFAULT_FILL_STYLE, 
   DEFAULT_POINT_STYLE, 
   DEFAULT_STROKE_STYLE 
 } from './defaultStyles';
-import { HoverTooltip } from '../HoverTooltip';
 
 
 interface GeoJSONLayerProps <T extends { [key: string]: any }>{
