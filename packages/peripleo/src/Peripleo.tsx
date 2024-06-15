@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { HoverProvider, MapProvider, SelectionProvider } from './state';
-import { DeviceStateProvider } from './layout';
+import { DeviceStateProvider } from './device';
 
 import './index.css';
 

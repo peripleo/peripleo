@@ -1,4 +1,4 @@
-import React, { useEffect, useState }from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { Peripleo } from '@peripleo/peripleo';
 import { Map, GeoJSONLayer, HoverTooltip } from '../../../src';

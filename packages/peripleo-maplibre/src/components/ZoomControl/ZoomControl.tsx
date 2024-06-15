@@ -19,16 +19,16 @@ export const ZoomControl = (props: ZoomControlProps) => {
     map.easeTo({ zoom:  map.getZoom() + inc });
   
   return (
-    <div className="p6o-zoom">
+    <div className="p6o-zoom-control">
       <button 
-        className="p6o-control p6o-control-btn p6o-zoom-in"
+        className="p6o-zoom-in"
         aria-label="Zoom in"
         onClick={onZoom(1)}>
         {props.zoomIn || <span>+</span>}
       </button>
 
       <button 
-        className="p6o-control p6o-control-btn p6o-zoom-out"
+        className="p6o-zoom-out"
         aria-label="Zoom out"
         onClick={onZoom(-1)}>
         {props.zoomOut || <span>-</span>}
