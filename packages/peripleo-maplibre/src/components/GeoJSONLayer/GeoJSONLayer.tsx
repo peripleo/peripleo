@@ -1,13 +1,15 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { Feature, FeatureCollection } from '@peripleo/peripleo';
 import { AddLayerObject, Map } from 'maplibre-gl';
+import { HoverState } from '../../hooks';
 import { removeLayerIfExists, removeSourceIfExists, useLoadedMap } from '../../map';
-import { Tooltip } from '../Tooltip';
 import { 
   DEFAULT_FILL_STYLE, 
   DEFAULT_POINT_STYLE, 
   DEFAULT_STROKE_STYLE 
 } from './defaultStyles';
+import { HoverTooltip } from '../HoverTooltip';
+
 
 interface GeoJSONLayerProps <T extends { [key: string]: any }>{
 
@@ -31,7 +33,7 @@ interface GeoJSONLayerProps <T extends { [key: string]: any }>{
 
   pointStyle?: Object;
 
-  tooltip?(target: Feature<T>, event: MouseEvent): ReactNode;
+  tooltip?(hoverState: HoverState<Feature<T>>): ReactNode;
 
   strokeStyle?: Object;
 
@@ -150,10 +152,11 @@ export const GeoJSONLayer = <T extends { [key: string]: any }>(props: GeoJSONLay
     setStyle(map, `layer-${id}-line`, props.strokeStyle|| DEFAULT_STROKE_STYLE)
   }, [props.strokeStyle]);
 
+
   return props.tooltip ? (
-    <Tooltip
+    <HoverTooltip
       layerId={[`layer-${id}-point`, `layer-${id}-fill`]} 
-      content={props.tooltip} />
+      tooltip={props.tooltip} />
   ) : null;
 
 }

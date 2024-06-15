@@ -1,7 +1,8 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { Feature, FeatureCollection } from '@peripleo/peripleo';
+import { HoverState } from '../../hooks';
 import { removeLayerIfExists, removeSourceIfExists, useLoadedMap } from '../../map';
-import { Tooltip } from '../Tooltip';
+import { HoverTooltip } from '../HoverTooltip';
 import { useSymbols } from './useSymbols';
 
 interface SymbolLayerProps <T extends { [key: string]: any }>{
@@ -24,7 +25,7 @@ interface SymbolLayerProps <T extends { [key: string]: any }>{
   
   symbolsProperty?: string;
 
-  tooltip?(target: Feature<T>, event: MouseEvent): ReactNode;
+  tooltip?(hoverState: HoverState<Feature<T>>): ReactNode;
 
 }
 
@@ -88,9 +89,9 @@ export const SymbolLayer = <T extends { [key: string]: any }>(props: SymbolLayer
   }, [sourceId, data]);
 
   return props.tooltip ? (
-    <Tooltip
+    <HoverTooltip
       layerId={[`layer-${id}-point`, `layer-${id}-fill`]} 
-      content={props.tooltip} />
+      tooltip={props.tooltip} />
   ) : null;
 
 }

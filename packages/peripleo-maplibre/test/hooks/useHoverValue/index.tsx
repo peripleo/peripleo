@@ -18,6 +18,8 @@ const App = () => {
       .then(setData);
   }, []);
 
+  console.log('hover', hover);
+  
   return (
     <>
       <Map
@@ -34,7 +36,7 @@ const App = () => {
       </Map>
 
       <div className="console">
-        {hover ? JSON.stringify(hover, null, 2) : 'no hover'}
+        {hover ? 'hover': 'no hover'}
       </div>
     </>
   )
