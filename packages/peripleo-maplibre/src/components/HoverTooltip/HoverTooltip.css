@@ -1,0 +1,9 @@
+.p6o-hover-tooltip {
+  position: absolute;
+  text-overflow: ellipsis;
+  z-index: 990;
+}
+
+[dir="rtl"] .p6o-hover-tooltip {
+  transform: translateX(-100%);
+}
