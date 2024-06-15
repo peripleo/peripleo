@@ -1,4 +1,5 @@
 .p6o-hover-tooltip {
+  pointer-events: none;
   position: absolute;
   text-overflow: ellipsis;
   z-index: 990;

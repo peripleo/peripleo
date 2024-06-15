@@ -27,7 +27,7 @@ export const HoverTooltip = <T extends Feature>(props: HoverTooltipProps<T>) => 
     const isValidLayer = layers.includes(hover.mapFeature.layer.id);
 
     return isValidLayer && hover;
-  }, [hover, props.layerId])
+  }, [hover, props.layerId]);
 
   useEffect(() => {
     const onPointerMove = (evt: PointerEvent) => {

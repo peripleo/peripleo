@@ -1,5 +1,5 @@
 import { FeatureCollection } from '../../../../peripleo/src/model';
-import { useLoadedMap } from '../../map';
+import { useLoadedMap } from '../../hooks';
 import { useEffect } from 'react';
 import { usePulsingMarker } from './usePulsingMarker';
 

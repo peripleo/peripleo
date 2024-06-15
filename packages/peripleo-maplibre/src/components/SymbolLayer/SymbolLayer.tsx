@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { Feature, FeatureCollection } from '@peripleo/peripleo';
-import { HoverState } from '../../hooks';
-import { removeLayerIfExists, removeSourceIfExists, useLoadedMap } from '../../map';
+import { HoverState, useLoadedMap } from '../../hooks';
+import { removeLayerIfExists, removeSourceIfExists } from '../../map';
 import { HoverTooltip } from '../HoverTooltip';
 import { useSymbols } from './useSymbols';
 

@@ -1,5 +1,5 @@
 import { useMemo, useEffect } from 'react';
-import { useMap } from '../../map';
+import { useMap } from '../../hooks';
 import { nanoid } from 'nanoid'
 import { PulsingMarker } from './PulsingMarker';
 

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
-import { removeLayerIfExists, removeSourceIfExists, useLoadedMap } from '../../map';
+import { removeLayerIfExists, removeSourceIfExists } from '../../map';
+import { useLoadedMap } from 'src/hooks';
 
 interface RasterLayerProps {
 

@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { useMap } from '../../map';
+import { useLoadedMap } from '../../hooks';
 
 import './ZoomControl.css';
 
@@ -13,7 +13,7 @@ interface ZoomControlProps {
 
 export const ZoomControl = (props: ZoomControlProps) => {
 
-  const map = useMap();
+  const map = useLoadedMap();
 
   const onZoom = (inc: number) => () =>
     map.easeTo({ zoom:  map.getZoom() + inc });
