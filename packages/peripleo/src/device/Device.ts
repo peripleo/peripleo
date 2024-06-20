@@ -1,7 +1,8 @@
+import type { ReactNode } from 'react';
 import { useDeviceState } from './DeviceStateProvider';
 import { Size } from './Types';
 
-const Desktop = (props: { children: React.ReactElement }) => {
+const Desktop = (props: { children: ReactNode }) => {
 
   const device = useDeviceState();
 
@@ -9,7 +10,7 @@ const Desktop = (props: { children: React.ReactElement }) => {
 
 }
 
-const Mobile = (props: { children: React.ReactElement }) => {
+const Mobile = (props: { children: ReactNode }) => {
 
   const device = useDeviceState();
 
