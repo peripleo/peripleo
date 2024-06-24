@@ -8,6 +8,8 @@ export interface MapProps {
 
   className?: string;
 
+  lang?: string;
+
   style?: string | any; 
   
   defaultBounds?: [[number, number], [number, number]];

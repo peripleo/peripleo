@@ -260,6 +260,22 @@ export const Map = (props: MapProps) => {
     }
   }, [props.style]);
 
+  useEffect(() => {
+    if (!props.lang || !map?.style) return;
+
+    const setLanguage = () =>
+      map.getStyle().layers.forEach(layer => {
+        if (layer.layout && layer.layout['text-field'])
+          map.setLayoutProperty(layer.id, 'text-field', ['get', `name:${props.lang}`]);
+      });
+
+    if (map.getStyle()?.layers) {
+      setLanguage();
+    } else {
+      map.once('styledata', setLanguage);
+    }
+  }, [map, props.lang])
+
   return (
     <div 
       ref={ref}
