@@ -30,11 +30,12 @@ export default defineConfig(() => ({
         ...Object.keys(packageJson.peerDependencies)
       ],
       output: {
-        preserveModules: true,
-        assetFileNames: 'peripleo-maplibre.[ext]',
+        assetFileNames: 'peripleo-maplibre.[ext]',    
+        exports: 'named',    
         globals: {
           react: 'React'
-        }
+        },
+        preserveModules: true,
       }
     }
   }
