@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { Feature } from '@peripleo/peripleo';
-import { HoverState, useHoverValue } from '@peripleo/maplibre';
+import { HoverState, useHoverValue } from '../../hooks';
 
 import './HoverTooltip.css';
 
