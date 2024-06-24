@@ -1,7 +1,6 @@
 import { useContext, useEffect, useLayoutEffect, useRef } from 'react';
 import { Feature, MapContext, useSelectionState } from '@peripleo/peripleo'; 
-import { MapGeoJSONFeature, Map as MapLibre, MapMouseEvent, PointLike, StyleSpecification, setRTLTextPlugin } from 'maplibre-gl';
-import * as RTLTextPlugin from '@mapbox/mapbox-gl-rtl-text'
+import { MapGeoJSONFeature, Map as MapLibre, MapMouseEvent, PointLike, StyleSpecification } from 'maplibre-gl';
 import { MapProps } from './MapProps';
 import { PopupContainer } from '../components/Popup';
 import { useHoverState } from '../hooks';
@@ -9,8 +8,6 @@ import { useFeatureRadioState } from './useFeatureRadioState';
 import { findMapFeature, listFeaturesInCluster } from './utils';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
-
-setRTLTextPlugin(RTLTextPlugin.default, true);
 
 export const CLICK_THRESHOLD = 3;
 
