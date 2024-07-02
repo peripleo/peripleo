@@ -1,6 +1,7 @@
 export * from './GeoJSONLayer';
 export * from './HoverTooltip';
 export * from './LayerSwitcher';
+export * from './MyLocationControl';
 export * from './Popup';
 export * from './PulsingMarker';
 export * from './RasterLayer';
