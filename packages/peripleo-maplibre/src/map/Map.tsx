@@ -40,6 +40,8 @@ export const Map = (props: MapProps) => {
   const getFeature = (
     evt: MapMouseEvent, withBuffer?: boolean
   ) => {
+    if (!evt.point) return;
+
     const map = evt.target;
 
     const query = withBuffer ? [
@@ -60,9 +62,8 @@ export const Map = (props: MapProps) => {
     setMapHover(evt.target, evt, feature);
   }
 
-  // If the mouse leaves the map, reset external change tracker
-  const onMouseOut = () =>
-    isExternalChange.current = true;
+  const onMouseOut = (evt: MapMouseEvent) =>
+    setMapHover(evt.target, evt, undefined);
 
   const onClick = (evt: MapMouseEvent) => {
     const feature = getFeature(evt, true);
