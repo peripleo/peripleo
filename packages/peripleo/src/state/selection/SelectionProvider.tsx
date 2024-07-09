@@ -4,9 +4,9 @@ import { SelectionState } from './SelectionState';
 
 export type SelectionContextValue<F extends Feature, M, E> = {
 
-  selected: SelectionState<F, M, E>;
+  selection: SelectionState<F, M, E>;
 
-  setSelected: React.Dispatch<React.SetStateAction<SelectionState<F, M, E>>>
+  setSelection: React.Dispatch<React.SetStateAction<SelectionState<F, M, E>>>
 
 }
 
@@ -14,10 +14,10 @@ export const SelectionContext = createContext<SelectionContextValue<any, any, an
 
 export const SelectionProvider = <F extends Feature, M, E>(props: { children: ReactNode }) => {
 
-  const [selected, setSelected] = useState<SelectionState<F, M, E> | undefined>(undefined);
+  const [selection, setSelection] = useState<SelectionState<F, M, E> | undefined>(undefined);
 
   return (
-    <SelectionContext.Provider value={{ selected, setSelected }}>
+    <SelectionContext.Provider value={{ selection, setSelection }}>
       {props.children}
     </SelectionContext.Provider>
   )
@@ -25,11 +25,11 @@ export const SelectionProvider = <F extends Feature, M, E>(props: { children: Re
 }
 
 export const useSelectionState = <F extends Feature, M, E>() => {
-  const { selected, setSelected } = useContext(SelectionContext);
-  return { selected: selected as SelectionState<F, M, E> | undefined, setSelected: setSelected as React.Dispatch<React.SetStateAction<SelectionState<F, M, E> | undefined>> };
+  const { selection, setSelection } = useContext(SelectionContext);
+  return { selection: selection as SelectionState<F, M, E> | undefined, setSelection: setSelection as React.Dispatch<React.SetStateAction<SelectionState<F, M, E> | undefined>> };
 }
 
 export const useSelectionValue = <F extends Feature, M, E>() => {
-  const { selected } = useContext(SelectionContext);
-  return selected as SelectionState<F, M, E> | undefined;
+  const { selection } = useContext(SelectionContext);
+  return selection as SelectionState<F, M, E> | undefined;
 }

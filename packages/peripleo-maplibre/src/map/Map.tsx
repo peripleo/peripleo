@@ -33,7 +33,7 @@ export const Map = (props: MapProps) => {
   const [mapSelection, setMapSelection] = useFeatureRadioState('selected');
 
   // Global Peripleo state (which can be changed programmatically from outside)
-  const {selected, setSelected} = useSelectionState();
+  const {selection, setSelection} = useSelectionState();
 
   const isExternalChange = useRef<boolean>(true);
 
@@ -128,11 +128,11 @@ export const Map = (props: MapProps) => {
   useLayoutEffect(() => {
     if (!isExternalChange.current) // sync selection state upwards
       resolveModelFeature(map, mapSelection?.feature)
-        .then(r => r ? setSelected({ 
+        .then(r => r ? setSelection({ 
           mapFeature: r.mapFeature, 
           selected: r.resolved,
           mapEvent: mapSelection.event
-        }) : setSelected(undefined)); 
+        }) : setSelection(undefined)); 
   }, [map, mapSelection]);
 
   useLayoutEffect(() => {
@@ -140,9 +140,9 @@ export const Map = (props: MapProps) => {
       return; 
 
     if (isExternalChange.current) { // sync external update downwards
-      if (selected) {
+      if (selection) {
         // We don't support multi-selection downwards!
-        const first = Array.isArray(selected.selected) ? selected.selected[0] : selected.selected;
+        const first = Array.isArray(selection.selected) ? selection.selected[0] : selection.selected;
         if (first)
           findMapFeature(map, first.id).then(f => setMapSelection(map, undefined, f));
       } else {
@@ -151,7 +151,7 @@ export const Map = (props: MapProps) => {
     }
 
     isExternalChange.current = true;
-  }, [map, selected]);
+  }, [map, selection]);
 
   const trackBaselayers = (map: MapLibre) => {
     const { layers } = map.getStyle() || {};
@@ -300,7 +300,7 @@ export const Map = (props: MapProps) => {
               map={map}
               selected={mapSelection?.feature}
               popup={props.popup} 
-              onClose={() => setSelected(undefined)} />
+              onClose={() => setSelection(undefined)} />
           )}
         </>
       )}
