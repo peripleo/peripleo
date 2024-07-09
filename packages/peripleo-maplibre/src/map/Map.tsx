@@ -148,9 +148,9 @@ export const Map = (props: MapProps) => {
         const first = Array.isArray(selection.selected) ? selection.selected[0] : selection.selected;
         if (first)
           findMapFeature(map, first.id).then(f => setMapSelection(map, undefined, f));
+      } else {
+        setMapSelection(map, undefined);
       }
-    } else {
-      setMapSelection(map, undefined);
     }
 
     isExternalSelectionChange.current = true;
