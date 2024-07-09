@@ -1,6 +1,6 @@
 {
   "name": "@peripleo/peripleo",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "React components for map-based search interfaces",
   "author": "Rainer Simon",
   "license": "BSD-3-Clause",
