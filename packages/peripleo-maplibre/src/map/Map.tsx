@@ -35,7 +35,9 @@ export const Map = (props: MapProps) => {
   // Global Peripleo state (which can be changed programmatically from outside)
   const {selection, setSelection} = useSelectionState();
 
-  const isExternalChange = useRef<boolean>(true);
+  const isExternalHoverChange = useRef<boolean>(true);
+
+  const isExternalSelectionChange = useRef<boolean>(true);
 
   const getFeature = (
     evt: MapMouseEvent, withBuffer?: boolean
@@ -58,7 +60,7 @@ export const Map = (props: MapProps) => {
 
   const onMouseMove = (evt: MapMouseEvent) => {
     const feature = getFeature(evt);
-    isExternalChange.current = false;
+    isExternalHoverChange.current = false;
     setMapHover(evt.target, evt, feature);
   }
 
@@ -67,7 +69,7 @@ export const Map = (props: MapProps) => {
 
   const onClick = (evt: MapMouseEvent) => {
     const feature = getFeature(evt, true);
-    isExternalChange.current = false;
+    isExternalSelectionChange.current = false;
     setMapSelection(evt.target, evt, feature, feature?.source);
   }
 
@@ -100,7 +102,7 @@ export const Map = (props: MapProps) => {
   });
 
   useLayoutEffect(() => {
-    if (!isExternalChange.current) // sync hover state upwards
+    if (!isExternalHoverChange.current) // sync hover state upwards
       resolveModelFeature(map, mapHover?.feature)
         .then(r => r ? setHover({ 
           mapFeature: r.mapFeature, 
@@ -113,7 +115,7 @@ export const Map = (props: MapProps) => {
     if (!map)
       return; 
 
-    if (isExternalChange.current) { // sync external hover update downwards
+    if (isExternalHoverChange.current) { // sync external hover update downwards
       if (hover) {
         const first = Array.isArray(hover.hovered) ? hover.hovered[0] : hover.hovered;
         if (first)
@@ -123,11 +125,11 @@ export const Map = (props: MapProps) => {
       }
     }
     
-    isExternalChange.current = true;
+    isExternalHoverChange.current = true;
   }, [map, hover]);
 
   useLayoutEffect(() => {
-    if (!isExternalChange.current) // sync selection state upwards
+    if (!isExternalSelectionChange.current) // sync selection state upwards
       resolveModelFeature(map, mapSelection?.feature)
         .then(r => r ? setSelection({ 
           mapFeature: r.mapFeature, 
@@ -140,18 +142,18 @@ export const Map = (props: MapProps) => {
     if (!map)
       return; 
 
-    if (isExternalChange.current) { // sync external update downwards
+    if (isExternalSelectionChange.current) { // sync external update downwards
       if (selection) {
         // We don't support multi-selection downwards!
         const first = Array.isArray(selection.selected) ? selection.selected[0] : selection.selected;
         if (first)
           findMapFeature(map, first.id).then(f => setMapSelection(map, undefined, f));
-      } else {
-        setMapSelection(map, undefined);
       }
+    } else {
+      setMapSelection(map, undefined);
     }
 
-    isExternalChange.current = true;
+    isExternalSelectionChange.current = true;
   }, [map, selection]);
 
   const trackBaselayers = (map: MapLibre) => {
