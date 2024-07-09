@@ -184,6 +184,12 @@ export const Map = (props: MapProps) => {
     next.on('mousemove', onMouseMove);
     next.on('mouseout', onMouseOut);
 
+    // If the map viewport changes, re-evaluate the mouse hover
+    map.on('move', onMouseMove);
+    map.on('zoom', onMouseMove);
+    map.on('rotate', onMouseMove);
+    map.on('pitch', onMouseMove);
+
     if (props.disableScrollZoom)
       next.scrollZoom.disable();
 
@@ -193,6 +199,11 @@ export const Map = (props: MapProps) => {
       next.off('click', onClick);
       next.off('mousemove', onMouseMove);
       next.off('mouseout', onMouseOut);
+
+      map.off('move', onMouseMove);
+      map.off('zoom', onMouseMove);
+      map.off('rotate', onMouseMove);
+      map.off('pitch', onMouseMove);
 
       // This is mostly for React strict mode, during dev. If the 
       // map unmounts instantly again, before it is even loaded,
