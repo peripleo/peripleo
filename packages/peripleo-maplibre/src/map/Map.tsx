@@ -64,7 +64,7 @@ export const Map = (props: MapProps) => {
     setMapHover(evt.target, evt, feature);
   }
 
-  const onMouseLeave = (evt: MapMouseEvent) =>
+  const onMouseOut = (evt: MapMouseEvent) =>
     setMapHover(evt.target, evt, undefined);
 
   const onClick = (evt: MapMouseEvent) => {
@@ -185,7 +185,8 @@ export const Map = (props: MapProps) => {
 
     next.on('click', onClick);
     next.on('mousemove', onMouseMove);
-    next.on('mouseleave', onMouseLeave);
+    next.on('mouseout', onMouseOut);
+    next.on('mouseleave', onMouseOut);
 
     // If the map viewport changes, re-evaluate the mouse hover
     next.on('move', onMouseMove);
@@ -201,7 +202,8 @@ export const Map = (props: MapProps) => {
 
       next.off('click', onClick);
       next.off('mousemove', onMouseMove);
-      next.off('mouseleave', onMouseLeave);
+      next.off('mouseout', onMouseOut);
+      next.off('mouseleave', onMouseOut);
 
       next.off('move', onMouseMove);
       next.off('zoom', onMouseMove);
