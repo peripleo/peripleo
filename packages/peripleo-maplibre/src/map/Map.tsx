@@ -167,12 +167,22 @@ export const Map = (props: MapProps) => {
   }
 
   useEffect(() => {
+    const { 
+      bounds,
+      children,
+      className,
+      defaultBounds,
+      disableScrollZoom,
+      lang,
+      popup,
+      ...maplibreOpts
+    } = props;
+
     const next = new MapLibre({
-      attributionControl: props.attributionControl,
+      ...maplibreOpts,
       container: ref.current,
-      style: props.style,
-      bounds: props.defaultBounds,
-      hash: 'map'
+      bounds: defaultBounds,
+      hash: maplibreOpts.hash || 'map'
     });
 
     setMap(next);
@@ -194,7 +204,7 @@ export const Map = (props: MapProps) => {
     next.on('rotate', onMouseMove);
     next.on('pitch', onMouseMove);
 
-    if (props.disableScrollZoom)
+    if (disableScrollZoom)
       next.scrollZoom.disable();
 
     return () => {

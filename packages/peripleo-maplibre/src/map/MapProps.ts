@@ -1,10 +1,8 @@
-import { ReactNode } from 'react';
-import { AttributionControlOptions } from 'maplibre-gl';
-import { PopupProps } from '../components';
+import type { ReactNode } from 'react';
+import type { AttributionControlOptions, MapOptions } from 'maplibre-gl';
+import type { PopupProps } from '../components';
 
-export interface MapProps {
-
-  attributionControl?: false | AttributionControlOptions;
+export interface MapProps extends MapOptions {
 
   className?: string;
 
