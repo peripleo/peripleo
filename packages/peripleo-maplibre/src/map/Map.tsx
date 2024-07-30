@@ -64,8 +64,10 @@ export const Map = (props: MapProps) => {
     setMapHover(evt.target, evt, feature);
   }
 
-  const onMouseOut = (evt: MapMouseEvent) =>
+  const onMouseOut = (evt: MapMouseEvent) => {
+    isExternalHoverChange.current = false;
     setMapHover(evt.target, evt, undefined);
+  }
 
   const onClick = (evt: MapMouseEvent) => {
     const feature = getFeature(evt, true);
@@ -102,18 +104,26 @@ export const Map = (props: MapProps) => {
   });
 
   useLayoutEffect(() => {
-    if (!isExternalHoverChange.current) // sync hover state upwards
+    if (!isExternalHoverChange.current) {
+      // sync hover state upwards
       resolveModelFeature(map, mapHover?.feature)
-        .then(r => r ? setHover({ 
-          mapFeature: r.mapFeature, 
-          hovered: r.resolved, 
-          mapEvent: mapHover.event 
-        }) : setHover(undefined)); 
+        .then(r => {
+          if (r) {
+            setHover({ 
+              mapFeature: r.mapFeature, 
+              hovered: r.resolved, 
+              mapEvent: mapHover.event 
+            });
+          } else { 
+            setHover(undefined);
+          }
+          // isExternalHoverChange.current = true;
+        });
+    }
   }, [map, mapHover]);
 
   useLayoutEffect(() => {
-    if (!map)
-      return; 
+    if (!map) return;
 
     if (isExternalHoverChange.current) { // sync external hover update downwards
       if (hover) {
@@ -124,7 +134,7 @@ export const Map = (props: MapProps) => {
         setMapHover(map);
       }
     }
-    
+
     isExternalHoverChange.current = true;
   }, [map, hover]);
 
@@ -139,8 +149,7 @@ export const Map = (props: MapProps) => {
   }, [map, mapSelection]);
 
   useLayoutEffect(() => {
-    if (!map)
-      return; 
+    if (!map) return; 
 
     if (isExternalSelectionChange.current) { // sync external update downwards
       if (selection) {
