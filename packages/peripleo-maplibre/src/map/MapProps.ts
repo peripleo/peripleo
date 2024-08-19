@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
-import type { AttributionControlOptions, MapOptions } from 'maplibre-gl';
+import type { MapOptions } from 'maplibre-gl';
 import type { PopupProps } from '../components';
 
-export interface MapProps extends MapOptions {
+export interface MapProps extends Omit<MapOptions, 'container'> {
 
   className?: string;
 
