@@ -1,10 +1,20 @@
-import { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useMemo } from 'react';
 import { Feature } from '@peripleo/peripleo';
 import { HoverState, useHoverValue } from '../../hooks';
+import type { Placement } from '@floating-ui/react';
+import {
+  useFloating,
+  shift,
+  autoUpdate,
+  flip,
+  offset
+} from '@floating-ui/react';
 
 import './HoverTooltip.css';
 
-interface HoverTooltipProps <T extends Feature>{
+interface HoverTooltipProps <T extends Feature> {
+
+  placement?: Placement;
 
   layerId?: string | string[];
 
@@ -13,10 +23,6 @@ interface HoverTooltipProps <T extends Feature>{
 }
 
 export const HoverTooltip = <T extends Feature>(props: HoverTooltipProps<T>) => {
-
-  const ref = useRef<HTMLDivElement>(null);
-
-  const [position, setPosition] = useState<{ top: number, left: number } | undefined>();
 
   const hover = useHoverValue<T>();
 
@@ -29,25 +35,57 @@ export const HoverTooltip = <T extends Feature>(props: HoverTooltipProps<T>) => 
     return isValidLayer && hover;
   }, [hover, props.layerId]);
 
-  useEffect(() => {
-    const onPointerMove = (evt: PointerEvent) => {
-      const left = evt.clientX;
-      const top = evt.clientY;
-      setPosition({ left, top });
-    }
+  const isOpen = Boolean(filtered?.mapEvent?.originalEvent);
 
-    window.addEventListener('pointermove', onPointerMove);
+  const placement = props.placement || 'bottom-start';
+
+  const { refs, floatingStyles } = useFloating({
+    open: isOpen,
+    placement,
+    middleware: [
+      offset(10),
+      flip({ crossAxis: true }),
+      shift({ 
+        crossAxis: true,
+        padding: { right: 5, left: 5, top: 10, bottom: 10 }
+      })
+    ],
+    whileElementsMounted: autoUpdate
+  });
+
+  const handlePointerMove = useCallback((evt: PointerEvent) => {
+    const x = evt.clientX;
+    const y = evt.clientY;
+    
+    refs.setPositionReference({
+      getBoundingClientRect() {
+        return {
+          width: 0,
+          height: 0,
+          x,
+          y,
+          top: y,
+          left: x,
+          right: x,
+          bottom: y
+        };
+      },
+    });
+  }, [refs]);
+
+  useEffect(() => {
+    window.addEventListener('pointermove', handlePointerMove);
 
     return () => {
-      window.removeEventListener('pointermove', onPointerMove);
-    }
-  }, []);
+      window.removeEventListener('pointermove', handlePointerMove);
+    };
+  }, [handlePointerMove]);
 
   return filtered?.mapEvent?.originalEvent && (
     <div
-      ref={ref}
-      className="p6o-hover-tooltip"
-      style={position}>
+      ref={refs.setFloating}
+      style={floatingStyles}
+      className="p6o-hover-tooltip">
       {props.tooltip(hover)}
     </div>
   )

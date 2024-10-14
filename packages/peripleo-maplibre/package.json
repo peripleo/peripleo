@@ -47,6 +47,7 @@
     "react-dom": ">=17.x || >=18.x"
   },
   "dependencies": {
+    "@floating-ui/react": "^0.26.25",
     "@phosphor-icons/react": "^2.1.7",
     "@radix-ui/react-dropdown-menu": "^2.1.2",
     "maplibre-gl": "^4.7.1",
