@@ -167,9 +167,7 @@ export const Map = (props: MapProps) => {
 
   const trackBaselayers = (map: MapLibre) => {
     const { layers } = map.getStyle() || {};
-    if (!layers) {
-      console.warn('No base layers loaded');
-    } else {
+    if (layers) {
       const ids = layers.map(l => l.id);
       baselayers.current = new Set(ids);
     }
