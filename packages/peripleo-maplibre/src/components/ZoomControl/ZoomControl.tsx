@@ -1,17 +1,19 @@
-import { ReactNode } from 'react';
+import { ButtonHTMLAttributes, ReactNode } from 'react';
 import { useLoadedMap } from '../../hooks';
 
 import './ZoomControl.css';
+
+type ExcludedProps = 'onClick';
 
 interface ZoomControlProps {
 
   zoomIn?: ReactNode;
 
-  zoomInClassName?: string;
+  zoomInProps?: Omit<ButtonHTMLAttributes<HTMLButtonElement>, ExcludedProps>;
 
   zoomOut?: ReactNode;
 
-  zoomOutClassName?: string;
+  zoomOutProps?: Omit<ButtonHTMLAttributes<HTMLButtonElement>, ExcludedProps>;
 
 }
 
@@ -25,14 +27,14 @@ export const ZoomControl = (props: ZoomControlProps) => {
   return (
     <div className="p6o-zoom-control">
       <button 
-        className={props.zoomInClassName ? `p6o-zoom-in ${props.zoomInClassName}` : 'p6o-zoom-in'}
+        className={props.zoomInProps?.className ? `p6o-zoom-in ${props.zoomInProps.className}` : 'p6o-zoom-in'}
         aria-label="Zoom in"
         onClick={onZoom(1)}>
         {props.zoomIn || <span>+</span>}
       </button>
 
       <button 
-        className={props.zoomOutClassName ? `p6o-zoom-out ${props.zoomOutClassName}` : 'p6o-zoom-out'}
+        className={props.zoomOutProps?.className ? `p6o-zoom-out ${props.zoomOutProps.className}` : 'p6o-zoom-out'}
         aria-label="Zoom out"
         onClick={onZoom(-1)}>
         {props.zoomOut || <span>-</span>}

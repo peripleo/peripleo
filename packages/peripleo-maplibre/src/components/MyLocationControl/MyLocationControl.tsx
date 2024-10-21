@@ -1,9 +1,11 @@
-import { ReactNode } from 'react';
+import { ButtonHTMLAttributes, ReactNode } from 'react';
 import { useLoadedMap } from '../../hooks';
 
 import './MyLocationControl.css';
 
-interface MyLocationControlProps {
+type ExcludedProps = 'className' | 'onClick';
+
+type MyLocationControlProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, ExcludedProps> & {
 
   children?: ReactNode;
 
