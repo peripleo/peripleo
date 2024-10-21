@@ -7,6 +7,8 @@ interface MyLocationControlProps {
 
   children?: ReactNode;
 
+  className?: string;
+
   enableHighAccuracy?: boolean;
 
   onBusy?(busy: boolean): void;
@@ -53,7 +55,7 @@ export const MyLocationControl = (props: MyLocationControlProps) => {
 
   return (
     <button 
-      className="p6o-controls-btn p6o-my-location"
+      className={props.className ? `p6o-controls-btn p6o-my-location ${props.className}` : 'p6o-controls-btn p6o-my-location'}
       onClick={onClick}>
       {props.children || 'My Location'}
     </button>
