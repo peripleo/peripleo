@@ -27,7 +27,9 @@ export const MyLocationControl = (props: MyLocationControlProps) => {
 
   const map = useLoadedMap();
 
-  const onSuccess = (position: GeolocationPosition) => {
+  const { children, className, enableHighAccuracy, onBusy, onClick, onError, onSuccess, ...rest } = props;
+
+  const _onSuccess = (position: GeolocationPosition) => {
     const { latitude, longitude } = position.coords;
 
     if (props.onSuccess) props.onSuccess();
@@ -37,7 +39,7 @@ export const MyLocationControl = (props: MyLocationControlProps) => {
     map?.easeTo({ center: [ longitude, latitude ], zoom: 12 });
   }
 
-  const onError = (error: GeolocationPositionError) => {
+  const _onError = (error: GeolocationPositionError) => {
     console.warn('Error fetching location: ' + error.message);
 
     if (props.onError) props.onError();
@@ -45,20 +47,21 @@ export const MyLocationControl = (props: MyLocationControlProps) => {
     if (props.onBusy) props.onBusy(false);
   }
 
-  const onClick = () => {
+  const _onClick = () => {
     if (props.onClick) props.onClick();
 
     if (props.onBusy) props.onBusy(true);
 
-    navigator.geolocation.getCurrentPosition(onSuccess, onError, {
+    navigator.geolocation.getCurrentPosition(_onSuccess, _onError, {
       enableHighAccuracy: props.enableHighAccuracy === undefined ? true : props.enableHighAccuracy
     });
   }
 
   return (
     <button 
+      {...rest}
       className={props.className ? `p6o-controls-btn p6o-my-location ${props.className}` : 'p6o-controls-btn p6o-my-location'}
-      onClick={onClick}>
+      onClick={_onClick}>
       {props.children || 'My Location'}
     </button>
   )

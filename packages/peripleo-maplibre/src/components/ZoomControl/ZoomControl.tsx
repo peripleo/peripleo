@@ -27,6 +27,7 @@ export const ZoomControl = (props: ZoomControlProps) => {
   return (
     <div className="p6o-zoom-control">
       <button 
+        {...props.zoomInProps || {}}
         className={props.zoomInProps?.className ? `p6o-zoom-in ${props.zoomInProps.className}` : 'p6o-zoom-in'}
         aria-label="Zoom in"
         onClick={onZoom(1)}>
@@ -34,6 +35,7 @@ export const ZoomControl = (props: ZoomControlProps) => {
       </button>
 
       <button 
+        {...props.zoomOutProps || {}}
         className={props.zoomOutProps?.className ? `p6o-zoom-out ${props.zoomOutProps.className}` : 'p6o-zoom-out'}
         aria-label="Zoom out"
         onClick={onZoom(-1)}>
