@@ -10,7 +10,7 @@ import {
   DEFAULT_STROKE_STYLE 
 } from './defaultStyles';
 
-interface GeoJSONLayerProps <T extends { [key: string]: any }>{
+interface GeoJSONLayerProps <T extends { [key: string]: any }> {
 
   cluster?: boolean;
 
@@ -37,6 +37,8 @@ interface GeoJSONLayerProps <T extends { [key: string]: any }>{
   strokeStyle?: Object;
 
   visible?: boolean;
+
+  onLoad?(): void;
 
 }
 
@@ -91,6 +93,10 @@ export const GeoJSONLayer = <T extends { [key: string]: any }>(props: GeoJSONLay
       ...(props.clusterMinPoints !== undefined && { clusterMinPoints: props.clusterMinPoints }),
       ...(props.clusterProperties !== undefined && { clusterProperties: props.clusterProperties }),
     });
+
+    // Map emits 'IDLE' event when the source is fully loaded
+    if (props.onLoad)
+      map.once('idle', () => props.onLoad());
 
     if (!props.cluster) {
       map.addLayer({
