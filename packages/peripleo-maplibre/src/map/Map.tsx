@@ -156,7 +156,16 @@ export const Map = (props: MapProps) => {
         // We don't support multi-selection downwards!
         const first = Array.isArray(selection.selected) ? selection.selected[0] : selection.selected;
         if (first)
-          findMapFeature(map, first.id).then(f => setMapSelection(map, undefined, f));
+          findMapFeature(map, first.id).then(f => {
+            if (f.id === first.id) {
+              // The selected feature is a map feature
+              setMapSelection(map, undefined, f)
+            } else {
+              // The selected feature is in a cluster
+              isExternalSelectionChange.current = false;
+              setSelection({ selected: first, mapFeature: f });
+            }
+          });
       } else {
         setMapSelection(map, undefined);
       }

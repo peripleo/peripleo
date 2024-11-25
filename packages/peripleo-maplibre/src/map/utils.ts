@@ -95,13 +95,14 @@ export const findMapFeature = (
   if (!featureId)
     return Promise.resolve(undefined);
 
-  const source = findSourceForFeature(map, featureId);  
+  const source = findSourceForFeature(map, featureId);
+
   const layers = source
     ? map.getStyle().layers.filter(l => 'source' in l && l.source === source)
     // All interactive layers
     : map.getStyle().layers.filter(l => (l.metadata as any || {}).interactive);
-
-  return layers.reduce((promise, layer) => promise.then(result => {
+    
+  return layers.reduce<Promise<MapGeoJSONFeature | undefined>>((promise, layer) => promise.then(result => {
     if (result)
       return result; // Already found - stop searching
 
@@ -117,7 +118,7 @@ export const findMapFeature = (
       const clusters = map.querySourceFeatures(sourceId).filter(f => f.properties.cluster);
       return findClusterForFeature(featureId, clusters, source as GeoJSONSource);
     }  
-  }), Promise.resolve(undefined) as Promise<MapGeoJSONFeature | undefined>);
+  }), Promise.resolve(undefined));
 }
 
 export const removeSourceIfExists = (map: Map, sourceId: string) => {

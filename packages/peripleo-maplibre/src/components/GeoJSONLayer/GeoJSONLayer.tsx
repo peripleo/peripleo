@@ -92,22 +92,24 @@ export const GeoJSONLayer = <T extends { [key: string]: any }>(props: GeoJSONLay
       ...(props.clusterProperties !== undefined && { clusterProperties: props.clusterProperties }),
     });
 
-    map.addLayer({
-      id: `layer-${id}-fill`,
-      ...fillStyle,
-      source: `source-${id}`,
-      filter: ['!=', '$type', 'Point'],
-      metadata: {
-        interactive: props.interactive
-      }
-    } as unknown as AddLayerObject);
-
-    map.addLayer({
-      id: `layer-${id}-line`,
-      ...strokeStyle,
-      source: `source-${id}`,
-      filter: ['!=', '$type', 'Point'],
-    } as unknown as AddLayerObject);
+    if (!props.cluster) {
+      map.addLayer({
+        id: `layer-${id}-fill`,
+        ...fillStyle,
+        source: `source-${id}`,
+        filter: ['!=', '$type', 'Point'],
+        metadata: {
+          interactive: props.interactive
+        }
+      } as unknown as AddLayerObject);
+    
+      map.addLayer({
+        id: `layer-${id}-line`,
+        ...strokeStyle,
+        source: `source-${id}`,
+        filter: ['!=', '$type', 'Point'],
+      } as unknown as AddLayerObject);
+    }
 
     map.addLayer({
       id: `layer-${id}-point`,
