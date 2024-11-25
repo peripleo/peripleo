@@ -1,6 +1,6 @@
 import React, { useEffect, useState }from 'react';
 import ReactDOM from 'react-dom/client';
-import { Peripleo, Map, GeoJSONLayer, useSelectionState } from '../../../src';
+import { Peripleo, Map, GeoJSONLayer, useSelection } from '../../../src';
 
 import '@peripleo/maplibre/peripleo-maplibre.css';
 import '@peripleo/peripleo/default-theme';
@@ -10,7 +10,7 @@ const App = () => {
 
   const [data, setData] = useState();
 
-  const { selection, setSelection } = useSelectionState();
+  const { selection, setSelected } = useSelection();
 
   useEffect(() => {
     fetch('fixture_points.geojson')
@@ -38,7 +38,7 @@ const App = () => {
       }
     };
 
-    setSelection({ selected });
+    setSelected(selected);
   }
 
   return (
