@@ -148,18 +148,19 @@ export const GeoJSONLayer = <T extends { [key: string]: any }>(props: GeoJSONLay
   }, [sourceId, data]);
 
   useEffect(() => {
-    setStyle(map, `layer-${id}-fill`, props.fillStyle|| DEFAULT_FILL_STYLE)
-  }, [props.fillStyle]);
+    if (!props.cluster)
+      setStyle(map, `layer-${id}-fill`, props.fillStyle|| DEFAULT_FILL_STYLE)
+  }, [props.fillStyle, props.cluster]);
+
+  useEffect(() => {
+    if (!props.cluster)
+      setStyle(map, `layer-${id}-line`, props.strokeStyle|| DEFAULT_STROKE_STYLE)
+  }, [props.strokeStyle, props.cluster]);
 
   useEffect(() => {
     setStyle(map, `layer-${id}-point`, props.pointStyle|| DEFAULT_POINT_STYLE)
   }, [props.pointStyle]);
-
-  useEffect(() => {
-    setStyle(map, `layer-${id}-line`, props.strokeStyle|| DEFAULT_STROKE_STYLE)
-  }, [props.strokeStyle]);
-
-
+  
   return props.tooltip ? (
     <HoverTooltip
       layerId={[`layer-${id}-point`, `layer-${id}-fill`]} 

@@ -1,6 +1,7 @@
-import { FeatureCollection } from '../../../../peripleo/src/model';
-import { useLoadedMap } from '../../hooks';
 import { useEffect } from 'react';
+import { FeatureCollection } from '@peripleo/peripleo';
+import { useLoadedMap } from '../../hooks';
+import { removeLayerIfExists, removeSourceIfExists } from '../../map';
 import { usePulsingMarker } from './usePulsingMarker';
 
 interface PulsingMarkerLayerProps {
@@ -39,8 +40,8 @@ export const PulsingMarkerLayer = (props: PulsingMarkerLayerProps) => {
     });
 
     return () => {
-      map.removeLayer(`layer-${id}-pulse`);
-      map.removeSource(`source-${id}-pulse`);
+      removeLayerIfExists(map, `layer-${id}-pulse`);
+      removeSourceIfExists(map, `source-${id}-pulse`);
     }
   }, [map, data]);
 
