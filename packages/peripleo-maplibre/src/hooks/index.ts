@@ -1,4 +1,4 @@
-export * from './useClickFeature';
+export * from './useClickInteractiveFeature';
 export * from './useHover';
 export * from './useMap';
 export * from './useMapUtils';
