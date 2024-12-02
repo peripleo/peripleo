@@ -1,5 +1,26 @@
 import { Feature } from '@peripleo/peripleo';
-import { GeoJSONSource, Map, MapGeoJSONFeature } from 'maplibre-gl';
+import { GeoJSONSource, Map, MapGeoJSONFeature, MapMouseEvent, PointLike } from 'maplibre-gl';
+
+export const CLICK_THRESHOLD = 3;
+
+export const getFeature = (
+  evt: MapMouseEvent, withBuffer?: boolean
+) => {
+  if (!evt.point) return;
+
+  const map = evt.target;
+
+  const query = withBuffer ? [
+    [evt.point.x - CLICK_THRESHOLD, evt.point.y - CLICK_THRESHOLD],
+    [evt.point.x + CLICK_THRESHOLD, evt.point.y + CLICK_THRESHOLD]
+  ] as [PointLike, PointLike]: evt.point;
+
+  const features = map.queryRenderedFeatures(query)
+    .filter(feature => (feature.layer.metadata as any || {}).interactive);
+
+  if (features.length > 0)
+    return features[0];
+}
 
 /** Tests if a feature is included in the given cluster feature **/
 export const isFeatureInCluster = (

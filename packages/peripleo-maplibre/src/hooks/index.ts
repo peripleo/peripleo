@@ -1,3 +1,4 @@
+export * from './useClickFeature';
 export * from './useHover';
 export * from './useMap';
 export * from './useMapUtils';

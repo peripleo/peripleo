@@ -1,15 +1,13 @@
 import { useContext, useEffect, useLayoutEffect, useRef } from 'react';
 import { Feature, MapContext, useSelectionState } from '@peripleo/peripleo'; 
-import { MapGeoJSONFeature, Map as MapLibre, MapMouseEvent, PointLike, StyleSpecification } from 'maplibre-gl';
+import { MapGeoJSONFeature, Map as MapLibre, MapMouseEvent, StyleSpecification } from 'maplibre-gl';
 import { MapProps } from './MapProps';
 import { PopupContainer } from '../components/Popup';
 import { useHoverState } from '../hooks';
 import { useFeatureRadioState } from './useFeatureRadioState';
-import { findMapFeature, listFeaturesInCluster } from './utils';
+import { findMapFeature, getFeature, listFeaturesInCluster } from './utils';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
-
-export const CLICK_THRESHOLD = 3;
 
 export const Map = (props: MapProps) => {
 
@@ -38,25 +36,6 @@ export const Map = (props: MapProps) => {
   const isExternalHoverChange = useRef<boolean>(true);
 
   const isExternalSelectionChange = useRef<boolean>(true);
-
-  const getFeature = (
-    evt: MapMouseEvent, withBuffer?: boolean
-  ) => {
-    if (!evt.point) return;
-
-    const map = evt.target;
-
-    const query = withBuffer ? [
-      [evt.point.x - CLICK_THRESHOLD, evt.point.y - CLICK_THRESHOLD],
-      [evt.point.x + CLICK_THRESHOLD, evt.point.y + CLICK_THRESHOLD]
-    ] as [PointLike, PointLike]: evt.point;
-
-    const features = map.queryRenderedFeatures(query)
-      .filter(feature => (feature.layer.metadata as any || {}).interactive);
-
-    if (features.length > 0)
-      return features[0];
-  }
 
   const onMouseMove = (evt: MapMouseEvent) => {
     const feature = getFeature(evt);
