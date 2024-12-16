@@ -25,14 +25,18 @@ export const useSelection = <T extends Feature>() => {
     setSelection: setGenericSelection 
   } = useGenericSelectionState<T, MapGeoJSONFeature, MapMouseEvent>();
 
-  const setSelected = useCallback((feature: T) => {
-    utils.findMapFeature(feature.id).then(mapFeature => {
-      if (!mapFeature) {
-        console.warn('Attempt to select non-existing feature', feature);
-      } else {
-        setGenericSelection({ selected: feature, mapFeature });
-      }
-    })
+  const setSelected = useCallback((feature?: T) => {
+    if (feature) {
+      utils.findMapFeature(feature.id).then(mapFeature => {
+        if (!mapFeature) {
+          console.warn('Attempt to select non-existing feature', feature);
+        } else {
+          setGenericSelection({ selected: feature, mapFeature });
+        }
+      });
+    } else {
+      setGenericSelection(undefined);
+    }
   }, [utils]);
 
   return { selection, setSelected };
