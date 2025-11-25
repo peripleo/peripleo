@@ -15,6 +15,11 @@ export default defineConfig(() => ({
       entryRoot: './src'
     })
   ],
+  optimizeDeps: {
+    esbuildOptions: {
+      target: 'esnext'
+    }
+  },
   server: {
     open: '/test/index.html'
   },
@@ -34,8 +39,7 @@ export default defineConfig(() => ({
         exports: 'named',    
         globals: {
           react: 'React'
-        },
-        preserveModules: true,
+        }
       }
     }
   }

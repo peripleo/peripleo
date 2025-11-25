@@ -131,12 +131,12 @@ export const findMapFeature = (
     const sourceId = layer.source as string;
     const source = map.getSource(sourceId);
 
-    const found = map.querySourceFeatures(sourceId).find(f => f.id === featureId);
+    const found = (map.querySourceFeatures(sourceId) as MapGeoJSONFeature[]).find(f => f.id === featureId);
     if (found) {
       return found;
     } else if (!found && 'getClusterLeaves' in source) {
       // This is a cluster source - check cluster leaves
-      const clusters = map.querySourceFeatures(sourceId).filter(f => f.properties.cluster);
+      const clusters = (map.querySourceFeatures(sourceId) as MapGeoJSONFeature[]).filter(f => f.properties.cluster);
       return findClusterForFeature(featureId, clusters, source as GeoJSONSource);
     }  
   }), Promise.resolve(undefined));
