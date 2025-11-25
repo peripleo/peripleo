@@ -41,14 +41,14 @@
     }
   },
   "devDependencies": {
-    "@types/chroma-js": "^2.4.4",
-    "@types/react": "18.3.12",
-    "@types/react-dom": "18.3.1",
+    "@types/chroma-js": "^3.1.2",
+    "@types/react": "18.3.27",
+    "@types/react-dom": "18.3.7",
     "@types/react-resizable": "^3.0.8",
-    "@vitejs/plugin-react": "^4.3.4",
-    "vite": "6.0.1",
-    "vite-plugin-dts": "^4.3.0",
-    "vite-tsconfig-paths": "5.1.3"
+    "@vitejs/plugin-react": "^4.7.0",
+    "vite": "^6.4.1",
+    "vite-plugin-dts": "^4.5.4",
+    "vite-tsconfig-paths": "^5.1.4"
   },
   "peerDependencies": {
     "react": ">=17.x || >=18.x",

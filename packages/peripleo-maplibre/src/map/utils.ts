@@ -143,9 +143,17 @@ export const findMapFeature = (
 }
 
 export const removeSourceIfExists = (map: Map, sourceId: string) => {
-  const source = map.getSource(sourceId);
-  if (source)
-    map.removeSource(sourceId);
+  // If the map is partially unmounted already, style will be undefined,
+  // causing a crash
+  if (!map.style) return;
+  
+  try {
+    const source = map.getSource(sourceId);
+    if (source)
+      map.removeSource(sourceId);
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export const removeLayerIfExists = (map: Map, layerId: string) => {
