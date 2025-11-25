@@ -157,6 +157,7 @@ export const removeSourceIfExists = (map: Map, sourceId: string) => {
 }
 
 export const removeLayerIfExists = (map: Map, layerId: string) => {
+  if (!map.style) return;
   const layer = map.getStyle()?.layers.find(l => l.id === layerId);
   if (layer)
     map.removeLayer(layerId);
