@@ -71,8 +71,17 @@ export const GeoJSONLayer = <T extends { [key: string]: any }>(props: GeoJSONLay
     if (map) {
       const layerIds = new Set(map.getStyle().layers.map(l => l.id));
 
-      if (layerIds.has(props.id))
-        map.setLayoutProperty(props.id, 'visibility', visible ? 'visible' : 'none');
+      if (layerIds.has(`layer-${props.id}-fill`)) {
+        map.setLayoutProperty(`layer-${props.id}-fill`, 'visibility', visible ? 'visible' : 'none');
+      }
+
+      if (layerIds.has(`layer-${props.id}-line`)) {
+        map.setLayoutProperty(`layer-${props.id}-line`, 'visibility', visible ? 'visible' : 'none');
+      }
+
+      if (layerIds.has(`layer-${props.id}-point`)) {
+        map.setLayoutProperty(`layer-${props.id}-point`, 'visibility', visible ? 'visible' : 'none');
+      }
     }
   }, [visible, map]);
 
@@ -104,6 +113,9 @@ export const GeoJSONLayer = <T extends { [key: string]: any }>(props: GeoJSONLay
         ...fillStyle,
         source: `source-${id}`,
         filter: ['!=', '$type', 'Point'],
+        layout: {
+          visibility: visible ? 'visible' : 'none'
+        },
         metadata: {
           interactive: props.interactive
         }
@@ -114,6 +126,9 @@ export const GeoJSONLayer = <T extends { [key: string]: any }>(props: GeoJSONLay
         ...strokeStyle,
         source: `source-${id}`,
         filter: ['!=', '$type', 'Point'],
+        layout: {
+          visibility: visible ? 'visible' : 'none'
+        }
       } as unknown as AddLayerObject);
     }
 
@@ -122,6 +137,9 @@ export const GeoJSONLayer = <T extends { [key: string]: any }>(props: GeoJSONLay
       ...pointStyle,
       filter: ['==', '$type', 'Point'],
       source: `source-${id}`,
+      layout: {
+        visibility: visible ? 'visible' : 'none'
+      },
       metadata: {
         interactive: props.interactive
       }
