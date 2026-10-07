@@ -8,13 +8,15 @@ interface RasterLayerProps {
 
   url: string;
 
-  tilesize?: number
+  tilesize?: number;
+
+  beforeId?: string;
 
 }
 
 export const RasterLayer = (props: RasterLayerProps) => {
 
-  const { id, url, tilesize } = props;
+  const { id, url, tilesize, beforeId } = props;
 
   const map = useLoadedMap();
 
@@ -34,7 +36,7 @@ export const RasterLayer = (props: RasterLayerProps) => {
       paint: {
         'raster-opacity': 1
       }
-    });
+    }, beforeId);
 
     return () => {
       removeLayerIfExists(map, `layer-${id}`);
