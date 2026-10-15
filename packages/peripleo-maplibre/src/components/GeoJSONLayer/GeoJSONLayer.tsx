@@ -40,6 +40,8 @@ interface GeoJSONLayerProps <T extends { [key: string]: any }> {
 
   onLoad?(): void;
 
+  attribution?: string;
+
 }
 
 const setStyle = (map: Map | undefined, layerId: string, style: any) => {
@@ -53,7 +55,7 @@ const setStyle = (map: Map | undefined, layerId: string, style: any) => {
 
 export const GeoJSONLayer = <T extends { [key: string]: any }>(props: GeoJSONLayerProps<T>) => {
 
-  const { id, data } = props;
+  const { id, data, attribution } = props;
 
   const visible = props.visible === undefined ? true : props.visible;
 
@@ -101,6 +103,7 @@ export const GeoJSONLayer = <T extends { [key: string]: any }>(props: GeoJSONLay
       ...(props.clusterMaxZoom !== undefined && { clusterMaxZoom: props.clusterMaxZoom }),
       ...(props.clusterMinPoints !== undefined && { clusterMinPoints: props.clusterMinPoints }),
       ...(props.clusterProperties !== undefined && { clusterProperties: props.clusterProperties }),
+      ...(attribution ? { attribution: attribution } : {})
     });
 
     // Map emits 'IDLE' event when the source is fully loaded

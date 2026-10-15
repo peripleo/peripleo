@@ -10,13 +10,15 @@ interface RasterLayerProps {
 
   tilesize?: number;
 
+  attribution?: string;
+
   beforeId?: string;
 
 }
 
 export const RasterLayer = (props: RasterLayerProps) => {
 
-  const { id, url, tilesize, beforeId } = props;
+  const { id, url, tilesize, beforeId, attribution } = props;
 
   const map = useLoadedMap();
 
@@ -26,7 +28,8 @@ export const RasterLayer = (props: RasterLayerProps) => {
     map.addSource(`source-${id}`, {
       type: 'raster',
       tiles: [ url ],
-      tileSize: tilesize || 256
+      tileSize: tilesize || 256,
+      ...(attribution ? { attribution: attribution } : {})
     });
 
     map.addLayer({
