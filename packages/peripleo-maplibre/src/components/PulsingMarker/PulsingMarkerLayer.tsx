@@ -10,13 +10,15 @@ interface PulsingMarkerLayerProps {
 
   size?: number;
 
-  data: FeatureCollection
+  data: FeatureCollection;
+
+  attribution?: string;
 
 }
 
 export const PulsingMarkerLayer = (props: PulsingMarkerLayerProps) => {
 
-  const { id, data } = props;
+  const { id, data, attribution } = props;
 
   const map = useLoadedMap();
 
@@ -28,7 +30,8 @@ export const PulsingMarkerLayer = (props: PulsingMarkerLayerProps) => {
     map.addSource(`source-${id}-pulse`, {
       type: 'geojson',
       // @ts-ignore
-      data
+      data,
+      ...(attribution ? { attribution: attribution } : {})
     });
 
     // @ts-ignore
