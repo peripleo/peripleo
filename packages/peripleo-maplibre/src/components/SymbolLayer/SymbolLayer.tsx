@@ -27,6 +27,8 @@ interface SymbolLayerProps <T extends { [key: string]: any }>{
 
   tooltip?(hoverState: HoverState<Feature<T>>): ReactNode;
 
+  attribution?: string;
+
 }
 
 /**
@@ -35,7 +37,7 @@ interface SymbolLayerProps <T extends { [key: string]: any }>{
  */
 export const SymbolLayer = <T extends { [key: string]: any }>(props: SymbolLayerProps<T>) => {
 
-  const { data, id, symbolsProperty } = props;
+  const { data, id, symbolsProperty, attribution } = props;
 
   const [sourceId, setSourceId] = useState<string | undefined>();
 
@@ -51,7 +53,8 @@ export const SymbolLayer = <T extends { [key: string]: any }>(props: SymbolLayer
     map.addSource(sourceId, {
       type: 'geojson',
       // @ts-ignore
-      data
+      data,
+      ...(attribution ? { attribution: attribution } : {})
     });
 
     const iconImage = Array.isArray(symbols)
